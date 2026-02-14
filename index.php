@@ -1,45 +1,106 @@
-<?php 
-include 'header.php'; 
-
-$course_count = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM courses WHERE status = 'publish'"))[0];
-$student_count = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM user_master WHERE role = 'student'"))[0];
-$client_count = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM corporate_clients WHERE status = 'active'"))[0];
-$hiring_rate = "98%";
-?>
-
+<?php include 'header.php'; ?>
+<style>
+    @keyframes scrollText {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .scrolling-text {
+        white-space: nowrap;
+        animation: scrollText 40s linear infinite;
+        font-size: 15rem;
+        opacity: 0.03;
+        font-weight: 900;
+        pointer-events: none;
+    }
+    .parallax-bg {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
 <header class="relative pt-12 pb-20 md:pt-20 md:pb-32 bg-white overflow-hidden">
+    <div class="absolute top-20 left-0 w-full overflow-hidden no-print">
+        <div class="scrolling-text uppercase italic">
+            ENGINEERING • TECHNOLOGY • INNOVATION • DEVELOPMENT • SCALE • ARCHITECTURE • ENGINEERING • TECHNOLOGY • INNOVATION • DEVELOPMENT • SCALE • ARCHITECTURE
+        </div>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div class="text-center lg:text-left order-2 lg:order-1">
                 <span class="inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
                     Engineering Excellence
                 </span>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] lg:leading-[0.95] text-hero-blue">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] text-hero-blue">
                     Empowering the <span class="italic text-hero-orange">Next Generation</span> of Engineers.
                 </h1>
                 <p class="text-base sm:text-lg text-gray-500 mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
                     Hero Technology Inc. bridges the gap between academic theory and industry reality with engineer-led technical training.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="courses.php" class="w-full sm:w-auto text-center bg-hero-blue text-white px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-hero-orange transition-all shadow-xl">
-                        Explore Academy
-                    </a>
-                    <a href="contact.php" class="w-full sm:w-auto text-center bg-white border-2 border-hero-blue text-hero-blue px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-gray-50 transition-all">
-                        Corporate Training
-                    </a>
                 </div>
-            </div>
-            <div class="relative order-1 lg:order-2 px-8 sm:px-20 lg:px-0">
-                <div class="aspect-square bg-gray-50 rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden border border-gray-100 relative shadow-inner">
-                    <div class="absolute inset-0 bg-gradient-to-br from-hero-blue/10 to-transparent"></div>
-                    <div class="flex items-center justify-center h-full">
-                        <i class="fas fa-microchip text-7xl sm:text-9xl text-gray-200"></i>
+
+            <div class="relative order-1 lg:order-2 px-4 group">
+                <div class="absolute -inset-4 bg-hero-orange/10 blur-3xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-700"></div>
+                <div class="aspect-square bg-gray-900 rounded-[3rem] overflow-hidden relative shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" 
+                         class="w-full h-full object-cover opacity-60 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700" 
+                         alt="Advanced Engineering Lab">
+                    <div class="absolute inset-0 bg-gradient-to-t from-hero-blue via-transparent to-transparent opacity-60"></div>
+                    
+                    <div class="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
+                        <div class="flex items-center gap-4 text-white">
+                            <i class="fas fa-microchip text-3xl text-hero-orange"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest opacity-60">Currently Deploying</p>
+                                <p class="text-sm font-bold uppercase">AI/ML Core Integration v2.0</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<section class="relative py-32 md:py-48 overflow-hidden parallax-bg" 
+         style="background-image: linear-gradient(rgba(27, 38, 79, 0.95), rgba(27, 38, 79, 0.95)), url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1200');">
+    <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+        <h2 class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-8">
+            Global <span class="text-hero-orange">Infrastructure</span> Delivery
+        </h2>
+        <p class="max-w-2xl mx-auto text-gray-400 font-medium">
+            Our multi-node delivery system ensures that whether you are learning from a remote workstation or in a physical laboratory, the experience is zero-latency and high-fidelity.
+        </p>
+    </div>
+</section>
+
+<section class="py-16 md:py-24 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=800" 
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                <div class="absolute inset-0 bg-hero-blue/20 mix-blend-overlay"></div>
+            </div>
+            
+            <div class="lg:pl-12">
+                <h2 class="text-3xl md:text-5xl font-black tracking-tighter mb-8 uppercase italic leading-none text-hero-blue">
+                    Bridging the <br><span class="text-hero-orange">Academic Gap</span>
+                </h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Universities often focus on theoretical concepts, leaving graduates unprepared for the practical challenges of modern engineering roles. Hero Technology fills this gap with hands-on, project-based learning.
+                </p>
+                <p class="text-gray-600 mb-10 leading-relaxed">
+                    Our curriculum is designed by engineers from top-tier firms, ensuring that every lesson translates directly to the job site. We focus on real-world applications, industry tools, and the latest technologies to prepare our students for success.
+                </p>
+                <a href="about.php" class="inline-flex items-center gap-2 text-sm font-black text-hero-blue uppercase tracking-widest hover:text-hero-orange transition-colors">
+                    Learn more <i class="fas fa-arrow-right"></i>
+                </a>
+                </div>
+        </div>
+    </div>
+</section>
 
 <section class="py-16 md:py-24 bg-hero-blue text-white">
     <div class="max-w-7xl mx-auto px-4">
@@ -72,68 +133,71 @@ $hiring_rate = "98%";
     </div>
 </section>
 
-<section class="py-16 md:py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div class="grid grid-cols-2 gap-4 order-2 lg:order-1">
-                <div class="bg-gray-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 text-center">
-                    <div class="text-3xl md:text-4xl font-black text-hero-blue mb-2"><?php echo $course_count; ?></div>
-                    <div class="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest">Tech Courses</div>
-                </div>
-                <div class="bg-gray-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 text-center">
-                    <div class="text-3xl md:text-4xl font-black text-hero-orange mb-2"><?php echo $student_count; ?></div>
-                    <div class="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest">Active Students</div>
-                </div>
-                <div class="bg-gray-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 text-center">
-                    <div class="text-3xl md:text-4xl font-black text-hero-orange mb-2"><?php echo $hiring_rate; ?></div>
-                    <div class="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest">Hiring Rate</div>
-                </div>
-                <div class="bg-gray-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-gray-100 text-center">
-                    <div class="text-3xl md:text-4xl font-black text-hero-blue mb-2"><?php echo $client_count; ?></div>
-                    <div class="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest">Clients</div>
-                </div>
-            </div>
-            <div class="order-1 lg:order-2 text-center lg:text-left">
-                <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-6 md:mb-8 uppercase italic">Bridging the Gap</h2>
-                <p class="text-gray-600 mb-6 leading-relaxed">Hero Technology Inc. was founded with a singular mission: to provide the practical, rigorous engineering education that universities often overlook.</p>
-                <p class="text-gray-600 mb-10 leading-relaxed">Our curriculum is built by engineers from top-tier firms, ensuring every lesson translates directly to the job site.</p>
-                <a href="about.php" class="inline-flex items-center gap-2 text-sm font-black text-hero-blue uppercase tracking-widest hover:text-hero-orange transition-colors">
-                    Learn more <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="relative py-24 md:py-32 overflow-hidden bg-[var(--app-bg)]">
+    
+    <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none" 
+         style="background-image: radial-gradient(var(--text-main) 1px, transparent 1px); background-size: 30px 30px;"></div>
 
-<section class="py-16 md:py-24 bg-[#F8FAFC]">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-16 text-center md:text-left gap-4">
-            <div>
-                <span class="text-hero-orange font-black uppercase tracking-[0.3em] text-[10px]">Curriculum</span>
-                <h2 class="text-3xl md:text-4xl font-black tracking-tight mt-2 italic uppercase">Premium Learning Tracks</h2>
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div class="text-left">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-12 h-[2px] bg-hero-orange"></span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-hero-orange">Global Repository</span>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-none">
+                    Premium <span class="text-hero-orange not-italic">Learning Tracks</span>
+                </h2>
             </div>
-            <a href="courses.php" class="text-xs font-bold uppercase tracking-widest border-b-2 border-hero-orange pb-1">Browse all</a>
+            <a href="courses.php" class="mono text-[12px] font-bold uppercase tracking-widest border-b border-hero-orange pb-2 hover:text-hero-orange transition-all">
+                Explore All Courses
+            </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php 
                 $result = mysqli_query($conn, "SELECT c.*, cat.category_name FROM courses c JOIN course_category cat ON c.category_id = cat.category_id WHERE c.status = 'publish' LIMIT 3");
                 while($course = mysqli_fetch_assoc($result)): 
             ?>
-            <div class="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-gray-100 overflow-hidden hover:shadow-2xl transition-all group">
-                <div class="h-48 md:h-56 bg-gray-100 relative overflow-hidden">
-                    <img src="assets/img/courses/<?php echo $course['thumbnail']; ?>" class="w-full h-full object-cover  group-hover:scale-105 transition-all duration-500">
-                    <div class="absolute top-4 left-4 md:top-6 md:left-6 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-[9px] font-black uppercase tracking-widest text-hero-blue">
-                        <?php echo htmlspecialchars($course['category_name']); ?>
+            <div class="group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
+                
+                <div class="h-64 relative overflow-hidden bg-slate-900">
+                    <img src="assets/img/courses/<?= $course['thumbnail']; ?>" 
+                         class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-hero-orange/10 to-transparent h-full w-full -translate-y-full group-hover:animate-[scan_3s_linear_infinite] pointer-events-none"></div>
+                    
+                    <div class="absolute top-6 left-6 px-4 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full">
+                        <span class="text-[8px] font-black uppercase tracking-widest text-white"><?= htmlspecialchars($course['category_name']); ?></span>
                     </div>
                 </div>
-                <div class="p-6 md:p-8">
-                    <h3 class="text-lg md:text-xl font-bold mb-4"><?php echo htmlspecialchars($course['title']); ?></h3>
-                    <p class="text-gray-500 text-sm mb-6 md:mb-8 line-clamp-2"><?php echo htmlspecialchars($course['description']); ?></p>
-                    <div class="flex items-center justify-between border-t border-gray-50 pt-6">
-                        <span class="text-lg md:text-xl font-black text-hero-blue">₹<?php echo number_format($course['price'], 0); ?></span>
-                        <a href="course-details.php?id=<?php echo $course['course_id']; ?>" class="bg-hero-orange text-white px-4 md:px-5 py-2.5 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20">
-                            Explore
+
+                <div class="p-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="mono text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Node ID: #<?= $course['course_id']; ?></span>
+                        <div class="flex gap-1">
+                            <div class="w-1 h-1 bg-hero-orange rounded-full animate-ping"></div>
+                            <div class="w-1 h-1 bg-hero-orange rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-black uppercase tracking-tight mb-4 leading-snug">
+                        <?= htmlspecialchars($course['title']); ?>
+                    </h3>
+                    
+                    <p class="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2 mb-8">
+                        <?= htmlspecialchars($course['description']); ?>
+                    </p>
+
+                    <div class="flex items-center justify-between pt-8 border-t border-[var(--border)]">
+                        <div>
+                            <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Tuition Fee</p>
+                            <span class="text-2xl font-black italic text-hero-blue dark:text-hero-orange">₹<?= number_format($course['price'], 0); ?></span>
+                        </div>
+                        <a href="course-details.php?id=<?= $course['course_id']; ?>" 
+                           class="bg-hero-blue dark:bg-white text-white dark:text-hero-blue px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-hero-orange dark:hover:bg-hero-orange dark:hover:text-white transition-all shadow-xl shadow-blue-500/10">
+                            Enroll Now
                         </a>
                     </div>
                 </div>

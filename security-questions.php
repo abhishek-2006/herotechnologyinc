@@ -1,4 +1,13 @@
-<?php require 'config.php'; ?>
+<?php 
+    require 'config.php';
+    
+    $questions_res = mysqli_query($conn, "SELECT * FROM security_questions");
+    if (!$questions_res) {
+        die("Database Error: " . mysqli_error($conn));
+    }
+    $questions = mysqli_fetch_all($questions_res, MYSQLI_ASSOC);
+    $user_id = $_SESSION['user_id'] ?? null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +76,7 @@
                 <i class="fas fa-sun hidden dark:block text-hero-orange"></i>
             </button>
         </div>
-
+    
         <div class="glass-card rounded-[3rem] p-12 relative overflow-hidden shadow-2xl">
             <header class="mb-12">
                 <h1 class="text-4xl font-black italic tracking-tighter uppercase leading-none">
@@ -82,18 +91,22 @@
                 <?php for($i = 1; $i <= 3; $i++): ?>
                 <div class="space-y-3">
                     <label class="text-[9px] font-black uppercase tracking-widest opacity-40 ml-1">Question 0<?= $i ?></label>
+                    
                     <div class="input-node rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-hero-orange/50">
-                        <select name="q_id_<?= $i ?>" class="question-selector w-full bg-transparent px-5 py-4 text-sm font-bold outline-none cursor-pointer">
-                            <option value="" disabled selected>Choose a question...</option>
+                        <select name="q_id_<?= $i ?>" class="question-selector w-full bg-transparent px-5 py-4 text-sm font-bold outline-none cursor-pointer dark:text-white">
+                            <option value="" disabled selected class="dark:bg-slate-900">Choose a question...</option>
                             <?php foreach($questions as $q): ?>
-                                <option value="<?= $q['id'] ?>" class="text-black"><?= htmlspecialchars($q['question_text']) ?></option>
+                                <option value="<?= $q['id'] ?>" class="text-black dark:bg-slate-900 dark:text-white">
+                                    <?= htmlspecialchars($q['question_text']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
+
                     <div class="input-node rounded-2xl px-5 focus-within:bg-white/10">
                         <input type="text" name="answer_<?= $i ?>" 
-                               class="w-full bg-transparent py-4 text-sm font-medium outline-none" 
-                               placeholder="Secure response..." required>
+                            class="w-full bg-transparent py-4 text-sm font-medium outline-none placeholder:opacity-30" 
+                            placeholder="Your secure response..." required>
                     </div>
                 </div>
                 <?php endfor; ?>

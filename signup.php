@@ -72,12 +72,15 @@
                                 <input type="text" name="name" id="name" class="input-field" placeholder="John Doe" required />
                             </div>
                         </div>
-                        <div class="group">
+                        <div class="group" id="user-container">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 ml-1">Account Username</label>
                             <div class="relative flex items-center">
-                                <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange"><i class="fas fa-fingerprint text-xs"></i></div>
+                                <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange">
+                                    <i class="fas fa-fingerprint text-xs"></i>
+                                </div>
                                 <input type="text" name="username" id="username" class="input-field" placeholder="john_doe" required />
                             </div>
+                            <p id="user-status" class="text-[9px] font-bold uppercase tracking-tight mt-3 ml-1 min-h-[12px] transition-colors"></p>
                         </div>
                     </div>
 
@@ -172,6 +175,42 @@
             root.classList.toggle('dark');
             const isDark = root.classList.contains('dark');
             themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+    
+        let debounceTimer;
+        const usernameInput = document.getElementById('username');
+        const userStatus = document.getElementById('user-status');
+        const userContainer = document.getElementById('user-container');
+
+        usernameInput.addEventListener('input', () => {
+            const username = usernameInput.value.trim();
+            
+            // Reset UI if empty
+            if (username === "") {
+                userStatus.innerText = "";
+                userContainer.style.borderColor = "var(--border)";
+                return;
+            }
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(async () => {
+                try {
+                    const response = await fetch(`process/check-username.php?username=${username}`);
+                    const data = await response.json();
+
+                    userStatus.innerText = data.message;
+                    
+                    if (data.available) {
+                        userStatus.style.color = "#10b981"; // Emerald
+                        userContainer.style.borderColor = "#10b981";
+                    } else {
+                        userStatus.style.color = "#EE6C4D"; // Hero Orange
+                        userContainer.style.borderColor = "#EE6C4D";
+                    }
+                } catch (error) {
+                    console.error("Connectivity failure in user-node");
+                }
+            }, 300); // 300ms Debounce
         });
     </script>
 </body>

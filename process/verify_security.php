@@ -13,10 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         mysqli_query($conn, "DELETE FROM user_security_answers WHERE user_id = '$user_id'");
 
         for ($i = 1; $i <= 3; $i++) {
+            // Safety check for empty inputs
+            if(empty($_POST["q_id_$i"]) || empty($_POST["answer_$i"])) {
+                throw new Exception("EMPTY_NODE: All security markers must be filled.");
+            }
+
             $q_id = mysqli_real_escape_string($conn, $_POST["q_id_$i"]);
-            $answer = strtolower(trim($_POST["answer_$i"])); // Normalize to lowercase for easier recovery
             
-            // Hash the answer so even DB admins can't see it
+            // Normalize to lowercase so recovery isn't case-sensitive for the student
+            $answer = strtolower(trim($_POST["answer_$i"])); 
+            
+            // Hash the answer for 256-bit grade security
             $answer_hash = password_hash($answer, PASSWORD_BCRYPT);
 
             $sql = "INSERT INTO user_security_answers (user_id, question_id, answer_hash) 
@@ -29,15 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
 
         if ($success_count === 3) {
             mysqli_commit($conn);
-            header("Location: ../login.php?message=security_setup_success");
+            // Redirect with a high-fidelity success signal
+            header("Location: ../login.php?status=vault_locked");
+            exit();
         } else {
-            throw new Exception("Incomplete security mapping.");
+            throw new Exception("INCOMPLETE_MAPPING: Success count mismatch.");
         }
 
     } catch (Exception $e) {
         mysqli_rollback($conn);
-        header("Location: ../security-questions.php?error=system_failure");
+        // Return to vault with specific error logs
+        header("Location: ../security-questions.php?error=node_failure");
+        exit();
     }
 } else {
-    header("Location: ../security-questions.php?error=invalid_access");
+    header("Location: ../security-questions.php?error=access_denied");
+    exit();
 }

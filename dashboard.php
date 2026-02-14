@@ -2,13 +2,14 @@
 include 'header.php'; 
 
 // 1. Session & Identity Verification
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
-$email = mysqli_real_escape_string($conn, $_SESSION['email']);
-$resUser = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE email='$email' LIMIT 1");
+$session_id = isset($_SESSION['email']) ? $_SESSION['email'] : $_SESSION['username'];
+$safe_id = mysqli_real_escape_string($conn, $session_id);
+$resUser = mysqli_query($conn, "SELECT user_id, name, email, username FROM user_master WHERE email='$safe_id' OR username='$safe_id' LIMIT 1");
 $user = mysqli_fetch_assoc($resUser);
 $user_id = $user['user_id'];
 
@@ -49,7 +50,7 @@ $resActive = mysqli_query($conn, $sqlActive);
         
         <nav class="space-y-2">
             <a href="dashboard.php" class="flex items-center gap-3 px-6 py-4 rounded-2xl bg-hero-blue text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-900/20">
-                <i class="fas fa-grid-2 text-[10px]"></i> Overview
+                <i class="fas fa-home text-[10px]"></i> Overview
             </a>
             <a href="courses.php" class="flex items-center gap-3 px-6 py-4 rounded-2xl text-gray-400 hover:bg-gray-50 font-black text-xs uppercase tracking-widest transition-all">
                 <i class="fas fa-book-open text-[10px]"></i> Academy
@@ -103,7 +104,7 @@ $resActive = mysqli_query($conn, $sqlActive);
 
         <div class="space-y-6">
             <div class="flex items-center justify-between px-2">
-                <h3 class="text-sm font-black uppercase tracking-[0.2em] text-gray-400 italic">Current Curriculum Nodes</h3>
+                <h3 class="text-sm font-black uppercase tracking-[0.2em] text-gray-400 italic">Current Courses</h3>
                 <a href="courses.php" class="text-[10px] font-black text-hero-orange uppercase border-b border-hero-orange pb-0.5">Explore More</a>
             </div>
 
@@ -125,14 +126,14 @@ $resActive = mysqli_query($conn, $sqlActive);
                         </div>
                     </div>
                     <a href="learn.php?id=<?php echo $row['course_id']; ?>" class="w-full sm:w-auto px-8 py-4 bg-hero-blue/5 text-hero-blue rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-hero-blue hover:text-white transition-all shadow-sm">
-                        Resume Node
+                        Resume Course
                     </a>
                 </div>
                 <?php endwhile; else: ?>
                 <div class="col-span-full p-20 bg-white rounded-[3rem] border border-dashed border-gray-200 text-center">
                     <i class="fas fa-layer-group text-4xl text-gray-100 mb-6"></i>
-                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 leading-relaxed">No active curriculum nodes synchronized.</p>
-                    <a href="courses.php" class="inline-block bg-hero-orange text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] shadow-xl shadow-orange-500/20">Initialize First Module</a>
+                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 leading-relaxed">No active courses synchronized.</p>
+                    <a href="courses.php" class="inline-block bg-hero-orange text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] shadow-xl shadow-orange-500/20">Initialize First Course</a>
                 </div>
                 <?php endif; ?>
             </div>

@@ -35,6 +35,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES ('$name', '$username', '$phone', '$email', '$gender', '$password')";
 
         if(mysqli_query($conn, $sql)) {
+            $_SESSION['email'] = $email;
+            $_SESSION['user_id'] = mysqli_insert_id($conn);
             header("Location: ../security-questions.php");
             exit();
         } else {
