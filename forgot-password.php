@@ -1,4 +1,33 @@
-<?php require 'config.php' ?>
+<?php 
+session_start();
+require 'config.php'; 
+
+$error = '';
+// Determine current UI state
+$step = isset($_GET['step']) ? $_GET['step'] : 'identity';
+
+// Redirect protection: If trying to reset without passing security
+if ($step === 'reset' && !isset($_SESSION['recovery_user_id'])) {
+    header("Location: forgot-password.php?error=unauthorized access");
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
+    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
+    $sql = "SELECT user_id FROM user_master WHERE email = '$email' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+    
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user_data = mysqli_fetch_assoc($result);
+        $_SESSION['recovery_user_id'] = $user_data['user_id'];
+        header("Location: security-questions.php");
+        exit();
+    } else {
+        $error = "IDENTITY_NOT_FOUND: This email identity is not registered.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,92 +74,87 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-[var(--color-app-bg)] font-display antialiased transition-colors duration-500">
-
     <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
-        
-        <button id="theme-toggle" class="absolute top-6 right-6 w-12 h-12 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] flex items-center justify-center text-hero-orange shadow-lg cursor-pointer hover:scale-105 transition-transform active:scale-95 z-50">
-            <i id="theme-icon" class="fas fa-moon"></i>
-        </button>
-
         <div class="max-w-md w-full relative z-10">
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center justify-center bg-white p-4 rounded-3xl shadow-2xl mb-6 h-20 w-48 overflow-hidden">
-                    <img src="assets/img/logo.png" alt="Hero Tech" class="w-full h-full object-contain">
-                </div>
-                <p class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.4em] opacity-80">Security Protocol: Recover Access</p>
-            </div>
-
             <div class="bg-[var(--color-card-bg)] p-8 sm:p-10 shadow-2xl rounded-[2.5rem] border border-[var(--color-border-dim)]">
                 
-                <div class="mb-8">
-                    <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Recover Node</h2>
-                    <p class="text-sm text-gray-500 font-medium leading-relaxed">
-                        Enter your registered email identity. We will verify your credentials and initialize a reset token.
-                    </p>
-                </div>
+                <?php if($error || isset($_GET['error'])): ?>
+                    <div class="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[10px] font-black uppercase tracking-widest text-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> 
+                        <?= $error ?: htmlspecialchars($_GET['error']) ?>
+                    </div>
+                <?php endif; ?>
 
-                <form action="process/reset_password.php" method="POST" class="space-y-6">
-                    
-                    <div class="relative group">
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Account Identity</label>
-                        <div class="relative flex items-center">
-                            <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
-                                <i class="fas fa-fingerprint text-lg"></i>
-                            </div>
-                            <input type="email" name="email" class="input-field" placeholder="engineer@herotech.com" required />
-                        </div>
+                <?php if ($step === 'reset'): ?>
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Reset Password</h2>
+                        <p class="text-sm text-gray-500 font-medium leading-relaxed">
+                            Identity verified. Please enter a new password for your account.
+                        </p>
                     </div>
 
-                    <div class="bg-[var(--color-app-bg)] p-5 rounded-3xl border border-[var(--color-border-dim)] shadow-inner">
-                        <div class="flex items-center justify-between mb-4 px-1">
-                            <label class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Identity Check</label>
-                            <span class="text-hero-orange text-[9px] font-bold tracking-widest opacity-50">NODE_AUTH</span>
+                    <?php if (isset($_GET['error'])): ?>
+                        <div class="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[10px] font-black uppercase tracking-widest text-center animate-pulse">
+                            <i class="fas fa-exclamation-circle mr-2"></i> 
+                            <?php 
+                                // Mapping system errors to user-friendly messages
+                                $err = $_GET['error'];
+                                if ($err == 'no_change') echo "NODE_SYNC_ERROR: The new password cannot be the same as the old one.";
+                                elseif ($err == 'unauthorized access') echo "ACCESS_DENIED: Security challenge not completed.";
+                                else echo htmlspecialchars($err);
+                            ?>
                         </div>
-                        
-                        <div class="flex flex-nowrap items-center gap-3">
-                            <input type="text" name="vercode" maxlength="5" placeholder="CODE" required 
-                                class="w-full min-w-0 px-4 py-3 bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] uppercase outline-none focus:border-hero-orange transition-all shadow-sm" />
-                            
-                            <div class="flex-shrink-0 flex items-center gap-2">
-                                <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-[var(--color-border-dim)]">
-                                    <img src="captcha.php" alt="Code" class="h-full w-full object-cover grayscale-0 opacity-100" id="captcha_node">
+                    <?php endif; ?>
+
+                    <form action="process/reset_password.php" method="POST" class="space-y-6">
+                        <div class="relative group">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">New Access Key</label>
+                            <div class="relative flex items-center">
+                                <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
+                                    <i class="fas fa-key text-lg"></i>
                                 </div>
-                                <button type="button" onclick="document.getElementById('captcha_node').src='captcha.php?'+Math.random();" 
-                                    class="w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] text-gray-400 hover:text-hero-orange transition-all active:scale-90 shadow-sm">
-                                    <i class="fas fa-rotate"></i>
-                                </button>
+                                <input type="password" name="password" class="input-field" placeholder="••••••••" required />
                             </div>
                         </div>
+
+                        <button type="submit" name="finalize" class="w-full py-4 bg-emerald-600 text-white font-black rounded-xl shadow-lg shadow-emerald-900/20 hover:bg-emerald-500 transition-all active:scale-95 uppercase tracking-[0.2em] text-xs">
+                            Update Password
+                        </button>
+                    </form>
+
+                <?php else: ?>
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Recover Node</h2>
+                        <p class="text-sm text-gray-500 font-medium leading-relaxed">
+                            Enter your registered email identity to initialize recovery.
+                        </p>
                     </div>
 
-                    <button type="submit" name="recover" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all active:scale-95 uppercase tracking-[0.2em] text-xs">
-                        Initialize Token Request
-                    </button>
+                    <form method="POST" class="space-y-6">
+                        <div class="relative group">
+                            <label for="email-input" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Account Identity</label>
+                            <div class="relative flex items-center">
+                                <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
+                                    <i class="fas fa-fingerprint text-lg"></i>
+                                </div>
+                                <input type="email" name="email" id="email-input" class="input-field" placeholder="engineer@herotech.com" required />
+                            </div>
+                        </div>
 
-                    <div class="text-center pt-2">
-                        <a href="login.php" class="text-[10px] font-black text-gray-500 hover:text-hero-orange uppercase tracking-widest transition-colors flex items-center justify-center gap-2">
-                            <i class="fas fa-arrow-left"></i> Return to Login
-                        </a>
-                    </div>
-                </form>
+                        <button type="submit" name="recover" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg hover:bg-hero-orange transition-all active:scale-95 uppercase tracking-[0.2em] text-xs">
+                            Validate Identity
+                        </button>
+                    </form>
+                <?php endif; ?>
+
+                <div class="text-center pt-4">
+                    <i class="fas fa-arrow-left text-gray-400 mr-2"></i>
+                    <a href="login.php" class="text-[10px] font-black text-gray-500 hover:text-hero-orange uppercase tracking-widest transition-colors">
+                        Return to Login
+                    </a>
+                </div>
             </div>
-
-            <p class="text-center mt-10 text-[9px] font-black text-gray-500 uppercase tracking-[0.4em] opacity-40">
-                &copy; 2026 Hero Technology Inc. Auth_Recovery v4.0
-            </p>
         </div>
     </div>
-
-    <script>
-        const root = document.documentElement;
-        const themeBtn = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-
-        themeBtn.addEventListener('click', () => {
-            root.classList.toggle('dark');
-            const isDark = root.classList.contains('dark');
-            themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        });
-    </script>
 </body>
 </html>

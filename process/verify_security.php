@@ -1,55 +1,48 @@
 <?php
 require '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $success_count = 0;
+$is_recovery = isset($_SESSION['recovery_user_id']);
+$user_id = $is_recovery ? $_SESSION['recovery_user_id'] : ($_SESSION['user_id'] ?? null);
 
-    // Start transaction for atomic security update
-    mysqli_begin_transaction($conn);
-
-    try {
-        // Clear previous answers if they exist (Resetting Security Nodes)
-        mysqli_query($conn, "DELETE FROM user_security_answers WHERE user_id = '$user_id'");
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user_id) {
+    
+    // --- MODE: RECOVERY CHALLENGE ---
+    if (isset($_POST['verify_recovery'])) {
+        $correct_count = 0;
         for ($i = 1; $i <= 3; $i++) {
-            // Safety check for empty inputs
-            if(empty($_POST["q_id_$i"]) || empty($_POST["answer_$i"])) {
-                throw new Exception("EMPTY_NODE: All security markers must be filled.");
-            }
-
             $q_id = mysqli_real_escape_string($conn, $_POST["q_id_$i"]);
-            
-            // Normalize to lowercase so recovery isn't case-sensitive for the student
-            $answer = strtolower(trim($_POST["answer_$i"])); 
-            
-            // Hash the answer for 256-bit grade security
-            $answer_hash = password_hash($answer, PASSWORD_BCRYPT);
+            $hashed_answer = md5(strtolower(trim($_POST["answer_$i"]))); // MD5 Verification
 
-            $sql = "INSERT INTO user_security_answers (user_id, question_id, answer_hash) 
-                    VALUES ('$user_id', '$q_id', '$answer_hash')";
-            
-            if (mysqli_query($conn, $sql)) {
-                $success_count++;
-            }
+            $res = mysqli_query($conn, "SELECT * FROM user_security_answers WHERE user_id = '$user_id' AND question_id = '$q_id' AND answer_hash = '$hashed_answer'");
+            if (mysqli_num_rows($res) > 0) $correct_count++;
         }
 
-        if ($success_count === 3) {
-            mysqli_commit($conn);
-            // Redirect with a high-fidelity success signal
-            header("Location: ../login.php?status=vault_locked");
+        if ($correct_count >= 3) {
+            header("Location: ../forgot-password.php?step=reset"); // Pass to final reset form
             exit();
         } else {
-            throw new Exception("INCOMPLETE_MAPPING: Success count mismatch.");
+            header("Location: ../security-questions.php?error=auth_failed");
+            exit();
         }
-
-    } catch (Exception $e) {
-        mysqli_rollback($conn);
-        // Return to vault with specific error logs
-        header("Location: ../security-questions.php?error=node_failure");
-        exit();
     }
-} else {
-    header("Location: ../security-questions.php?error=access_denied");
-    exit();
+
+    // --- MODE: INITIAL SETUP ---
+    if (isset($_POST['setup_vault'])) {
+        mysqli_begin_transaction($conn);
+        try {
+            mysqli_query($conn, "DELETE FROM user_security_answers WHERE user_id = '$user_id'");
+            for ($i = 1; $i <= 3; $i++) {
+                $q_id = mysqli_real_escape_string($conn, $_POST["q_id_$i"]);
+                $hashed_answer = md5(strtolower(trim($_POST["answer_$i"]))); // MD5 Storage
+                mysqli_query($conn, "INSERT INTO user_security_answers (user_id, question_id, answer_hash) VALUES ('$user_id', '$q_id', '$hashed_answer')");
+            }
+            mysqli_commit($conn);
+            header("Location: ../login.php?status=vault_locked");
+            exit();
+        } catch (Exception $e) {
+            mysqli_rollback($conn);
+            header("Location: ../security-questions.php?error=setup_failed");
+            exit();
+        }
+    }
 }

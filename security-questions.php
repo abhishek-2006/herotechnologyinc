@@ -1,12 +1,29 @@
 <?php 
-    require 'config.php';
-    
-    $questions_res = mysqli_query($conn, "SELECT * FROM security_questions");
-    if (!$questions_res) {
-        die("Database Error: " . mysqli_error($conn));
-    }
-    $questions = mysqli_fetch_all($questions_res, MYSQLI_ASSOC);
-    $user_id = $_SESSION['user_id'] ?? null;
+require 'config.php';
+
+// Determine Mode: Recovery vs. First-time Setup
+$recovery_mode = isset($_SESSION['recovery_user_id']);
+$target_user_id = $recovery_mode ? $_SESSION['recovery_user_id'] : ($_SESSION['user_id'] ?? null);
+
+// Guard: Ensure an identity node is present
+if (!$target_user_id) {
+    header("Location: login.php?error=identity_missing");
+    exit();
+}
+
+if ($recovery_mode) {
+    // Fetch ONLY the questions previously answered by this specific user
+    $sql = "SELECT sq.id, sq.question_text 
+            FROM user_security_answers ua 
+            JOIN security_questions sq ON ua.question_id = sq.id 
+            WHERE ua.user_id = '$target_user_id'";
+} else {
+    // Fetch the FULL pool for initial setup
+    $sql = "SELECT * FROM security_questions";
+}
+
+$questions_res = mysqli_query($conn, $sql);
+$questions = mysqli_fetch_all($questions_res, MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,62 +78,49 @@
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-6 antialiased">
+    <div class="glass-card rounded-[3rem] p-12 relative overflow-hidden shadow-2xl max-w-2xl w-full">
+    <header class="mb-12">
+        <h1 class="text-4xl font-black italic tracking-tighter uppercase leading-none text-hero-blue dark:text-white">
+            Security <span class="text-hero-orange not-italic"><?= $recovery_mode ? 'Challenge' : 'Vault' ?></span>
+        </h1>
+    </header>
 
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-hero-orange/10 dark:bg-hero-orange/5 blur-[120px] pointer-events-none"></div>
-
-    <div class="max-w-2xl w-full">
-        <div class="flex justify-between items-center mb-10">
-            <div class="glass-card px-6 py-3 rounded-2xl flex items-center gap-3">
-                <img src="assets/img/logo.png" alt="Hero Tech" class="h-6 dark:invert">
-                <span class="text-[9px] font-black uppercase tracking-[0.4em] opacity-40">Vault</span>
-            </div>
+    <form action="process/verify_security.php" method="POST" class="space-y-8">
+        <?php 
+        $loop_count = $recovery_mode ? count($questions) : 3;
+        for($i = 0; $i < $loop_count; $i++): 
+            $display_index = $i + 1;
+        ?>
+        <div class="space-y-3">
+            <label class="text-[9px] font-black uppercase tracking-widest opacity-40">Marker 0<?= $display_index ?></label>
             
-            <button onclick="toggleTheme()" class="glass-card w-12 h-12 rounded-2xl flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                <i class="fas fa-moon dark:hidden"></i>
-                <i class="fas fa-sun hidden dark:block text-hero-orange"></i>
-            </button>
+            <div class="input-node rounded-2xl overflow-hidden px-5 py-4">
+                <?php if($recovery_mode): ?>
+                    <p class="text-sm font-bold"><?= htmlspecialchars($questions[$i]['question_text']) ?></p>
+                    <input type="hidden" name="q_id_<?= $display_index ?>" value="<?= $questions[$i]['id'] ?>">
+                <?php else: ?>
+                    <select name="q_id_<?= $display_index ?>" class="question-selector w-full bg-transparent text-sm font-bold outline-none cursor-pointer">
+                        <option value="" disabled selected>Select a security question...</option>
+                        <?php foreach($questions as $q): ?>
+                            <option value="<?= $q['id'] ?>"><?= htmlspecialchars($q['question_text']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+            </div>
+
+            <div class="input-node rounded-2xl px-5">
+                <input type="text" name="answer_<?= $display_index ?>" 
+                       class="w-full bg-transparent py-4 text-sm font-medium outline-none" 
+                       placeholder="Response..." required>
+            </div>
         </div>
-    
-        <div class="glass-card rounded-[3rem] p-12 relative overflow-hidden shadow-2xl">
-            <header class="mb-12">
-                <h1 class="text-4xl font-black italic tracking-tighter uppercase leading-none">
-                    Security <span class="text-hero-orange not-italic">Protocol</span>
-                </h1>
-                <p class="text-[10px] font-bold opacity-50 uppercase tracking-widest mt-4 flex items-center gap-2">
-                    <i class="fas fa-shield-halved text-hero-orange"></i> Secure your identity markers
-                </p>
-            </header>
+        <?php endfor; ?>
 
-            <form action="process/verify_security.php" method="POST" class="space-y-8">
-                <?php for($i = 1; $i <= 3; $i++): ?>
-                <div class="space-y-3">
-                    <label class="text-[9px] font-black uppercase tracking-widest opacity-40 ml-1">Question 0<?= $i ?></label>
-                    
-                    <div class="input-node rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-hero-orange/50">
-                        <select name="q_id_<?= $i ?>" class="question-selector w-full bg-transparent px-5 py-4 text-sm font-bold outline-none cursor-pointer dark:text-white">
-                            <option value="" disabled selected class="dark:bg-slate-900">Choose a question...</option>
-                            <?php foreach($questions as $q): ?>
-                                <option value="<?= $q['id'] ?>" class="text-black dark:bg-slate-900 dark:text-white">
-                                    <?= htmlspecialchars($q['question_text']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="input-node rounded-2xl px-5 focus-within:bg-white/10">
-                        <input type="text" name="answer_<?= $i ?>" 
-                            class="w-full bg-transparent py-4 text-sm font-medium outline-none placeholder:opacity-30" 
-                            placeholder="Your secure response..." required>
-                    </div>
-                </div>
-                <?php endfor; ?>
-
-                <button type="submit" class="w-full bg-hero-blue dark:bg-hero-orange text-white py-6 rounded-3xl font-black uppercase tracking-[0.2em] text-[11px] shadow-xl hover:scale-[1.02] transition-all">
-                    Submit Answers
-                </button>
-            </form>
-        </div>
-    </div>
+        <button type="submit" name="<?= $recovery_mode ? 'verify_recovery' : 'setup_vault' ?>" class="w-full bg-hero-blue dark:bg-hero-orange text-white py-6 rounded-3xl font-black uppercase tracking-widest text-[11px]">
+            <?= $recovery_mode ? 'Validate Identity' : 'Lock Security Vault' ?>
+        </button>
+    </form>
+</div>
 
     <script>
         // Theme Management Logic
