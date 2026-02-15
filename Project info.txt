@@ -43,11 +43,3 @@ Pages master:
 	Contact
 	About
 	Privacy Policy
-
-
-https://www.cashfree.com/docs/payments/online/resources/sandbox-environment
-
-App ID : 44420448bffc79e4a3f218cc602444
-
-Secret Key : 375d3690ef62c3e3009fc66ddd73b6247feb2551
-
