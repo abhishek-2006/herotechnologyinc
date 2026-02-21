@@ -1,11 +1,13 @@
 <?php 
-include 'header.php'; 
+require_once 'config.php'; 
 
 // 1. Session & Identity Verification
 if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
+require_once 'header.php';
 
 $session_id = isset($_SESSION['email']) ? $_SESSION['email'] : $_SESSION['username'];
 $safe_id = mysqli_real_escape_string($conn, $session_id);

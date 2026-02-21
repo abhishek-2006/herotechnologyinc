@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 08, 2026 at 09:11 AM
+-- Generation Time: Feb 21, 2026 at 12:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -147,13 +147,6 @@ CREATE TABLE `course_progress` (
   `completed_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `course_progress`
---
-
-INSERT INTO `course_progress` (`progress_id`, `user_id`, `course_id`, `lesson_id`, `is_completed`, `completed_at`) VALUES
-(1, 2, 1, 1, 1, '2026-01-10 09:47:40');
-
 -- --------------------------------------------------------
 
 --
@@ -216,13 +209,6 @@ CREATE TABLE `demo_usage_logs` (
   `last_access` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `demo_usage_logs`
---
-
-INSERT INTO `demo_usage_logs` (`log_id`, `user_id`, `ip_address`, `device_fingerprint`, `course_id`, `minutes_watched`, `last_access`) VALUES
-(4, 0, '::1', 'TW96aWxsYS81LjAgKFdpbmRvd3MgTlQg', 1, 2, '2026-02-01 06:28:54');
-
 -- --------------------------------------------------------
 
 --
@@ -231,23 +217,13 @@ INSERT INTO `demo_usage_logs` (`log_id`, `user_id`, `ip_address`, `device_finger
 
 CREATE TABLE `enrollments` (
   `enrollment_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
   `enrolled_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` enum('pending','active','completed','cancelled') DEFAULT 'pending',
-  `cashfree_order_id` varchar(100) DEFAULT NULL,
+  `txnid` varchar(100) DEFAULT NULL,
   `activated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `enrollments`
---
-
-INSERT INTO `enrollments` (`enrollment_id`, `user_id`, `course_id`, `enrolled_at`, `status`, `cashfree_order_id`, `activated_at`) VALUES
-(5, 2, 4, '2026-02-07 10:28:36', 'active', 'HERO_1770460116_2', '2026-02-07 10:30:03'),
-(13, 2, 2, '2026-02-08 07:45:40', 'pending', 'HERO_1770536740_2', '2026-02-08 07:45:40'),
-(14, 2, 2, '2026-02-08 07:48:07', 'pending', 'HERO_1770536887_2', '2026-02-08 07:48:07'),
-(15, 2, 2, '2026-02-08 07:48:45', 'active', 'HERO_1770536925_2', '2026-02-08 07:55:44');
 
 -- --------------------------------------------------------
 
@@ -287,16 +263,6 @@ CREATE TABLE `login_tracking` (
   `tracking_datetime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `login_tracking`
---
-
-INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `content`, `is_online`, `tracking_datetime`) VALUES
-(51, 2, '::1', 'Student Logged In', 'online', '2026-02-07 10:15:23'),
-(58, 2, '::1', 'Student Logged Out', 'offline', '2026-02-07 13:32:12'),
-(59, 2, '::1', 'Student Logged Out', 'offline', '2026-02-08 07:32:07'),
-(60, 2, '::1', 'Student Logged In', 'online', '2026-02-08 07:39:31');
-
 -- --------------------------------------------------------
 
 --
@@ -312,16 +278,10 @@ CREATE TABLE `payments` (
   `payment_status` enum('success','failed','pending') DEFAULT 'success',
   `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `payment_method` enum('Cash','UPI','Card','NetBanking','Wallet') NOT NULL DEFAULT 'Cash',
-  `transaction_id` int(11) NOT NULL
+  `transaction_id` varchar(100) NOT NULL,
+  `error_log` varchar(100) DEFAULT NULL,
+  `gateway_id` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`payment_id`, `enrollment_id`, `user_id`, `course_id`, `amount`, `payment_status`, `payment_date`, `payment_method`, `transaction_id`) VALUES
-(1, 5, 2, 4, 5999.00, 'success', '2026-02-07 10:30:03', 'UPI', 2147483646),
-(13, 15, NULL, NULL, 4999.00, 'success', '2026-02-08 07:55:44', 'UPI', 2147483647);
 
 -- --------------------------------------------------------
 
@@ -343,7 +303,7 @@ INSERT INTO `security_questions` (`id`, `question_text`) VALUES
 (2, 'What is your mother\'s maiden name?'),
 (3, 'What was the name of your first car?'),
 (4, 'What was the name of your elementary school?'),
-(5, 'In what city were you born?'),
+(5, 'In which city were you born?'),
 (6, 'Which is your favorite city?'),
 (7, 'Which is your favorite country?'),
 (8, 'Who is your favorite actor?'),
@@ -364,7 +324,7 @@ CREATE TABLE `user_master` (
   `username` varchar(50) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `gender` enum('male','female','other','') NOT NULL,
+  `gender` enum('male','female','other') NOT NULL,
   `password` varchar(50) DEFAULT NULL,
   `role` enum('student','admin','manager') DEFAULT 'student',
   `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -376,9 +336,10 @@ CREATE TABLE `user_master` (
 --
 
 INSERT INTO `user_master` (`user_id`, `name`, `username`, `phone`, `email`, `gender`, `password`, `role`, `datetime`, `status`) VALUES
-(1, 'Abhishek', 'abs123', '+91 1203456789', 'abhishek@hero.com', 'male', '202cb962ac59075b964b07152d234b70', 'admin', '2026-02-08 07:00:39', 'publish'),
-(2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-08 07:48:40', 'publish'),
-(3, 'Mina', 'mbshah12', '+91 1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-08 07:30:15', 'publish');
+(1, 'Abhishek', 'abs123', '1203456789', 'abhishek@hero.com', 'male', '202cb962ac59075b964b07152d234b70', 'admin', '2026-02-14 07:06:20', 'publish'),
+(2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 12:01:16', 'publish'),
+(3, 'Mina', 'mbshah12', '1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-14 07:06:28', 'publish'),
+(4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 11:48:55', 'publish');
 
 -- --------------------------------------------------------
 
@@ -393,6 +354,15 @@ CREATE TABLE `user_security_answers` (
   `answer_hash` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_security_answers`
+--
+
+INSERT INTO `user_security_answers` (`id`, `user_id`, `question_id`, `answer_hash`, `created_at`) VALUES
+(1, 4, 2, 'c286b9545aaf7fdedebee6e2c526bf14', '2026-02-14 11:53:53'),
+(2, 4, 5, '9ed244e30701f591f8859cde5ee71b8c', '2026-02-14 11:53:53'),
+(3, 4, 9, '95ff712b4813b5376c1757b2e634eaae', '2026-02-14 11:53:53');
 
 --
 -- Indexes for dumped tables
@@ -547,13 +517,13 @@ ALTER TABLE `course_sections`
 -- AUTO_INCREMENT for table `demo_usage_logs`
 --
 ALTER TABLE `demo_usage_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `lessons`
@@ -565,19 +535,19 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `security_questions`
 --
 ALTER TABLE `security_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_master`
@@ -589,7 +559,7 @@ ALTER TABLE `user_master`
 -- AUTO_INCREMENT for table `user_security_answers`
 --
 ALTER TABLE `user_security_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

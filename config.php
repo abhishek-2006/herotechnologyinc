@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -9,14 +10,19 @@ $dbname = "herotechnology";
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-define('CF_APP_ID', '44420448bffc79e4a3f218cc602444');
-    define('CF_SECRET_KEY', '375d3690ef62c3e3009fc66ddd73b6247feb2551');
-    define('CF_MODE', 'sandbox');
-    define('CF_API_URL', (CF_MODE == 'sandbox') ? 'https://sandbox.cashfree.com/pg' : 'https://api.cashfree.com/pg');
-
 try {
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 } catch (Exception $e) {
-    die("Connection failed: " . $e->getMessage());
+    die("SYSTEM_FAILURE: Database connection lost. " . $e->getMessage());
 }
+
+// 2. PayU Gateway Configuration
+define('PAYU_MODE', 'sandbox'); 
+
+define('PAYU_MERCHANT_KEY', (PAYU_MODE == 'sandbox') ? "TxuxLn" : "K4cfY7");
+define('PAYU_SALT', (PAYU_MODE == 'sandbox') ? "oYVA5vyBJvRcn9fMqbFHM71LRLByuvf3" : "Dr2DZtzxj6h59L15q1Pj5L91tCBBZAf7");
+define('PAYU_API_URL', (PAYU_MODE == 'sandbox') ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment');
+
+// Identity Marker for PayU (Your Name: Salt- 32 bit)
+define('PAYU_NAME', 'Salt- 32 bit'); 
 ?>

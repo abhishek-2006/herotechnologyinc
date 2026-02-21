@@ -19,7 +19,6 @@ if (!$course) { header("Location: courses.php"); exit(); }
     <title>Authorize Access | Hero Tech</title>
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
 
     <style type="text/tailwindcss">
@@ -100,19 +99,12 @@ if (!$course) { header("Location: courses.php"); exit(); }
                 </div>
             </footer>
         </div>
-        
-        <p class="text-center mt-8 text-[9px] font-bold text-slate-500 uppercase tracking-[0.3em]">
-            Powered by <span class="text-white/60">Cashfree Payments</span>
-        </p>
     </div>
 
     <script>
-        const cashfree = Cashfree({ mode: "sandbox" });
-
         document.getElementById('pay-button').addEventListener('click', async function() {
             const btn = this;
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> INITIALIZING NODE...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> INITIALIZING PAYU NODE...';
             btn.style.pointerEvents = 'none';
 
             try {
@@ -122,19 +114,30 @@ if (!$course) { header("Location: courses.php"); exit(); }
                     body: JSON.stringify({ course_id: '<?= $course_id ?>' })
                 });
 
-                const session = await response.json();
+                const data = await response.json();
 
-                if (session.payment_session_id) {
-                    cashfree.checkout({
-                        paymentSessionId: session.payment_session_id,
-                        redirectTarget: "_self" 
-                    });
+                if (data.params && data.url) {
+                    // Create a temporary form to POST to PayU
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = data.url;
+
+                    for (const key in data.params) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = data.params[key];
+                        form.appendChild(input);
+                    }
+
+                    document.body.appendChild(form);
+                    form.submit();
                 } else {
-                    throw new Error("Invalid Session");
+                    throw new Error("Handshake Failed");
                 }
             } catch (error) {
                 console.error(error);
-                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> ERROR. RETRY?';
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> GATEWAY ERROR. RETRY?';
                 btn.style.backgroundColor = '#ef4444';
                 btn.style.pointerEvents = 'all';
             }
