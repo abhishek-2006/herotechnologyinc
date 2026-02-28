@@ -32,15 +32,15 @@
                 <span class="inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
                     Engineering Excellence
                 </span>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] text-hero-blue">
+                <h1 class="animate__animated animate__fadeInDown text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] text-hero-blue">
                     Empowering the <span class="italic text-hero-orange">Next Generation</span> of Engineers.
                 </h1>
-                <p class="text-base sm:text-lg text-gray-500 mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                <p class="animate__animated animate__fadeInUp animate__delay-1s text-base sm:text-lg text-gray-500 mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
                     Hero Technology Inc. bridges the gap between academic theory and industry reality with engineer-led technical training.
                 </p>
                 </div>
 
-            <div class="relative order-1 lg:order-2 px-4 group">
+            <div class="animate__animated animate__fadeInRight order-1 lg:order-2 px-4 group">
                 <div class="absolute -inset-4 bg-hero-orange/10 blur-3xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-700"></div>
                 <div class="aspect-square bg-gray-900 rounded-[3rem] overflow-hidden relative shadow-2xl">
                     <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" 
@@ -108,21 +108,21 @@
             <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight italic">Global Training Delivery</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
-            <div class="p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
+            <div class="animate__animated animate__fadeInLeft animate__delay-1s p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
                 <div class="w-12 h-12 bg-hero-orange rounded-xl mb-6 flex items-center justify-center">
                     <i class="fas fa-globe text-xl"></i>
                 </div>
                 <h3 class="text-xl font-bold mb-4 uppercase">Online Training</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">Interactive, self-paced modules designed for the modern remote engineer. Access from anywhere.</p>
             </div>
-            <div class="p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
+            <div class="animate__animated animate__fadeInUp animate__delay-2s p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
                 <div class="w-12 h-12 bg-hero-orange rounded-xl mb-6 flex items-center justify-center">
                     <i class="fas fa-chalkboard-user text-xl"></i>
                 </div>
                 <h3 class="text-xl font-bold mb-4 uppercase">Classroom Sessions</h3>
                 <p class="text-gray-400 text-sm leading-relaxed">Hands-on, instructor-led training at our state-of-the-art tech labs with high-performance hardware.</p>
             </div>
-            <div class="p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
+            <div class="animate__animated animate__fadeInRight animate__delay-3s p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
                 <div class="w-12 h-12 bg-hero-orange rounded-xl mb-6 flex items-center justify-center">
                     <i class="fas fa-building text-xl"></i>
                 </div>
@@ -157,10 +157,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php 
+                $delay = 0;
                 $result = mysqli_query($conn, "SELECT c.*, cat.category_name FROM courses c JOIN course_category cat ON c.category_id = cat.category_id WHERE c.status = 'publish' LIMIT 3");
+                $delay_class = ($delay == 0) ? "" : "animate__delay-{$delay}s";
                 while($course = mysqli_fetch_assoc($result)): 
             ?>
-            <div class="group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
+            <div class="animate__animated animate__fadeInUp <?= $delay_class ?> group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
                 
                 <div class="h-64 relative overflow-hidden bg-slate-900">
                     <img src="assets/img/courses/<?= $course['thumbnail']; ?>" 
@@ -202,7 +204,10 @@
                     </div>
                 </div>
             </div>
-            <?php endwhile; ?>
+            <?php 
+                $delay++;
+                endwhile; 
+                ?>
         </div>
     </div>
 </section>

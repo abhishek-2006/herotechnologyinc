@@ -21,13 +21,13 @@ if (isset($_POST['send_message'])) {
 
 <section class="relative pt-24 pb-20 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
-        <span class="inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-6">
+        <span class="animate__animated animate__fadeInDown inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-6">
             Global Support Terminals
         </span>
-        <h1 class="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.95] text-hero-blue italic uppercase">
+        <h1 class="animate__animated animate__fadeInUp text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.95] text-hero-blue italic uppercase">
             Initialize <span class="text-hero-orange not-italic">Contact.</span>
         </h1>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
+        <p class="animate__animated animate__fadeInUp animate__delay-1s text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
             Our specialized technical support nodes are active across multiple timezones to assist with your software quality assurance and training requirements.
         </p>
     </div>
@@ -38,7 +38,7 @@ if (isset($_POST['send_message'])) {
         <div class="grid lg:grid-cols-3 gap-12">
             
             <div class="lg:col-span-1 space-y-6">
-                <div class="p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 group hover:border-hero-orange transition-all">
+                <div class="animate__animated animate__fadeInLeft p-8 bg-gray-50 rounded-[2.5rem] border border-gray-100 group hover:border-hero-orange transition-all">
                     <div class="w-12 h-12 bg-hero-blue rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-900/20">
                         <i class="fas fa-map-location-dot text-xl"></i>
                     </div>
@@ -54,7 +54,7 @@ if (isset($_POST['send_message'])) {
                     </div>
                 </div>
 
-                <div class="p-8 bg-hero-blue rounded-[2.5rem] text-white shadow-xl shadow-blue-900/10">
+                <div class="animate__animated animate__fadeInRight p-8 bg-hero-blue rounded-[2.5rem] text-white shadow-xl shadow-blue-900/10">
                     <div class="w-12 h-12 bg-hero-orange rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg">
                         <i class="fas fa-headset text-xl"></i>
                     </div>
@@ -84,7 +84,7 @@ if (isset($_POST['send_message'])) {
             </div>
 
             <div class="lg:col-span-2">
-                <div class="bg-white p-8 sm:p-12 rounded-[3.5rem] border border-gray-100 shadow-[0_40px_100px_-20px_rgba(27,38,79,0.1)] relative overflow-hidden">
+                <div class="animate__animated animate__fadeInUp bg-white p-8 sm:p-12 rounded-[3.5rem] border border-gray-100 shadow-[0_40px_100px_-20px_rgba(27,38,79,0.1)] relative overflow-hidden">
                     
                     <?php if ($message_sent): ?>
                         <div class="absolute inset-0 bg-white/95 backdrop-blur-md z-20 flex flex-col items-center justify-center p-8 text-center">
@@ -101,25 +101,40 @@ if (isset($_POST['send_message'])) {
                     <form action="" method="POST" class="space-y-8 relative z-10">
                         <div class="grid md:grid-cols-2 gap-8">
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Identity Name</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Full Name</label>
                                 <input type="text" name="name" required placeholder="John Doe" 
                                     class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-bold text-hero-blue">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Email Node</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Email Address</label>
                                 <input type="email" name="email" required placeholder="johndoe@example.com" 
                                     class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-bold text-hero-blue">
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Subject Protocol</label>
-                            <select name="subject" required class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-black text-xs text-hero-blue uppercase appearance-none">
-                                <option value="Corporate QA Solutions">Corporate QA Solutions</option>
-                                <option value="Curriculum Inquiry">Curriculum Inquiry</option>
-                                <option value="Partner Opportunities">Partner Opportunities</option>
-                                <option value="Technical Support">Technical Support</option>
-                            </select>
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Subject Protocol</label>
+                                <div class="relative">
+                                    <select name="subject" id="subject-select" required 
+                                        class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-black text-xs text-hero-blue uppercase appearance-none cursor-pointer">
+                                        <option value="Corporate QA Solutions">Corporate QA Solutions</option>
+                                        <option value="Curriculum Inquiry">Curriculum Inquiry</option>
+                                        <option value="Partner Opportunities">Partner Opportunities</option>
+                                        <option value="Technical Support">Technical Support</option>
+                                        <option value="Other">Other (Specify Below)</option>
+                                    </select>
+                                    <div class="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-hero-blue/30">
+                                        <i class="fas fa-chevron-down text-[10px]"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="custom-subject-container" class="hidden animate__animated animate__fadeIn">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-hero-orange ml-2">Specify Custom Subject</label>
+                                <input type="text" name="custom_subject" id="custom_subject" placeholder="Enter custom subject..." 
+                                    class="w-full px-6 py-4 bg-gray-50 border border-hero-orange/30 rounded-2xl outline-none focus:border-hero-orange transition-all font-bold text-hero-blue">
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -138,5 +153,55 @@ if (isset($_POST['send_message'])) {
     </div>
 </section>
 
+<script>
+    // Intersection Observer for scroll-triggered animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.form-group-node').forEach((el) => observer.observe(el));
+
+    // Validate.js Implementation for Contact Form
+    const contactConstraints = {
+        name: { presence: { allowEmpty: false, message: "^Identity Name required" } },
+        email: { email: { message: "^Invalid Email Node" } },
+        message: { length: { minimum: 10, message: "^Message content too short for processing" } }
+    };
+
+    const contactForm = document.querySelector('form');
+    contactForm.addEventListener('submit', function(ev) {
+        const values = validate.collectFormValues(contactForm);
+        const errors = validate(values, contactConstraints);
+
+        if (errors) {
+            ev.preventDefault();
+            alert(Object.values(errors)[0][0]);
+        } else {
+            // High-fidelity feedback: Change button text on transmit
+            const btn = contactForm.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> TRANSMITTING...';
+            btn.style.opacity = '0.7';
+        }
+    });
+
+    const subjectSelect = document.getElementById('subject-select');
+    const customContainer = document.getElementById('custom-subject-container');
+    const customInput = document.getElementById('custom_subject');
+
+    subjectSelect.addEventListener('change', function() {
+        if (this.value === 'Other') {
+            customContainer.classList.remove('hidden');
+            customInput.setAttribute('required', 'required');
+            customInput.focus();
+        } else {
+            customContainer.classList.add('hidden');
+            customInput.removeAttribute('required');
+        }
+    });
+</script>
 
 <?php include 'footer.php'; ?>

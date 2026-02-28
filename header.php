@@ -12,6 +12,7 @@ require_once 'config.php';
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style type="text/tailwindcss">
         @theme {
@@ -19,14 +20,32 @@ require_once 'config.php';
             --color-hero-orange: #EE6C4D;
             --font-sans: "Inter", system-ui, sans-serif;
         }
+
         @utility nav-link-wrapper {
             @apply flex items-center h-full;
         }
+
         @utility nav-link-item {
             @apply text-[11px] font-black uppercase tracking-[0.12em] transition-colors flex items-center relative pb-1;
         }
+        
         @utility active-indicator {
             @apply absolute bottom-0 left-0 right-0 h-0.5 bg-hero-blue;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>

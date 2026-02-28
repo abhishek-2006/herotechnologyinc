@@ -7,7 +7,9 @@
     <title>Hero Technology Inc. | Login</title>
     
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 
     <style type="text/tailwindcss">
         @theme {
@@ -41,78 +43,100 @@
                 box-shadow: 0 0 0 4px rgba(238, 108, 77, 0.1);
             }
         }
+
+        @layer utilities {
+            .hover-glow {
+                @apply transition-all duration-300 hover:text-hero-orange hover:drop-shadow-[0_0_8px_rgba(238,108,77,0.5)];
+            }
+        }
+
+        #captcha_img:hover {
+            filter: grayscale(0) contrast(1.1);
+            box-shadow: 0 0 15px rgba(27, 38, 79, 0.2);
+        }
+
+        /* Error styling for validate.js */
+        .error-text {
+            @apply text-[9px] text-red-500 font-bold uppercase mt-1 ml-1;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-[var(--color-app-bg)] font-sans antialiased transition-colors duration-500">
 
     <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
-        
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-hero-blue/10 rounded-full blur-[120px]"></div>
         <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-hero-orange/5 rounded-full blur-[120px]"></div>
 
-        <button id="theme-toggle" class="absolute top-6 right-6 w-12 h-12 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] flex items-center justify-center text-hero-orange shadow-lg cursor-pointer hover:scale-105 transition-transform active:scale-95">
+        <button id="theme-toggle" class="animate__animated animate__bounceInDown absolute top-6 right-6 w-12 h-12 rounded-2xl bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] flex items-center justify-center text-hero-orange shadow-lg cursor-pointer hover:scale-105 transition-transform active:scale-95">
             <i id="theme-icon" class="fas fa-moon"></i>
         </button>
 
         <div class="max-w-md w-full relative z-10">
-            <div class="text-center mb-10">
+            <div class="text-center mb-10 animate__animated animate__fadeInDown">
                 <div class="inline-flex items-center justify-center p-4 rounded-3xl mb-6 h-20 w-48 overflow-hidden">
                     <img src="assets/img/logo.png" alt="Hero Technology Inc" class="w-full h-full object-contain">
                 </div>
-                <p class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.4em] opacity-80">Access Intelligence Node</p>
+                <p class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.4em] opacity-80 animate__animated animate__fadeInUp animate__delay-1s">Access Intelligence Node</p>
             </div>
 
-            <div class="bg-[var(--color-card-bg)] p-8 sm:p-10 shadow-2xl rounded-[2.5rem] border border-[var(--color-border-dim)] transition-all duration-500">
-                <div class="mb-8">
+            <div class="animate__animated animate__zoomIn bg-[var(--color-card-bg)] p-8 sm:p-10 shadow-2xl rounded-[2.5rem] border border-[var(--color-border-dim)] transition-all duration-500">
+                <div class="mb-8 animate__animated animate__fadeInLeft animate__delay-1s">
                     <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Initialize Session</h2>
                     <p class="text-gray-500 text-sm font-medium">Synchronizing credentials with core server.</p>
                 </div>
                 
                 <form name="student-login" id="student-login" action="process/auth.php" method="POST" class="space-y-6">
 
-                    <div class="relative group">
-                        <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Account ID</label>
+                    <div class="relative group animate__animated animate__fadeInLeft animate__delay-1s">
+                        <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                            Account ID <span class="text-red-500">*</span>
+                        </label>
                         <div class="relative flex items-center">
                             <span class="absolute left-4 flex items-center text-gray-400 group-focus-within:text-hero-orange transition-colors">
                                 <i class="fas fa-id-badge text-lg"></i>
                             </span>
-                            <input id="email" class="input-field" type="text" name="email" placeholder="Email or Username" required autocomplete="off" />
+                            <input id="email" class="input-field" type="text" name="email" placeholder="Email or Username" autocomplete="off" />
                         </div>
+                        <div id="email-error" class="error-text"></div>
                     </div>
                     
-                    <div class="relative group">
+                    <div class="relative group animate__animated animate__fadeInLeft animate__delay-1s">
                         <div class="flex justify-between items-center mb-2 ml-1">
-                            <label for="password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400">Password</label>
+                            <label for="password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400">
+                                Password <span class="text-red-500">*</span>
+                            </label>
                         </div>
                         <div class="relative">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-hero-orange transition-colors">
                                 <i class="fas fa-shield-halved text-lg"></i>
                             </span>
-                            <input id="password" class="input-field" type="password" name="password" placeholder="••••••••" required autocomplete="off" />
+                            <input id="password" class="input-field" type="password" name="password" placeholder="••••••••" autocomplete="off" />
                         </div>
+                        <div id="password-error" class="error-text"></div>
                         <div class="forgot-passowrd">
                             <a href="forgot-password.php" class="block text-[10px] font-bold text-hero-orange hover:underline uppercase tracking-tighter text-end mt-2">Forgot Password?</a>
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 p-5 rounded-[2rem] border border-gray-100 shadow-inner overflow-hidden">
+                    <div class="bg-gray-50 p-5 rounded-[2rem] border border-gray-100 shadow-inner overflow-hidden animate__animated animate__fadeInUp animate__delay-1s">
                         <div class="flex items-center justify-between mb-4 px-1">
                             <label for="vercode" class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                                Captcha
+                                Captcha <span class="text-red-500">*</span>
                             </label>
                             <span class="text-hero-blue text-[9px] font-bold tracking-widest opacity-40">SECURE_NODE</span>
                         </div>
                         
                         <div class="flex flex-nowrap items-center gap-3">
-                            <input id="vercode" type="text" name="vercode" maxlength="5" placeholder="CODE" required 
-                                class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] uppercase outline-none focus:border-hero-orange transition-all shadow-sm" />
+                            <div class="w-full">
+                                <input id="vercode" type="text" name="vercode" maxlength="5" placeholder="CODE" 
+                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] uppercase outline-none focus:border-hero-orange transition-all shadow-sm" />
+                            </div>
                             
                             <div class="flex-shrink-0 flex items-center gap-2">
                                 <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 relative group">
                                     <img src="captcha.php" alt="Code" id="captcha_img" 
                                         class="h-full w-full object-cover block grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-                                    
                                     <button type="button" onclick="document.getElementById('captcha_img').src='captcha.php?'+Math.random();" 
                                         class="absolute inset-0 bg-hero-blue/10 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
                                         <i class="fas fa-sync-alt text-hero-blue text-xs"></i>
@@ -120,6 +144,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="vercode-error" class="error-text"></div>
                     </div> 
 
                     <button type="submit" name="login" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 uppercase tracking-[0.2em] text-xs">
@@ -132,7 +157,6 @@
                             <a href="signup.php" class="text-hero-orange hover:underline ml-1">Register Now</a>
                         </p>
                     </div>
-
                 </form>
             </div>
             
@@ -143,6 +167,7 @@
     </div>
 
     <script>
+        // Theme Toggle Logic
         const root = document.documentElement;
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
@@ -151,6 +176,38 @@
             root.classList.toggle('dark');
             const isDark = root.classList.contains('dark');
             themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Validate.js Implementation
+        const constraints = {
+            email: {
+                presence: { allowEmpty: false, message: "is required" },
+                length: { minimum: 3, message: "must be valid" }
+            },
+            password: {
+                presence: { allowEmpty: false, message: "is required" }
+            },
+            vercode: {
+                presence: { allowEmpty: false, message: "is required" },
+                length: { is: 5, message: "must be 5 characters" }
+            }
+        };
+
+        const form = document.getElementById('student-login');
+        
+        form.addEventListener('submit', function(ev) {
+            // Reset errors
+            document.querySelectorAll('.error-text').forEach(el => el.innerHTML = '');
+            
+            const values = validate.collectFormValues(form);
+            const errors = validate(values, constraints);
+
+            if (errors) {
+                ev.preventDefault(); // Stop form submission
+                Object.keys(errors).forEach(key => {
+                    document.getElementById(key + '-error').innerHTML = errors[key][0];
+                });
+            }
         });
     </script>
 </body>
