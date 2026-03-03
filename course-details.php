@@ -26,16 +26,15 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-<main class="bg-[#F8FAFC] min-h-screen pb-20">
     <section class="bg-hero-blue text-white pt-20 pb-32 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 relative z-10">
             <div class="flex flex-col lg:flex-row gap-12 items-start">
                 
-                <div class="lg:w-2/3">
+                <div class="lg:w-2/3 animate__animated animate__fadeInLeft">
                     <span class="inline-block px-4 py-1 bg-white/10 backdrop-blur rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6">
                         <?php echo $course['category_name']; ?>
                     </span>
-                    <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter leading-tight mb-6">
+                    <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter leading-tight mb-6 animate__animated animate__fadeInDown animate__delay-1s">
                         <?php echo htmlspecialchars($course['title']); ?>
                     </h1>
                     <div class="flex flex-wrap items-center gap-6 opacity-80">
@@ -54,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
-                <div class="lg:w-1/3 w-full lg:relative lg:right-4 z-25">
+                <div class="lg:w-1/3 w-full lg:relative lg:right-4 z-25 animate__animated animate__zoomIn animate__delay-1s">
                     <div class="bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden">
                         <div class="h-75 relative overflow-hidden rounded-t-[3rem]">
                             <img src="assets/img/courses/<?php echo $course['thumbnail']; ?>" 
@@ -98,7 +97,7 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
         </div>
-        <img src="assets/img/logo.png" class="absolute -right-20 -bottom-20 h-96 opacity-5 brightness-0 invert pointer-events-none">
+        <img src="assets/img/logo.png" class="animate__animated animate__fadeIn animate__slow absolute -right-20 -bottom-20 h-96 opacity-5 brightness-0 invert pointer-events-none">
     </section>
 
     <section class="max-w-7xl mx-auto px-4 mt-20">
@@ -106,22 +105,21 @@ if (isset($_SESSION['user_id'])) {
             <div class="lg:w-2/3">
                 <h2 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue mb-8 border-l-4 border-hero-orange pl-4">Intellectual Objectives</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-                    <div class="flex items-start gap-3">
+                    <?php 
+                    $objectives = [
+                        "Master core industrial concepts through hands-on nodes.",
+                        "Deploy scalable solutions using verified stacks.",
+                        "Obtain verified certification upon node completion.",
+                        "Access exclusive Hero community resource nodes."
+                    ];
+                    $delay = 0;
+                    foreach($objectives as $obj): 
+                    ?>
+                    <div class="reveal-obj flex items-start gap-3 animate__animated" style="animation-delay: <?= $delay ?>ms;">
                         <i class="fas fa-check-circle text-hero-orange mt-1"></i>
-                        <p class="text-sm font-medium text-gray-600">Master core industrial concepts through hands-on nodes.</p>
+                        <p class="text-sm font-medium text-gray-600"><?= $obj ?></p>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fas fa-check-circle text-hero-orange mt-1"></i>
-                        <p class="text-sm font-medium text-gray-600">Deploy scalable solutions using verified stacks.</p>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fas fa-check-circle text-hero-orange mt-1"></i>
-                        <p class="text-sm font-medium text-gray-600">Obtain verified certification upon node completion.</p>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <i class="fas fa-check-circle text-hero-orange mt-1"></i>
-                        <p class="text-sm font-medium text-gray-600">Access exclusive Hero community resource nodes.</p>
-                    </div>
+                    <?php $delay += 150; endforeach; ?>
                 </div>
 
                 <h2 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue mb-8 border-l-4 border-hero-orange pl-4">Node Intelligence</h2>
@@ -203,9 +201,12 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php if ($reviewCount > 0): ?>
-                <?php while($rev = mysqli_fetch_assoc($resReviews)): ?>
-                <div class="bg-white p-8 rounded-[3rem] border border-gray-100 shadow-sm flex flex-col hover:border-hero-orange transition-all group">
+            <?php if ($reviewCount > 0): 
+                $rev_delay = 0;
+                while($rev = mysqli_fetch_assoc($resReviews)): ?>
+                <div class="animate__animated reveal-rev bg-white p-8 rounded-[3rem] border border-gray-100 shadow-sm flex flex-col hover:border-hero-orange transition-all group" 
+                    style="animation-delay: <?= $rev_delay ?>ms;"
+                >
                     <div class="flex justify-between items-start mb-6">
                         <div class="flex text-hero-orange text-[8px] gap-0.5">
                             <?php for($i=0; $i<$rev['rating']; $i++): ?>
@@ -225,7 +226,7 @@ if (isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                 </div>
-                <?php endwhile; ?>
+                <?php $rev_delay +=200; endwhile; ?>
             <?php else: ?>
                 <div class="col-span-full py-16 bg-white rounded-[3rem] border border-dashed border-gray-200 text-center">
                     <p class="text-xs font-black uppercase tracking-widest text-gray-400">Feedback nodes are currently synchronizing...</p>
@@ -237,6 +238,5 @@ if (isset($_SESSION['user_id'])) {
             <img src="assets/img/logo.png" class="h-8 opacity-20" alt="Hero Tech">
         </div>
     </section>
-</main>
 
 <?php include 'footer.php'; ?>

@@ -39,13 +39,13 @@ $sqlActive = "
 $resActive = mysqli_query($conn, $sqlActive);
 ?>
 
-<link rel="icon" type="image/x-icon" href="backpanel/assets/img/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 
 <div class="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row transition-all duration-500">
     
-    <aside class="hidden lg:flex w-72 flex-col bg-white border-r border-gray-100 p-8 sticky top-20 h-[calc(100vh-80px)]">
+    <aside class="animate__animated animate__slideInLeft hidden lg:flex w-72 flex-col bg-white border-r border-gray-100 p-8 sticky top-20 h-[calc(100vh-80px)]">
         <div class="mb-10 text-center lg:text-left">
-            <img src="backpanel/assets/img/logo.png" class="h-8 mb-6 mx-auto lg:mx-0" alt="Hero Logo">
+            <img src="assets/img/logo.png" class="h-8 mb-6 mx-auto lg:mx-0" alt="Hero Logo">
             <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Workspace</p>
             <h3 class="text-xl font-black text-hero-blue italic uppercase">Hero<span class="text-hero-orange not-italic">.Core</span></h3>
         </div>
@@ -65,7 +65,7 @@ $resActive = mysqli_query($conn, $sqlActive);
         <div class="mt-auto p-6 bg-gray-50 rounded-[2rem] border border-gray-100">
             <div class="flex justify-between items-center mb-2">
                 <p class="text-[9px] font-black uppercase text-hero-blue tracking-tighter">Pro Node Status</p>
-                <img src="backpanel/assets/img/favicon.ico" class="w-3 h-3 opacity-30">
+                <img src="assets/img/favicon.ico" class="w-3 h-3 opacity-30">
             </div>
             <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                 <div class="h-full bg-hero-orange w-3/4 shadow-[0_0_8px_#EE6C4D]"></div>
@@ -90,15 +90,15 @@ $resActive = mysqli_query($conn, $sqlActive);
         </header>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-            <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="animate__animated animate__zoomIn animate__delay-1s bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
                 <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Active Courses</p>
                 <h4 class="text-4xl font-black text-hero-blue"><?php echo str_pad($active_count, 2, '0', STR_PAD_LEFT); ?></h4>
             </div>
-            <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="animate__animated animate__zoomIn animate__delay-1s bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
                 <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Hours Logged</p>
                 <h4 class="text-4xl font-black text-hero-orange"><?php echo number_format($hours_logged, 1); ?></h4>
             </div>
-            <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="animate__animated animate__zoomIn animate__delay-1s bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
                 <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Verified Skillset</p>
                 <h4 class="text-4xl font-black text-hero-blue"><?php echo str_pad($skill_count, 2, '0', STR_PAD_LEFT); ?></h4>
             </div>
@@ -111,8 +111,13 @@ $resActive = mysqli_query($conn, $sqlActive);
             </div>
 
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <?php if (mysqli_num_rows($resActive) > 0): while($row = mysqli_fetch_assoc($resActive)): ?>
-                <div class="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center gap-6 group hover:border-hero-blue transition-all relative overflow-hidden">
+                <?php if (mysqli_num_rows($resActive) > 0): 
+                    $d=0;
+                    while($row = mysqli_fetch_assoc($resActive)): 
+                        $d +=200;
+                ?>
+                <div class="animate__animated animate__fadeInUp bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col sm:flex-row items-center gap-6 group hover:border-hero-blue transition-all relative overflow-hidden"
+                    style="animation-delay: <?= $d ?>ms;">
                     <div class="w-full sm:w-32 h-32 rounded-3xl overflow-hidden shrink-0 border border-gray-50 shadow-inner">
                         <img src="assets/img/courses/<?php echo $row['thumbnail']; ?>" class="w-full h-full object-cover transition-all duration-700">
                     </div>
@@ -122,7 +127,7 @@ $resActive = mysqli_query($conn, $sqlActive);
                         
                         <div class="flex items-center gap-4">
                             <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-hero-blue w-2/3 group-hover:w-full transition-all duration-1000"></div>
+                                <div class="h-full bg-hero-blue w-2/3 group-hover:w-full transition-all duration-1000 ease-in-out"></div>
                             </div>
                             <span class="text-[10px] font-black text-gray-400">Node Syncing...</span>
                         </div>

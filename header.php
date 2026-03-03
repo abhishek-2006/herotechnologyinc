@@ -47,6 +47,20 @@ require_once 'config.php';
             opacity: 1;
             transform: translateY(0);
         }
+    
+        main::-webkit-scrollbar {
+            width: 4px;
+        }
+        main::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        main::-webkit-scrollbar-thumb {
+            background: rgba(27, 38, 79, 0.1);
+            border-radius: 10px;
+        }
+        main::-webkit-scrollbar-thumb:hover {
+            background: #EE6C4D;
+        }
     </style>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-slate-900">

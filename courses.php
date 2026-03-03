@@ -1,5 +1,4 @@
 <?php
-// Include header (contains config.php and session_start)
 include 'header.php'; 
 
 // 1. Capture Filter Parameters
@@ -39,13 +38,15 @@ $resCourses = mysqli_query($conn, $sqlCourses);
 $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
 ?>
 
-<link rel="icon" type="image/x-icon" href="backpanel/assets/img/favicon.ico">
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 
 <section class="pt-12 pb-16 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 text-center">
-        <img src="backpanel/assets/img/logo.png" class="h-10 mx-auto mb-6 opacity-80" alt="Hero Logo">
-        <h1 class="text-5xl font-black tracking-tighter mt-4 mb-6 italic uppercase text-hero-blue">Browse <span class="text-hero-orange not-italic">Courses</span></h1>
-        <p class="text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed font-medium">
+        <img src="assets/img/logo.png" class="animate__animated animate__fadeInDown h-10 mx-auto mb-6 opacity-80" alt="Hero Logo">
+        <h1 class="animate__animated animate__zoomIn text-5xl font-black tracking-tighter mt-4 mb-6 italic uppercase text-hero-blue">
+            Browse <span class="text-hero-orange not-italic">Courses</span>
+        </h1>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed font-medium">
             Explore industry-standard technical training modules designed by engineers. Select a node to view detailed curriculum intelligence.
         </p>
     </div>
@@ -56,7 +57,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
         <div class="flex flex-wrap gap-3 justify-center">
             <a href="courses.php?category=all" 
                class="px-6 py-2 rounded-full border-2 transition-all text-[10px] font-black uppercase tracking-widest <?= ($active_cat == 'all') ? 'border-hero-blue bg-hero-blue text-white shadow-lg shadow-blue-900/10' : 'border-gray-100 text-gray-400 hover:border-hero-blue' ?>">
-               All Nodes
+               All Courses
             </a>
             
             <?php foreach($categories as $cat): ?>
@@ -75,10 +76,14 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="courseGrid">
-        <?php if(count($allCourses) > 0): foreach($allCourses as $course): 
-            $isEnrolled = in_array($course['course_id'], $enrolled_courses);
+        <?php if(count($allCourses) > 0):
+                $delay = 0; 
+                foreach($allCourses as $course): 
+                    $isEnrolled = in_array($course['course_id'], $enrolled_courses);
+                    $delay_ms = $delay.'ms';
         ?>
-        <div class="course-card bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden hover:shadow-2xl transition-all group relative" 
+        <div class="course-card animate__animated animate__fadeInUp bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden hover:shadow-2xl transition-all group relative" 
+             style="animation-delay: <?= $delay_ms ?>;"
              data-title="<?= strtolower($course['title']) ?>">
             
             <div class="h-75 bg-gray-50 relative overflow-hidden">
@@ -106,20 +111,20 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
 
                     <?php if($isEnrolled): ?>
                         <a href="learn.php?id=<?php echo $course['course_id']; ?>" class="bg-emerald-500 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20">
-                            Resume Node
+                            Resume Course
                         </a>
                     <?php else: ?>
                         <a href="course-details.php?id=<?php echo $course['course_id']; ?>" class="bg-hero-orange text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:-translate-y-1 transition-all">
-                            View Module
+                            View Course Details
                         </a>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
-        <?php endforeach; else: ?>
+        <?php $delay +=100; endforeach; else: ?>
             <div class="col-span-full py-20 text-center">
                 <i class="fas fa-microchip text-4xl text-gray-100 mb-4"></i>
-                <p class="text-xs font-black uppercase tracking-widest text-gray-300">No Intelligence Nodes Found in this Sector.</p>
+                <p class="text-xs font-black uppercase tracking-widest text-gray-300">No Courses Found in this Sector.</p>
             </div>
         <?php endif; ?>
     </div>

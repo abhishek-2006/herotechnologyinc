@@ -20,12 +20,6 @@
     }
 </style>
 <header class="relative pt-12 pb-20 md:pt-20 md:pb-32 bg-white overflow-hidden">
-    <div class="absolute top-20 left-0 w-full overflow-hidden no-print">
-        <div class="scrolling-text uppercase italic">
-            ENGINEERING • TECHNOLOGY • INNOVATION • DEVELOPMENT • SCALE • ARCHITECTURE • ENGINEERING • TECHNOLOGY • INNOVATION • DEVELOPMENT • SCALE • ARCHITECTURE
-        </div>
-    </div>
-
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div class="text-center lg:text-left order-2 lg:order-1">

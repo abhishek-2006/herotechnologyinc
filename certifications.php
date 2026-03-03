@@ -28,13 +28,13 @@ include 'header.php';
 
 <section class="relative pt-12 pb-20 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 text-center">
-        <span class="inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-4">
+        <span class="animate__animated animate__faseInDown inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-4">
             Credential Terminal
         </span>
-        <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight text-hero-blue italic uppercase">
+        <h1 class="animate__animated animate__fadeInUp text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight text-hero-blue italic uppercase">
             Verified <span class="text-hero-orange not-italic">Certifications.</span>
         </h1>
-        <p class="text-base text-gray-500 max-w-2xl mx-auto leading-relaxed px-4 font-medium">
+        <p class="animate__animated animate__fadeInUp animate__delay-1s text-base text-gray-500 max-w-2xl mx-auto leading-relaxed px-4 font-medium">
             Your technical achievements are cryptographically secured and mapped to global engineering standards. Initialize download for your verified nodes.
         </p>
     </div>
@@ -46,9 +46,11 @@ include 'header.php';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php 
             if (mysqli_num_rows($resCerts) > 0):
+                $delay=0;
                 while($cert = mysqli_fetch_assoc($resCerts)): 
             ?>
-            <div class="bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:border-hero-blue transition-all">
+            <div class="animate__animated animate__fadeInUp bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:border-hero-blue transition-all hover:-translate-y-2 duration-500"
+            style="animation-delay: <? echo $delay; ?>ms">
                 <div class="p-8 pb-0 text-center">
                     <div class="w-20 h-20 bg-hero-blue/5 rounded-3xl flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-award text-4xl text-hero-orange"></i>
@@ -82,10 +84,11 @@ include 'header.php';
                 </div>
             </div>
             <?php 
+                $delay += 200;
                 endwhile; 
             else:
             ?>
-            <div class="col-span-full py-20 bg-white rounded-[4rem] border-2 border-dashed border-gray-100 flex flex-col items-center justify-center text-center">
+            <div class="animate__animated animate__zoomIn col-span-full py-20 bg-white rounded-[4rem] border-2 border-dashed border-gray-100 flex flex-col items-center justify-center text-center">
                 <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
                     <i class="fas fa-graduation-cap text-4xl text-gray-200"></i>
                 </div>
@@ -102,14 +105,14 @@ include 'header.php';
 
 <section class="py-20 bg-hero-blue text-white overflow-hidden relative">
     <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <h2 class="text-3xl font-black italic uppercase tracking-tighter mb-6">Institutional <span class="text-hero-orange not-italic">Validation.</span></h2>
-        <p class="text-gray-400 text-sm mb-12 leading-relaxed">
+        <h2 class="animate__animated animate__fadeInUp text-3xl font-black italic uppercase tracking-tighter mb-6">Institutional <span class="text-hero-orange not-italic">Validation.</span></h2>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s text-gray-400 text-sm mb-12 leading-relaxed">
             Employers can verify Hero Technology certificates directly through our global staffing mainframe using the unique Node ID found on the credential.
         </p>
         <div class="flex justify-center gap-12 opacity-30">
-            <i class="fas fa-shield-check text-6xl"></i>
-            <i class="fas fa-microchip text-6xl"></i>
-            <i class="fas fa-server text-6xl"></i>
+            <i class="fas fa-shield-check text-6xl animate__animated animate__bounceIn animate__delay-2s"></i>
+            <i class="fas fa-microchip text-6xl animate__animated animate__bounceIn animate__delay-3s"></i>
+            <i class="fas fa-server text-6xl animate__animated animate__bounceIn animate__delay-4s"></i>
         </div>
     </div>
     <div class="absolute -top-24 -left-24 w-64 h-64 bg-hero-orange/10 rounded-full blur-3xl"></div>
