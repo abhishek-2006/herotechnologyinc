@@ -59,7 +59,7 @@ $resTransactions = mysqli_query($conn, $sqlTransactions);
                 <h1 class="text-4xl font-black tracking-tighter uppercase italic text-hero-blue dark:text-white">Revenue <span class="text-hero-orange not-italic">Audit</span></h1>
                 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Monitoring global transaction dispatches</p>
             </div>
-            <button class="px-8 py-4 bg-hero-orange text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all">
+            <button class="px-8 py-4 bg-hero-orange text-white text-[10px] font-black uppercase tracking-widest cursor-pointer rounded-2xl shadow-xl shadow-orange-500/20 hover:-translate-y-1 transition-all">
                 <i class="fas fa-download mr-2"></i> Export CSV
             </button>
         </header>

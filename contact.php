@@ -17,7 +17,7 @@ if (isset($_POST['send_message'])) {
 }
 ?>
 
-<link rel="icon" type="image/x-icon" href="backpanel/assets/img/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 
 <section class="relative pt-24 pb-20 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
@@ -98,7 +98,7 @@ if (isset($_POST['send_message'])) {
                         </div>
                     <?php endif; ?>
 
-                    <form action="" method="POST" class="space-y-8 relative z-10">
+                    <form method="POST" class="space-y-8 relative z-10">
                         <div class="grid md:grid-cols-2 gap-8">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Full Name</label>
@@ -119,7 +119,7 @@ if (isset($_POST['send_message'])) {
                                     <select name="subject" id="subject-select" required 
                                         class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-black text-xs text-hero-blue uppercase appearance-none cursor-pointer">
                                         <option value="Corporate QA Solutions">Corporate QA Solutions</option>
-                                        <option value="Curriculum Inquiry">Curriculum Inquiry</option>
+                                        <option value="Course Inquiry">Course Inquiry</option>
                                         <option value="Partner Opportunities">Partner Opportunities</option>
                                         <option value="Technical Support">Technical Support</option>
                                         <option value="Other">Other (Specify Below)</option>

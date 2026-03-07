@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 21, 2026 at 12:53 PM
+-- Generation Time: Mar 07, 2026 at 04:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -89,7 +89,9 @@ CREATE TABLE `courses` (
   `category_id` int(11) DEFAULT NULL,
   `instructor_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
+  `summary` varchar(500) DEFAULT NULL,
   `description` text DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
   `video_url` text DEFAULT NULL,
   `video_file` varchar(255) DEFAULT NULL,
   `demo_video_url` text DEFAULT NULL,
@@ -103,11 +105,11 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `description`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `status`, `created_at`) VALUES
-(1, 1, 1, 'Mastering C Programming', 'Complete C course from basics to advanced', 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 'publish', '2026-01-01 06:06:05'),
-(2, 2, 1, 'Full Stack Web Dev', 'HTML CSS JS PHP MySQL complete journey', '', '', NULL, 4999.00, 'web.jpg', 'publish', '2026-01-01 06:06:05'),
-(3, 1, 1, 'Full-Stack Web Development with PHP & MySQL', 'Learn to build dynamic websites with PHP and MySQL from scratch', '', '', NULL, 3999.00, 'php_fullstack.png', 'publish', '2026-01-01 13:58:14'),
-(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 'publish', '2026-01-18 06:26:32');
+INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `status`, `created_at`) VALUES
+(1, 1, NULL, 'Mastering C Programming', NULL, 'Complete C course from basics to advanced', NULL, 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 'publish', '2026-01-01 06:06:05'),
+(2, 2, NULL, 'Full Stack Web Dev', NULL, 'HTML CSS JS PHP MySQL complete journey', NULL, '', '', NULL, 4999.00, 'web.jpg', 'publish', '2026-01-01 06:06:05'),
+(3, 1, NULL, 'Full-Stack Web Development with PHP & MySQL', NULL, 'Learn to build dynamic websites with PHP and MySQL from scratch', NULL, '', '', NULL, 3999.00, 'php_fullstack.png', 'publish', '2026-01-01 13:58:14'),
+(4, 5, NULL, 'AI & Machine Learning Mastery: From Zero to Real-World Models', NULL, 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', NULL, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 'publish', '2026-01-18 06:26:32');
 
 -- --------------------------------------------------------
 
@@ -225,6 +227,35 @@ CREATE TABLE `enrollments` (
   `activated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `enrollments`
+--
+
+INSERT INTO `enrollments` (`enrollment_id`, `user_id`, `course_id`, `enrolled_at`, `status`, `txnid`, `activated_at`) VALUES
+(1, 4, 4, '2026-03-07 14:20:02', 'active', 'HT_1772893202_4', '2026-03-07 14:20:02'),
+(2, 4, 3, '2026-03-07 14:27:12', 'active', 'HT_1772893632_4', '2026-03-07 14:27:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructors`
+--
+
+CREATE TABLE `instructors` (
+  `instructor_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `bio` text DEFAULT NULL,
+  `expertise` varchar(255) DEFAULT NULL,
+  `qualification` varchar(255) DEFAULT NULL,
+  `experience_years` int(11) DEFAULT 0,
+  `linkedin_url` varchar(255) DEFAULT NULL,
+  `website_url` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive','suspended') DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -263,6 +294,13 @@ CREATE TABLE `login_tracking` (
   `tracking_datetime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `login_tracking`
+--
+
+INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `content`, `is_online`, `tracking_datetime`) VALUES
+(1, 1, '::1', 'Admin Logged In', 'online', '2026-03-07 15:25:57');
+
 -- --------------------------------------------------------
 
 --
@@ -275,13 +313,21 @@ CREATE TABLE `payments` (
   `user_id` int(11) DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
-  `payment_status` enum('success','failed','pending') DEFAULT 'success',
+  `payment_status` enum('success','failed','pending') DEFAULT 'pending',
   `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `payment_method` enum('Cash','UPI','Card','NetBanking','Wallet') NOT NULL DEFAULT 'Cash',
-  `transaction_id` varchar(100) NOT NULL,
-  `error_log` varchar(100) DEFAULT NULL,
-  `gateway_id` varchar(100) NOT NULL
+  `transaction_id` varchar(100) DEFAULT NULL,
+  `error_log` text DEFAULT NULL,
+  `gateway_id` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `enrollment_id`, `user_id`, `course_id`, `amount`, `payment_status`, `payment_date`, `payment_method`, `transaction_id`, `error_log`, `gateway_id`) VALUES
+(1, 1, 4, 4, 5999.00, 'success', '2026-03-07 14:20:36', 'NetBanking', 'HT_1772893202_4', NULL, '403993715536931471'),
+(2, 2, 4, 3, 3999.00, 'success', '2026-03-07 14:28:09', 'Card', 'HT_1772893632_4', NULL, '403993715536931493');
 
 -- --------------------------------------------------------
 
@@ -310,7 +356,10 @@ INSERT INTO `security_questions` (`id`, `question_text`) VALUES
 (9, 'Which is your favorite movie?'),
 (10, 'What was the first company you ever worked for?'),
 (11, 'Where did you go for your first international trip?'),
-(12, 'What was your dream job when you were a child?');
+(12, 'What was your dream job when you were a child?'),
+(13, 'Who is your favorite cricketer?'),
+(14, 'Who is your idol?'),
+(15, 'Which is your favorite color?');
 
 -- --------------------------------------------------------
 
@@ -324,7 +373,7 @@ CREATE TABLE `user_master` (
   `username` varchar(50) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `gender` enum('male','female','other') NOT NULL,
+  `gender` enum('male','female','other','') NOT NULL,
   `password` varchar(50) DEFAULT NULL,
   `role` enum('student','admin','manager') DEFAULT 'student',
   `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -339,7 +388,8 @@ INSERT INTO `user_master` (`user_id`, `name`, `username`, `phone`, `email`, `gen
 (1, 'Abhishek', 'abs123', '1203456789', 'abhishek@hero.com', 'male', '202cb962ac59075b964b07152d234b70', 'admin', '2026-02-14 07:06:20', 'publish'),
 (2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 12:01:16', 'publish'),
 (3, 'Mina', 'mbshah12', '1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-14 07:06:28', 'publish'),
-(4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 11:48:55', 'publish');
+(4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-21 12:45:45', 'publish'),
+(12, 'Sandip Mistry', 'sandi009', '8488982013', 'itsoulinfotech@gmail.com', 'male', '6d071901727aec1ba6d8e2497ef5b709', 'student', '2026-03-07 05:45:12', 'publish');
 
 -- --------------------------------------------------------
 
@@ -362,7 +412,10 @@ CREATE TABLE `user_security_answers` (
 INSERT INTO `user_security_answers` (`id`, `user_id`, `question_id`, `answer_hash`, `created_at`) VALUES
 (1, 4, 2, 'c286b9545aaf7fdedebee6e2c526bf14', '2026-02-14 11:53:53'),
 (2, 4, 5, '9ed244e30701f591f8859cde5ee71b8c', '2026-02-14 11:53:53'),
-(3, 4, 9, '95ff712b4813b5376c1757b2e634eaae', '2026-02-14 11:53:53');
+(3, 4, 9, '95ff712b4813b5376c1757b2e634eaae', '2026-02-14 11:53:53'),
+(7, 12, 5, '4568a803478957719bf3ca27b73ca0cd', '2026-03-07 05:46:00'),
+(8, 12, 6, '9ed244e30701f591f8859cde5ee71b8c', '2026-03-07 05:46:00'),
+(9, 12, 13, '6d659c8e177098f5a39c03d0a52e5ba3', '2026-03-07 05:46:00');
 
 --
 -- Indexes for dumped tables
@@ -380,7 +433,7 @@ ALTER TABLE `corporate_clients`
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`course_id`),
   ADD KEY `category_id` (`category_id`),
-  ADD KEY `instructor_id` (`instructor_id`);
+  ADD KEY `fk_course_instructor` (`instructor_id`);
 
 --
 -- Indexes for table `course_category`
@@ -425,7 +478,16 @@ ALTER TABLE `demo_usage_logs`
 ALTER TABLE `enrollments`
   ADD PRIMARY KEY (`enrollment_id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `course_id` (`course_id`);
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `idx_txnid` (`txnid`),
+  ADD KEY `idx_status` (`status`);
+
+--
+-- Indexes for table `instructors`
+--
+ALTER TABLE `instructors`
+  ADD PRIMARY KEY (`instructor_id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `lessons`
@@ -446,6 +508,7 @@ ALTER TABLE `login_tracking`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`payment_id`),
+  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `course_id` (`course_id`),
   ADD KEY `fk_payment_enrollment` (`enrollment_id`);
@@ -517,13 +580,19 @@ ALTER TABLE `course_sections`
 -- AUTO_INCREMENT for table `demo_usage_logs`
 --
 ALTER TABLE `demo_usage_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `instructors`
+--
+ALTER TABLE `instructors`
+  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lessons`
@@ -535,31 +604,31 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `security_questions`
 --
 ALTER TABLE `security_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user_master`
 --
 ALTER TABLE `user_master`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_security_answers`
 --
 ALTER TABLE `user_security_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -570,7 +639,7 @@ ALTER TABLE `user_security_answers`
 --
 ALTER TABLE `courses`
   ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `course_category` (`category_id`),
-  ADD CONSTRAINT `courses_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `user_master` (`user_id`);
+  ADD CONSTRAINT `fk_course_instructor` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `course_progress`
@@ -599,6 +668,12 @@ ALTER TABLE `course_sections`
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`),
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`);
+
+--
+-- Constraints for table `instructors`
+--
+ALTER TABLE `instructors`
+  ADD CONSTRAINT `fk_instructor_user` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `lessons`

@@ -85,7 +85,8 @@ $result = mysqli_query($conn, $query);
                 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Manage verified identities</p>
             </div>
             <button onclick="toggleModal('addModal')" class="bg-hero-orange text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl hover:scale-105 transition-all">
-                Add New Identity
+                <i class="fas fa-plus mr-2"></i>
+                Add New Student
             </button>
         </header>
 
@@ -154,7 +155,7 @@ $result = mysqli_query($conn, $query);
                 <input type="password" name="password" placeholder="Password" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                 <div class="flex gap-4 pt-4">
                     <button type="button" onclick="toggleModal('addModal')" class="flex-1 text-[10px] font-black uppercase text-slate-400">Cancel</button>
-                    <button type="submit" name="add_student" class="flex-1 py-4 bg-hero-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest">Initialize</button>
+                    <button type="submit" name="add_student" class="flex-1 py-4 bg-hero-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest">Add Student</button>
                 </div>
             </form>
         </div>

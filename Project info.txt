@@ -43,3 +43,13 @@ Pages master:
 	Contact
 	About
 	Privacy Policy
+
+- Course Payment redierect on profile ✔️
+
+Course
+- slug [meaningful URL]
+- Course duration
+- Summary
+- Course description - Editor [text]
+- Is Featured [True / False] 
+- Instructor
