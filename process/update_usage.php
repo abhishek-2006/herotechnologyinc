@@ -1,7 +1,7 @@
 <?php
 require '../config.php';
 
-$cid = mysqli_real_escape_string($conn, $_GET['cid']);
+$cid = mysqli_real_escape_string($conn, $_GET['course_id']);
 $f = mysqli_real_escape_string($conn, $_GET['f']);
 $ip = $_SERVER['REMOTE_ADDR'];
 

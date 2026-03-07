@@ -1,4 +1,10 @@
-<?php require 'config.php' ?>
+<?php 
+    require 'config.php' ;
+    if(isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])) {
+        header("Location: dashboard.php?already_logged_in");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +136,7 @@
                         <div class="flex flex-nowrap items-center gap-3">
                             <div class="w-full">
                                 <input id="vercode" type="text" name="vercode" maxlength="5" placeholder="CODE" 
-                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] uppercase outline-none focus:border-hero-orange transition-all shadow-sm" />
+                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] outline-none focus:border-hero-orange transition-all shadow-sm" />
                             </div>
                             
                             <div class="flex-shrink-0 flex items-center gap-2">

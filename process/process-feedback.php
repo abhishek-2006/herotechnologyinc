@@ -2,7 +2,7 @@
 require '../config.php';
 
 if (!isset($_SESSION['email']) || !isset($_POST['update_node'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
@@ -35,16 +35,16 @@ if (mysqli_num_rows($check_res) > 0) {
         
         if (mysqli_query($conn, $insert_sql)) {
             // Redirect with success signature
-            header("Location: course-details.php?id=$course_id&status=feedback_synced");
+            header("Location: ../course-details.php?id=$course_id&status=feedback_synced");
         } else {
-            header("Location: dashboard.php?error=transmission_failed");
+            header("Location: ../dashboard.php?error=transmission_failed");
         }
     } else {
-        header("Location: course-details.php?id=$course_id&status=already_submitted");
+        header("Location: ../course-details.php?id=$course_id&status=already_submitted");
     }
 } else {
     // Critical Security Breach: User attempted to review a non-validated node
-    header("Location: dashboard.php?error=unauthorized_dispatch");
+    header("Location: ../dashboard.php?error=unauthorized_dispatch");
 }
 exit();
 ?>

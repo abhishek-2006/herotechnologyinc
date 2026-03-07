@@ -87,10 +87,9 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
              data-title="<?= strtolower($course['title']) ?>">
             
             <div class="h-75 bg-gray-50 relative overflow-hidden">
-                <img src="assets/img/courses/<?php echo htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-fill transition-all duration-500 group-hover:scale-110" alt="Course Thumbnail">
-                <div class="absolute top-6 left-6 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-[9px] font-black uppercase tracking-widest text-hero-blue">
-                    <?php echo htmlspecialchars($course['category_name']); ?>
-                </div>
+                <a href="course-details.php?id=<?php echo $course['course_id']; ?>" class="absolute inset-0 z-10">
+                    <img src="assets/img/courses/<?php echo htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-fill transition-all duration-500 group-hover:scale-110 cursor-pointer" alt="Course Thumbnail">
+                </a>
             </div>
 
             <div class="p-8">
@@ -102,6 +101,13 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
                 <h3 class="course-title text-xl font-bold mb-4 h-14 overflow-hidden leading-tight text-hero-blue italic uppercase">
                     <?php echo htmlspecialchars($course['title']); ?>
                 </h3>
+
+                <p class="text-sm text-gray-500 mb-6 h-20 overflow-hidden">
+                    <?php echo htmlspecialchars($course['description']); ?>
+                </p>
+
+                <p class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Course Duration</p>
+                <span class="text-sm font-bold uppercase tracking-tight text-hero-blue"><?php echo htmlspecialchars($course['duration']); ?></span>
 
                 <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-50">
                     <div>

@@ -11,6 +11,9 @@ $input = json_decode(file_get_contents('php://input'), true);
 $course_id = mysqli_real_escape_string($conn, $input['course_id']);
 $user_id = $_SESSION['user_id'];
 
+$key  = PAYU_MERCHANT_KEY;
+$salt = PAYU_SALT;
+
 // Fetch verified price and user identity markers
 $course_query = "SELECT title, price FROM courses WHERE course_id = '$course_id' LIMIT 1";
 $course = mysqli_fetch_assoc(mysqli_query($conn, $course_query));
@@ -25,18 +28,13 @@ if (!$course) {
 
 // Transaction Metadata
 $txnid = "HT_" . time() . "_" . $user_id;
-$amount = number_format($course['price'], 2, '.', ''); // PayU requires 2 decimal places
+$amount = number_format($course['price'], 2, '.', ''); 
 $productinfo = $course['title'];
 
-/** * PayU SHA-512 Hash Generation
- * Sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
- * Note: firstname is mapped to your identity "Salt- 32 bit" if needed, 
- * but usually we use the actual user's name for PayU records.
- */
 $firstname = $user['name']; 
 $email = $user['email'];
 
-$hashSequence = PAYU_MERCHANT_KEY . "|$txnid|$amount|$productinfo|$firstname|$email|||||||||||" . PAYU_SALT;
+$hashSequence = $key . '|' . $txnid . '|' . $amount . '|' . $productinfo . '|' . $firstname . '|' . $email . '|||||||||||' . $salt;
 $hash = strtolower(hash('sha512', $hashSequence));
 
 // Initialize Pending Enrollment Node
@@ -48,7 +46,7 @@ mysqli_query($conn, $ins_enroll);
 echo json_encode([
     'url' => PAYU_API_URL,
     'params' => [
-        'key'         => PAYU_MERCHANT_KEY,
+        'key'         => $key,
         'hash'        => $hash,
         'txnid'       => $txnid,
         'amount'      => $amount,
@@ -56,7 +54,7 @@ echo json_encode([
         'email'       => $email,
         'phone'       => $user['phone'],
         'productinfo' => $productinfo,
-        'surl'        => "http://localhost/herotechnologyinc/process/payment_success.php",
-        'furl'        => "http://localhost/herotechnologyinc/process/payment_failure.php",
+        'surl'        => "https://localhost/herotechnologyinc/process/payment_success.php",
+        'furl'        => "https://localhost/herotechnologyinc/process/payment_failure.php",
     ]
 ]);

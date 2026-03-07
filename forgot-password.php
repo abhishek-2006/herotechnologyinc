@@ -1,5 +1,4 @@
 <?php 
-session_start();
 require 'config.php'; 
 
 $error = '';
@@ -36,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
     <title>Hero Tech | Recover Access</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 
     <style type="text/tailwindcss">
         @theme {
@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
             --color-card-bg: #FFFFFF;
             --color-border-dim: #E2E8F0;
             --color-text-primary: #0F172A;
-            --font-display: "Inter", system-ui, sans-serif;
         }
 
         .dark {
@@ -70,10 +69,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
                 box-shadow: 0 0 0 4px rgba(238, 108, 77, 0.1);
             }
         }
+        
+        .error-text {
+            @apply text-[9px] text-red-500 font-black uppercase mt-1 ml-1;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
 </head>
-<body class="bg-[var(--color-app-bg)] font-display antialiased transition-colors duration-500">
+<body class="bg-[var(--color-app-bg)] font-sans antialiased transition-colors duration-500">
     <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
         <div class="max-w-md w-full relative z-10">
             <div class="bg-[var(--color-card-bg)] p-8 sm:p-10 shadow-2xl rounded-[2.5rem] border border-[var(--color-border-dim)]">
@@ -106,15 +109,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
                         </div>
                     <?php endif; ?>
 
-                    <form action="process/reset_password.php" method="POST" class="space-y-6">
+                    <form id="reset-password-form" action="process/reset_password.php" method="POST" class="space-y-6">
                         <div class="relative group">
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">New Access Key</label>
+                            <label for="password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                                New Password <span class="text-red-500">*</span>
+                            </label>
                             <div class="relative flex items-center">
                                 <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
                                     <i class="fas fa-key text-lg"></i>
                                 </div>
-                                <input type="password" name="password" class="input-field" placeholder="••••••••" required />
+                                <input type="password" name="password" id="password" class="input-field" placeholder="••••••••"/>
                             </div>
+                            <div class="error-text" id="password-error"></div>
+                        </div>
+
+                        <div class="relative group">
+                            <label for="confirmpassword" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                                Confirm Password <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative flex items-center">
+                                <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
+                                    <i class="fas fa-shield-check text-lg"></i>
+                                </div>
+                                <input type="password" name="confirmpassword" id="confirmpassword" class="input-field" placeholder="••••••••" />
+                            </div>
+                            <div id="confirmpassword-error" class="error-text"></div>
                         </div>
 
                         <button type="submit" name="finalize" class="w-full py-4 bg-emerald-600 text-white font-black rounded-xl shadow-lg shadow-emerald-900/20 hover:bg-emerald-500 transition-all active:scale-95 uppercase tracking-[0.2em] text-xs">
@@ -124,21 +143,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
 
                 <?php else: ?>
                     <div class="mb-8">
-                        <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Recover Node</h2>
+                        <h2 class="text-2xl font-black text-[var(--color-text-primary)] uppercase italic tracking-tight">Reset Password</h2>
                         <p class="text-sm text-gray-500 font-medium leading-relaxed">
-                            Enter your registered email identity to initialize recovery.
+                            Enter your registered email to reset password.
                         </p>
                     </div>
 
-                    <form method="POST" class="space-y-6">
+                    <form id="recover-form" method="POST" class="space-y-6">
                         <div class="relative group">
-                            <label for="email-input" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Account Identity</label>
+                            <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                                Account Email <span class="text-red-500">*</span>
+                            </label>
                             <div class="relative flex items-center">
                                 <div class="absolute left-4 text-gray-400 group-focus-within:text-hero-orange transition-colors">
                                     <i class="fas fa-fingerprint text-lg"></i>
                                 </div>
-                                <input type="email" name="email" id="email-input" class="input-field" placeholder="engineer@herotech.com" required />
+                                <input type="email" name="email" id="email" class="input-field" placeholder="johndoe@example.com" />
                             </div>
+                            <div id="email-error" class="error-text"></div>
                         </div>
 
                         <button type="submit" name="recover" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg hover:bg-hero-orange transition-all active:scale-95 uppercase tracking-[0.2em] text-xs">
@@ -147,14 +169,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['recover'])) {
                     </form>
                 <?php endif; ?>
 
-                <div class="text-center pt-4">
-                    <i class="fas fa-arrow-left text-gray-400 mr-2"></i>
+                <div class="text-center pt-6 border border-t border-[var(--color-border-dim)] mt-6">
                     <a href="login.php" class="text-[10px] font-black text-gray-500 hover:text-hero-orange uppercase tracking-widest transition-colors">
-                        Return to Login
+                        <i class="fas fa-arrow-left text-gray-400 mr-2"></i> Return to Login
                     </a>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const recoverConstraints = {
+            email: {
+                presence: { allowEmpty: false, message: "^Email identity required" },
+                email: { message: "^Invalid email format" }
+            }
+        };
+
+        const resetConstraints = {
+            password: {
+                presence: { allowEmpty: false, message: "^Password required" },
+                length: { minimum: 6, message: "^Must be at least 6 characters" }
+            },
+            confirmpassword: {
+                presence: { allowEmpty: false, message: "^Confirm password required" },
+                equality: { attribute: "password", message: "^Password and Confirm password do not match" }
+            }
+        };
+
+        function handleValidation(formId, constraints) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            form.addEventListener('submit', function(ev) {
+                document.querySelectorAll('.error-text').forEach(el => el.innerHTML = '');
+                const values = validate.collectFormValues(form);
+                const errors = validate(values, constraints);
+
+                if (errors) {
+                    ev.preventDefault();
+                    Object.keys(errors).forEach(key => {
+                        const errorDiv = document.getElementById(key + '-error');
+                        if (errorDiv) errorDiv.innerHTML = errors[key][0];
+                    });
+                }
+            });
+        }
+
+        handleValidation('recover-form', recoverConstraints);
+        handleValidation('reset-password-form', resetConstraints);
+    </script>
 </body>
 </html>

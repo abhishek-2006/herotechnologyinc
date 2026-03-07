@@ -1,24 +1,23 @@
 <?php include 'header.php'; ?>
 <style>
-    @keyframes scrollText {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-    .scrolling-text {
-        white-space: nowrap;
-        animation: scrollText 40s linear infinite;
-        font-size: 15rem;
-        opacity: 0.03;
-        font-weight: 900;
-        pointer-events: none;
-    }
     .parallax-bg {
         background-attachment: fixed;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
     }
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll; 
+    }
+
+    .animate__animated {
+        backface-visibility: hidden;
+        will-change: transform, opacity;
+    }
 </style>
+
 <header class="relative pt-12 pb-20 md:pt-20 md:pb-32 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -57,7 +56,7 @@
     </div>
 </header>
 
-<section class="relative py-32 md:py-48 overflow-hidden parallax-bg" 
+<section class="relative py-32 md:py-48 overflow-x-hidden parallax-bg" 
          style="background-image: linear-gradient(rgba(27, 38, 79, 0.95), rgba(27, 38, 79, 0.95)), url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1200');">
     <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
         <h2 class="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-8">
@@ -69,7 +68,7 @@
     </div>
 </section>
 
-<section class="py-16 md:py-24 bg-white relative">
+<section class="animate__animated animate__fadeIn py-16 md:py-24 overflow-x-hidden bg-white relative">
     <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden group">
@@ -159,8 +158,9 @@
             <div class="animate__animated animate__fadeInUp <?= $delay_class ?> group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
                 
                 <div class="h-64 relative overflow-hidden bg-slate-900">
-                    <img src="assets/img/courses/<?= $course['thumbnail']; ?>" 
-                         class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity group-hover:mix-blend-normal">
+                    <a href="course-details.php?id=<?= $course['course_id']; ?>" class="absolute inset-0 z-10">
+                        <img src="assets/img/courses/<?= htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 cursor-pointer" alt="Course Thumbnail">
+                    </a>
                     
                     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-hero-orange/10 to-transparent h-full w-full -translate-y-full group-hover:animate-[scan_3s_linear_infinite] pointer-events-none"></div>
                     
@@ -171,7 +171,6 @@
 
                 <div class="p-10">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="mono text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Node ID: #<?= $course['course_id']; ?></span>
                         <div class="flex gap-1">
                             <div class="w-1 h-1 bg-hero-orange rounded-full animate-ping"></div>
                             <div class="w-1 h-1 bg-hero-orange rounded-full"></div>
@@ -186,6 +185,9 @@
                         <?= htmlspecialchars($course['description']); ?>
                     </p>
 
+                    <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Course Duration</p>
+                    <span class="text-sm font-bold uppercase tracking-tight text-hero-blue"><?= htmlspecialchars($course['duration']); ?></span>
+                    
                     <div class="flex items-center justify-between pt-8 border-t border-[var(--border)]">
                         <div>
                             <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Tuition Fee</p>

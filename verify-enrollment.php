@@ -2,13 +2,14 @@
 require 'config.php';
 
 // We verify using the Order ID or a Hash from the URL
-$order_id = isset($_GET['oid']) ? mysqli_real_escape_string($conn, $_GET['oid']) : '';
+$order_id = $_GET['txnid'] ?? $_GET['transaction_id'] ?? '';
+$order_id = mysqli_real_escape_string($conn, $order_id);
 
 $query = "SELECT e.status, e.activated_at, u.name, c.title 
           FROM enrollments e 
           JOIN user_master u ON e.user_id = u.user_id 
           JOIN courses c ON e.course_id = c.course_id 
-          WHERE e.cashfree_order_id = '$order_id' AND e.status = 'active' LIMIT 1";
+          WHERE e.txnid = '$order_id' AND e.status = 'active' LIMIT 1";
 
 $res = mysqli_query($conn, $query);
 $data = mysqli_fetch_assoc($res);
@@ -55,8 +56,8 @@ $data = mysqli_fetch_assoc($res);
             <p class="text-slate-400 text-sm">This enrollment record could not be verified by the Hero Tech Mainframe.</p>
         <?php endif; ?>
 
-        <a href="https://herotechnologyinc.com" class="inline-block mt-10 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all">
-            Return to Official Site
+        <a href="https://localhost/herotechnologyinc/dashboard.php" class="inline-block mt-10 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all">
+            Return to Dashboard
         </a>
     </div>
 

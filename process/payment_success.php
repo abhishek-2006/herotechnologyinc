@@ -4,7 +4,7 @@ require '../config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
 
    // 1. Extract POST Data
-    $status      = $_POST['status'];
+    $status      = $_POST['status']; 
     $firstname   = $_POST['firstname'];
     $amount      = $_POST['amount'];
     $txnid       = $_POST['txnid'];
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
     $salt = PAYU_SALT;
 
     // 2. Verify Hash
-    $hashSeq = "$salt|$status|||||||||||$email|$firstname|$productinfo|$amount|$txnid|$key";
+    $hashSeq = $salt.'|'.$status.'|||||||||||'.$email.'|'.$firstname.'|'.$productinfo.'|'.$amount.'|'.$txnid.'|'.$key;
     $calc_hash = strtolower(hash("sha512", $hashSeq));
 
 
@@ -41,6 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         $user_id   = $row['user_id'];
         $course_id = $row['course_id'];
 
+        $stmt = $conn->prepare("SELECT username FROM user_master WHERE user_id=? LIMIT 1");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($user = $result->fetch_assoc()) {
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['username'] = $user['username'];
+        } else {
+            die("User not found");
+        }
 
         // 4. Update Enrollment Status to Active
         $stmt = $conn->prepare("UPDATE enrollments SET status='active' WHERE enrollment_id=?");
@@ -80,8 +91,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
 
         $stmt->execute();
 
-        //7. Redirect to Dashboard with Success Message
-        header("Location: ../dashboard.php?payment=success");
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Payment Successful</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <meta http-equiv="refresh" content="3;url=../generate-invoice.php?txnid=<?= $txnid ?>">
+        </head>
+
+        <body class="flex items-center justify-center min-h-screen bg-green-50">
+
+        <div class="bg-white shadow-xl rounded-3xl p-10 text-center max-w-md">
+            
+            <div class="text-green-600 text-5xl mb-4">
+                ✓
+            </div>
+
+            <h1 class="text-2xl font-bold mb-2">Payment Successful</h1>
+            <p class="text-gray-500 mb-6">Your course access has been activated.</p>
+
+            <a href="../generate-invoice.php?txnid=<?= $txnid ?>" class="inline-block px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-colors">
+                View Invoice
+            </a>
+
+            <p class="text-sm text-gray-400">
+                Redirecting to invoice in a few seconds...
+            </p>
+
+        </div>
+
+        </body>
+        </html>
+        <?php
         exit();
 
     } else {

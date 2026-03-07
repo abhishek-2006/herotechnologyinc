@@ -47,20 +47,6 @@ require_once 'config.php';
             opacity: 1;
             transform: translateY(0);
         }
-    
-        main::-webkit-scrollbar {
-            width: 4px;
-        }
-        main::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        main::-webkit-scrollbar-thumb {
-            background: rgba(27, 38, 79, 0.1);
-            border-radius: 10px;
-        }
-        main::-webkit-scrollbar-thumb:hover {
-            background: #EE6C4D;
-        }
     </style>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-slate-900">
@@ -80,7 +66,7 @@ require_once 'config.php';
                 </button>
 
                 <ul class="hidden lg:flex items-center space-x-8 h-full">
-                    <?php if(isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                         <li class="h-full nav-link-item">
                             <a href="dashboard.php" class="nav-link-item <?= ($currentPage == 'dashboard.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                                 Dashboard
@@ -131,7 +117,7 @@ require_once 'config.php';
                             <?php if($currentPage == 'testimonials.php') echo '<div class="active-indicator"></div>'; ?>
                         </a>
                     </li>
-                    <?php if(isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                         <li class="h-full nav-link-item">
                             <a href="blog.php" class="nav-link-item <?= ($currentPage == 'blog.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                                 Blog
@@ -154,7 +140,7 @@ require_once 'config.php';
                 </ul>
 
                 <div class="hidden lg:flex items-center gap-4">
-                    <?php if(isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                         <a href="logout.php" class="text-[11px] font-black uppercase text-red-500 hover:underline">Logout</a>
                     <?php else: ?>
                         <a href="login.php" class="text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-hero-blue">Login</a>
@@ -167,7 +153,7 @@ require_once 'config.php';
     
     <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-100 overflow-hidden transition-all duration-300">
         <div class="px-4 pt-2 pb-6 space-y-1">
-            <?php if(isset($_SESSION['email'])): ?>
+            <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                 <a href="dashboard.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'dashboard.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Dashboard</a>
             <?php else: ?>
                 <a href="index.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'index.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Home</a>
@@ -190,7 +176,7 @@ require_once 'config.php';
             <a href="contact.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'contact.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Contact</a>
 
             <div class="pt-6 pb-2 px-3">
-                <?php if(isset($_SESSION['email'])): ?>
+                <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                     <a href="logout.php" class="block w-full text-center py-4 text-[11px] font-black uppercase tracking-widest text-red-500 border border-red-100 rounded-xl bg-red-50">Logout</a>
                 <?php else: ?>
                     <div class="flex flex-col gap-3">

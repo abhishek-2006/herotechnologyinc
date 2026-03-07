@@ -1,4 +1,10 @@
-<?php require 'config.php' ?>
+<?php 
+    require 'config.php';
+    if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])) {
+        header("Location: dashboard.php?already_logged_in");
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

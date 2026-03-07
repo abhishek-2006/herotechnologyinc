@@ -9,11 +9,12 @@ if (!isset($_SESSION['user_id'])) {
 $query = "SELECT 
             e.enrollment_id, 
             e.status, 
-            e.cashfree_order_id, 
+            e.txnid, 
+            p.gateway_id,
             u.name as student_name, 
             c.title as course_title,
             p.amount as amount_paid,
-            p.transaction_id as gateway_id
+            p.transaction_id
           FROM enrollments e
           JOIN user_master u ON e.user_id = u.user_id
           JOIN courses c ON e.course_id = c.course_id
@@ -32,7 +33,7 @@ $stats = mysqli_fetch_assoc($stats_res);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revenue Ledger | Hero Admin Terminal</title>
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <style type="text/tailwindcss">
@@ -90,10 +91,10 @@ $stats = mysqli_fetch_assoc($stats_res);
                         <tr class="hover:bg-hero-orange/[0.02] transition-colors">
                             <td class="px-10 py-6">
                                 <p class="text-[10px] font-black uppercase text-hero-blue dark:text-white">
-                                    <span class="opacity-40">ORD:</span> <?= $row['cashfree_order_id'] ?>
+                                    <span class="opacity-40">ORD:</span> <?= $row['gateway_id'] ?? '---' ?>
                                 </p>
                                 <p class="text-[9px] font-mono text-hero-orange font-bold mt-1">
-                                    <span class="opacity-40 text-slate-500 uppercase">TXN:</span> <?= $row['gateway_id'] ?? '---' ?>
+                                    <span class="opacity-40 text-slate-500 uppercase">TXN:</span> <?= $row['transaction_id'] ?? '---' ?>
                                 </p>
                             </td>
                             <td class="px-10 py-6">
