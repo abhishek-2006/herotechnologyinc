@@ -6,7 +6,16 @@
             <div class="space-y-6">
                 <div class="flex items-center gap-3">
                     <div class="w-20 h-12 rounded-lg bg-white p-1 flex items-center justify-center overflow-hidden shadow-lg">
-                        <img src="assets/img/logo.png" alt="Hero Tech" class="w-full h-full object-contain">
+                        <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
+                            <a href="dashboard.php" class="w-full h-full flex items-center justify-center">
+                                <img src="assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
+                            </a>
+                        <?php else: ?>
+                            <a href="index.php" class="w-full h-full flex items-center justify-center">
+                                <img src="assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
+                            </a>
+                        <?php endif; ?>
+                        </a>
                     </div>
                 </div>
                 <p class="text-gray-400 text-xs leading-relaxed font-medium">

@@ -81,7 +81,9 @@
         <div class="max-w-md w-full relative z-10">
             <div class="text-center mb-10 animate__animated animate__fadeInDown">
                 <div class="inline-flex items-center justify-center p-4 rounded-3xl mb-6 h-20 w-48 overflow-hidden">
-                    <img src="assets/img/logo.png" alt="Hero Technology Inc" class="w-full h-full object-contain">
+                <a href="index.php" class="w-full h-full object-contain">
+                    <img src="assets/img/logo.png" alt="Hero Technology Inc" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain hover-glow">
+                </a>
                 </div>
                 <p class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.4em] opacity-80 animate__animated animate__fadeInUp animate__delay-1s">Access Intelligence Node</p>
             </div>

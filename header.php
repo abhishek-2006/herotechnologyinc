@@ -56,9 +56,15 @@ require_once 'config.php';
             <div class="flex justify-between h-20 items-center">
                 
                 <div class="flex items-center">
-                    <a href="index.php" class="block">
-                        <img src="assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
-                    </a>
+                    <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
+                        <a href="dashboard.php" class="block">
+                            <img src="assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
+                        </a>
+                    <?php else: ?>
+                        <a href="index.php" class="block">
+                            <img src="assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
+                        </a>
+                    <?php endif; ?>
                 </div>
 
                 <button class="lg:hidden text-hero-blue p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">

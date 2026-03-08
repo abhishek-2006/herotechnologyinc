@@ -67,7 +67,9 @@
         <div class="max-w-xl w-full relative z-10">
             <div class="text-center mb-8 animate__animated animate__fadeInDown">
                 <div class="inline-flex items-center justify-center bg-white p-4 rounded-3xl shadow-2xl mb-6 h-20 w-48 overflow-hidden">
-                    <img src="assets/img/logo.png" alt="Hero Technology Inc" class="w-full h-full object-contain">
+                    <a href="index.php" class="w-full h-full flex items-center justify-center">
+                        <img src="assets/img/logo.png" alt="Hero Technology Inc" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
+                    </a>
                 </div>
                 <p class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.4em] opacity-80">Create Your Account</p>
             </div>
