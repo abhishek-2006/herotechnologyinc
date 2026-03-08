@@ -151,7 +151,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php 
                 $delay = 0;
-                $result = mysqli_query($conn, "SELECT c.*, cat.category_name FROM courses c JOIN course_category cat ON c.category_id = cat.category_id WHERE c.status = 'publish' LIMIT 3");
+                $result = mysqli_query($conn, "SELECT c.*, cat.category_name FROM courses c JOIN course_category cat ON c.category_id = cat.category_id WHERE c.status = 'publish' AND c.is_featured = 1 ORDER BY RAND() LIMIT 3");
                 $delay_class = ($delay == 0) ? "" : "animate__delay-{$delay}s";
                 while($course = mysqli_fetch_assoc($result)): 
             ?>
@@ -182,7 +182,7 @@
                     </h3>
                     
                     <p class="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2 mb-8">
-                        <?= htmlspecialchars($course['description']); ?>
+                        <?= htmlspecialchars($course['summary']); ?>
                     </p>
 
                     <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Course Duration</p>

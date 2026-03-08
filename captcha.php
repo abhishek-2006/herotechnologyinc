@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$permitted_chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+$permitted_chars = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz1234567890';
 $captcha_string = substr(str_shuffle($permitted_chars), 0, 5);
 $_SESSION["vercode"] = $captcha_string;
 

@@ -58,8 +58,7 @@ if (isset($_POST['update_course'])) {
 
 // Fetch Supportive Data Nodes
 $categories = mysqli_query($conn, "SELECT * FROM course_category");
-$instructors = mysqli_query($conn, "SELECT u.user_id, u.name FROM user_master u 
-                                    JOIN instructors i ON u.user_id = i.user_id");
+$instructors = mysqli_query($conn, "SELECT * FROM instructors");
 ?>
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -165,15 +164,15 @@ $instructors = mysqli_query($conn, "SELECT u.user_id, u.name FROM user_master u
                             <input type="text" name="duration" value="<?= htmlspecialchars($course['duration']) ?>" class="form-input" placeholder="e.g. 12 Hours / 4 Weeks">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Assigned Lead Instructor</label>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Assigned Instructor</label>
                             <select name="instructor_id" class="form-input">
                                 <?php while($inst = mysqli_fetch_assoc($instructors)): ?>
-                                    <option value="<?= $inst['user_id'] ?>" <?= ($inst['user_id'] == $course['instructor_id']) ? 'selected' : '' ?>><?= $inst['name'] ?></option>
+                                    <option value="<?= $inst['instructor_id'] ?>" <?= ($inst['instructor_id'] == $course['instructor_id']) ? 'selected' : '' ?>><?= $inst['name'] ?></option>
                                 <?php endwhile; ?>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Curriculum Category</label>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Course Category</label>
                             <select name="category_id" class="form-input">
                                 <?php mysqli_data_seek($categories, 0); ?>
                                 <?php while($cat = mysqli_fetch_assoc($categories)): ?>

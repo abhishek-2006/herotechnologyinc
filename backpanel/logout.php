@@ -19,6 +19,8 @@ mysqli_query($conn, $sql);
 
 unset($_SESSION['username']);
 unset($_SESSION['email']);
+unset($_SESSION['role']);
+unset($_SESSION['user_id']);
 session_destroy();
 
 header("Location: index.php");

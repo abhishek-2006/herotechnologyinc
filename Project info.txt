@@ -48,8 +48,8 @@ Pages master:
 
 Course
 - slug [meaningful URL]
-- Course duration
-- Summary
+- Course duration ✔️
+- Summary ✔️
 - Course description - Editor [text]
 - Is Featured [True / False] 
-- Instructor
+- Instructor ✔️

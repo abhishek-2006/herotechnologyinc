@@ -20,17 +20,20 @@ if(isset($_POST['add_student'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $user = mysqli_real_escape_string($conn, $_POST['username']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+
     $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $insert = "INSERT INTO user_master (name, email, username, password, role) 
-               VALUES ('$name', '$email', '$user', '$pass', 'student')";
+    $insert = "INSERT INTO user_master (name, email, username, phone, password, role, gender) 
+               VALUES ('$name', '$email', '$user', '$phone', '$pass', 'student', '$gender')";
     mysqli_query($conn, $insert);
     header("Location: manage-students.php?msg=node_added");
     exit();
 }
 
 // 3. FETCH STUDENTS DATA (The Dynamic Part)
-$query = "SELECT u.user_id, u.name, u.email, u.username, 
+$query = "SELECT u.user_id, u.name, u.email, u.username, u.gender, u.phone,
           (SELECT COUNT(*) FROM enrollments e WHERE e.user_id = u.user_id) as node_count
           FROM user_master u 
           WHERE u.role = 'student' 
@@ -152,6 +155,16 @@ $result = mysqli_query($conn, $query);
                 <input type="text" name="name" placeholder="Full Name" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                 <input type="email" name="email" placeholder="Email" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                 <input type="text" name="username" placeholder="Username" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                <input type="tel" name="phone" placeholder="Phone Number" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                <!-- Gender Selection -->
+                 <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Gender</span>
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="radio" name="gender" value="male" class="form-radio text-hero-orange"> Male
+                        <input type="radio" name="gender" value="female" class="form-radio text-hero-orange"> Female
+                        <input type="radio" name="gender" value="other" class="form-radio text-hero-orange">Other
+                    </label>
+                </div>             
                 <input type="password" name="password" placeholder="Password" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                 <div class="flex gap-4 pt-4">
                     <button type="button" onclick="toggleModal('addModal')" class="flex-1 text-[10px] font-black uppercase text-slate-400">Cancel</button>

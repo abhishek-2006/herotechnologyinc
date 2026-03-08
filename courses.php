@@ -27,9 +27,9 @@ $categories = mysqli_fetch_all($resCats, MYSQLI_ASSOC);
 $category_filter = ($active_cat !== 'all') ? "AND c.category_id = '$active_cat'" : "";
 
 $sqlCourses = "
-    SELECT c.*, u.name as instructor_name, cat.category_name 
+    SELECT c.*, i.name as instructor_name, cat.category_name 
     FROM courses c
-    JOIN user_master u ON c.instructor_id = u.user_id
+    JOIN instructors i ON c.instructor_id = i.instructor_id
     JOIN course_category cat ON c.category_id = cat.category_id
     WHERE c.status = 'publish' $category_filter
     ORDER BY c.created_at DESC
@@ -103,7 +103,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
                 </h3>
 
                 <p class="text-sm text-gray-500 mb-6 h-20 overflow-hidden">
-                    <?php echo htmlspecialchars($course['description']); ?>
+                    <?php echo htmlspecialchars($course['summary']); ?>
                 </p>
 
                 <p class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Course Duration</p>

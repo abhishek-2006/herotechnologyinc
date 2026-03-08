@@ -18,6 +18,7 @@ if (isset($_POST['submit_course'])) {
     $description = mysqli_real_escape_string($conn, $_POST['description']);
     $video_url = mysqli_real_escape_string($conn, $_POST['video_url']);
     $demo_video_url = mysqli_real_escape_string($conn, $_POST['demo_video_url']);
+    $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     
     // 1. Handle Thumbnail Upload Node
     $thumbnail = time() . "_" . $_FILES['thumbnail']['name'];
@@ -33,8 +34,8 @@ if (isset($_POST['submit_course'])) {
     }
 
     // 3. Intelligence Insert Protocol
-    $sql = "INSERT INTO courses (category_id, instructor_id, title, summary, description, duration, video_url, video_file, demo_video_url, price, thumbnail, status) 
-            VALUES ('$category_id', '$instructor_id', '$title', '$summary', '$description', '$duration', '$video_url', '$video_file', '$demo_video_url', '$price', '$thumbnail', '$status')";
+    $sql = "INSERT INTO courses (category_id, instructor_id, title, summary, description, duration, video_url, video_file, demo_video_url, price, thumbnail, status, is_featured) 
+            VALUES ('$category_id', '$instructor_id', '$title', '$summary', '$description', '$duration', '$video_url', '$video_file', '$demo_video_url', '$price', '$thumbnail', '$status', $is_featured)";
     
     if (mysqli_query($conn, $sql)) {
         header("Location: manage-courses.php?msg=course_deployed");
@@ -46,8 +47,7 @@ if (isset($_POST['submit_course'])) {
 
 // Fetch Dropdown Data Nodes
 $categories = mysqli_query($conn, "SELECT * FROM course_category WHERE status='active'");
-$instructors = mysqli_query($conn, "SELECT u.user_id, u.name FROM user_master u 
-                                    JOIN instructors i ON u.user_id = i.user_id");
+$instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='active'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +108,7 @@ $instructors = mysqli_query($conn, "SELECT u.user_id, u.name FROM user_master u
             
             <div class="lg:col-span-2 space-y-8">
                 <div class="bg-[var(--card-bg)] p-8 rounded-[3rem] border border-[var(--border-dim)] shadow-sm">
-                    <h3 class="text-xs font-black uppercase tracking-widest text-hero-blue dark:text-white mb-6 border-l-4 border-hero-orange pl-4">Core Metadata</h3>
+                    <h3 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue dark:text-white mb-6 border-l-4 border-hero-orange pl-4">Core Metadata</h3>
                     <div class="space-y-6">
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Course Title</label>
@@ -182,11 +182,15 @@ $instructors = mysqli_query($conn, "SELECT u.user_id, u.name FROM user_master u
                                 <option value="draft">Offline (Draft)</option>
                             </select>
                         </div>
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" name="is_featured" id="is_featured" class="w-4 h-4 text-hero-orange bg-gray-100 border-gray-300 rounded focus:ring-2 focus:ring-offset-0 focus:ring-hero-orange">
+                            <label for="is_featured" class="text-[10px] font-black uppercase tracking-widest text-slate-500">Flag as Featured Course</label>
+                        </div>
                     </div>
                 </div>
 
                 <button type="submit" name="submit_course" class="w-full py-5 bg-hero-blue text-white font-black rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all uppercase tracking-[0.2em] text-[10px]">
-                    <i class="fas fa-rocket mr-2"></i> Deploy Architecture
+                    <i class="fas fa-rocket mr-2"></i> Add Course
                 </button>
             </div>
         </form>

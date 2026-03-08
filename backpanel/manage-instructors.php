@@ -13,56 +13,18 @@ if(isset($_GET['delete_id'])) {
     // Retrieve user_id before deletion to clean up both tables
     $get_user = mysqli_query($conn, "SELECT user_id FROM instructors WHERE instructor_id = '$del_id'");
     if($u_data = mysqli_fetch_assoc($get_user)) {
-        $u_id = $u_data['user_id'];
         mysqli_query($conn, "DELETE FROM instructors WHERE instructor_id = '$del_id'");
-        mysqli_query($conn, "DELETE FROM user_master WHERE user_id = '$u_id'");
     }
     header("Location: manage-instructors.php?msg=instructor_terminated");
     exit();
 }
 
-// 3. INITIALIZE INSTRUCTOR LOGIC (Enhanced for New Schema)
-if(isset($_POST['add_instructor'])) {
-    $bio = mysqli_real_escape_string($conn, $_POST['bio']);
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $expertise = mysqli_real_escape_string($conn, $_POST['expertise']);
-    $linkedin = mysqli_real_escape_string($conn, $_POST['linkedin_url']);
-    $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
-    $experience = mysqli_real_escape_string($conn, $_POST['experience_years']);
-
-    // Check if node identity already exists
-    $temp_pass = md5("Hero@Faculty2026"); 
-
-    // Step A: Create Identity in user_master
-    $insert_user = "INSERT INTO user_master (name, email, username, password, role) 
-                    VALUES ('$name', '$email', '$username', '$temp_pass', 'instructor')";
-    
-    if(mysqli_query($conn, $insert_user)) {
-        $new_user_id = mysqli_insert_id($conn);
-
-        // Step B: Initialize Technical Node in instructors table
-        $insert_inst = "INSERT INTO instructors (user_id, expertise, qualification, experience_years, status) 
-                        VALUES ('$new_user_id', '$expertise', '$qualification', '$experience', 'active')";
-        mysqli_query($conn, $insert_inst);
-        
-        header("Location: manage-instructors.php?msg=instructor_added");
-    } else {
-        header("Location: manage-instructors.php?msg=already_exists");
-    }
-    exit();
-}
-
 // 4. FETCH INSTRUCTOR NODES (Intelligence Query)
-$query = "SELECT i.*, u.name, u.email 
+$query = "SELECT i.*, (SELECT COUNT(*) FROM courses c WHERE c.instructor_id = i.instructor_id) AS course_count 
           FROM instructors i 
-          INNER JOIN user_master u ON i.user_id = u.user_id 
           ORDER BY i.instructor_id DESC";
 $result = mysqli_query($conn, $query);
 
-// Fetch users who are NOT yet instructors for the "Add" modal dropdown
-$user_list = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE role != 'admin' AND user_id NOT IN (SELECT user_id FROM instructors)");
 ?>
 
 <!DOCTYPE html>
@@ -158,10 +120,10 @@ $user_list = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE ro
                             <td class="px-10 py-6 text-right">
                                 <div class="flex justify-end gap-2">
                                     <a href="edit-instructor.php?id=<?= $row['instructor_id'] ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all">
-                                        <i class="fas fa-pen-nib"></i>
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <button onclick="confirmDelete(<?= $row['instructor_id'] ?>)" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all">
-                                        <i class="fas fa-power-off"></i>
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
@@ -175,67 +137,7 @@ $user_list = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE ro
         </div>
     </main>
 
-    <div id="addModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 overflow-y-auto">
-        <div class="bg-[var(--card-bg)] w-full max-w-2xl rounded-[3rem] p-10 border border-[var(--border-color)] shadow-2xl my-8">
-            
-            <header class="mb-8">
-                <h2 class="text-2xl font-black uppercase italic tracking-tighter">Authorize <span class="text-hero-orange not-italic">New Faculty</span></h2>
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Direct System Entry Protocol</p>
-            </header>
-
-            <form method="POST" class="space-y-6">
-                <div class="space-y-4">
-                    <h3 class="text-[9px] font-black uppercase tracking-[0.4em] text-hero-blue border-l-4 border-hero-orange pl-3">1. Account Identity</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label for="name" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Legal Name</label>
-                            <input type="text" name="name" id="name" placeholder="Full Name" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
-                        </div>
-                        <div class="space-y-2">
-                            <label for="email" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Corporate Email</label>
-                            <input type="email" name="email" id="email" placeholder="email@herotech.com" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <label for="username" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Unique Handle</label>
-                        <input type="text" name="username" id="username" placeholder="@tech_lead" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-[9px] font-black uppercase tracking-[0.4em] text-hero-blue border-l-4 border-hero-orange pl-3">2. Technical Metadata</h3>
-                    <div class="space-y-2">
-                        <label for="bio" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Professional Biography</label>
-                        <textarea name="bio" id="bio" rows="3" placeholder="Summarize core expertise..." required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20 resize-none"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label for="expertise" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Field Expertise</label>
-                            <input type="text" id="expertise" name="expertise" placeholder="e.g. Fullstack" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
-                        </div>
-                        <div class="space-y-2">
-                            <label for="qualification" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Highest Credential</label>
-                            <input type="text" id="qualification" name="qualification" placeholder="Degree/Cert" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <label for="experience_years" class="text-[8px] font-bold uppercase tracking-widest text-slate-500 ml-2">Years Active</label>
-                        <input type="number" name="experience_years" id="experience_years" placeholder="0" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
-                    </div>
-                </div>
-
-                <div class="flex gap-4 pt-6">
-                    <button type="button" onclick="toggleModal('addModal')" class="flex-1 text-[10px] font-black uppercase text-slate-400 tracking-widest hover:text-hero-orange transition-colors">Abort Dispatch</button>
-                    <button type="submit" name="add_instructor" class="flex-1 py-5 bg-hero-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all active:scale-95">
-                        Deploy Instructor Node
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
-        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
         function confirmDelete(id) {
             if(confirm('Disconnect this instructor from the mainframe?')) {
                 window.location.href = 'manage-instructors.php?delete_id=' + id;
