@@ -181,11 +181,23 @@ $result = mysqli_query($conn, $query);
                 window.location.href = 'manage-students.php?delete_id=' + id;
             }
         }
-        if(localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
         }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
     </script>
 </body>
 </html>

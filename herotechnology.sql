@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 08, 2026 at 07:54 AM
+-- Generation Time: Mar 14, 2026 at 08:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -98,7 +98,7 @@ CREATE TABLE `courses` (
   `price` decimal(10,2) DEFAULT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
-  `status` enum('publish','draft') DEFAULT 'publish',
+  `status` enum('publish','draft') NOT NULL DEFAULT 'publish',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -110,7 +110,8 @@ INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `su
 (1, 1, 1, 'Mastering C Programming', 'C Language Course', 'Complete C course from basics to advanced', 240, 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 0, 'publish', '2026-01-01 06:06:05'),
 (2, 2, 1, 'Full Stack Web Dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 06:06:05'),
 (3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 13:58:14'),
-(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', NULL, 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 06:26:32');
+(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 06:26:32'),
+(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 07:22:34');
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,8 @@ INSERT INTO `course_category` (`category_id`, `category_name`, `status`) VALUES
 (2, 'Web Development', 'active'),
 (3, 'UI/UX Design', 'active'),
 (4, 'Cyber Security', 'active'),
-(5, 'Artificial Intelligence & Machine Learning', 'active');
+(5, 'Artificial Intelligence & Machine Learning', 'active'),
+(7, 'Cloud Computing', 'active');
 
 -- --------------------------------------------------------
 
@@ -311,7 +313,13 @@ INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `con
 (2, 1, '::1', 'Admin Logged In', 'online', '2026-03-07 16:10:04'),
 (3, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 04:52:21'),
 (4, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 04:55:56'),
-(5, 4, '::1', 'Student Logged In', 'online', '2026-03-08 06:28:20');
+(5, 4, '::1', 'Student Logged In', 'online', '2026-03-08 06:28:20'),
+(6, 12, '::1', 'Student Logged Out', 'offline', '2026-03-08 06:57:52'),
+(7, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 06:58:48'),
+(8, 4, '::1', 'Student Logged Out', 'offline', '2026-03-08 10:35:57'),
+(9, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 10:46:10'),
+(10, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:49:18'),
+(11, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:50:33');
 
 -- --------------------------------------------------------
 
@@ -562,13 +570,13 @@ ALTER TABLE `corporate_clients`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `course_category`
 --
 ALTER TABLE `course_category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `course_progress`
@@ -616,7 +624,7 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `payments`

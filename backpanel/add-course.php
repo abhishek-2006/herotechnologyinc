@@ -56,6 +56,10 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hero Admin | Deploy Course</title>
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -104,7 +108,7 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
             </div>
         <?php endif; ?>
 
-        <form action="" method="post" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
+        <form action="" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
             
             <div class="lg:col-span-2 space-y-8">
                 <div class="bg-[var(--card-bg)] p-8 rounded-[3rem] border border-[var(--border-dim)] shadow-sm">
@@ -120,7 +124,7 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Course Description</label>
-                            <textarea name="description" rows="5" class="input-field resize-none" placeholder="Deep dive into the module architecture..." required></textarea>
+                            <textarea name="description" id="summernote" rows="5" class="input-field resize-none" placeholder="Deep dive into the module architecture..." required></textarea>
                         </div>
                     </div>
                 </div>
@@ -167,7 +171,7 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Instructor</label>
                             <select name="instructor_id" class="input-field" required>
                                 <?php while($ins = mysqli_fetch_assoc($instructors)): ?>
-                                    <option value="<?= $ins['user_id'] ?>"><?= $ins['name'] ?></option>
+                                    <option value="<?= $ins['instructor_id'] ?>"><?= $ins['name'] ?></option>
                                 <?php endwhile; ?>
                             </select>
                         </div>
@@ -195,5 +199,44 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
             </div>
         </form>
     </main>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                placeholder: 'Write your content here...',
+                tabsize: 2,
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+
+        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
+
+        themeToggle.addEventListener('click', toggleLocalTheme);
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
+        }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
+    </script>
 </body>
 </html>

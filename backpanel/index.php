@@ -85,7 +85,7 @@
                     
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                         <input type="text" name="vercode" maxlength="5" placeholder="CODE" required 
-                            class="flex-1 min-w-0 px-4 py-3 bg-white border border-slate-200 rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] uppercase focus:border-hero-orange outline-none transition-all shadow-sm" />
+                            class="flex-1 min-w-0 px-4 py-3 bg-white border border-slate-200 rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] focus:border-hero-orange outline-none transition-all shadow-sm" />
                         
                         <div class="flex items-center gap-2 h-12">
                             <div class="h-full w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
@@ -111,5 +111,25 @@
             </p>
         </div>
     </div>
+    <script>
+        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
+        }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
+    </script>
 </body>
 </html>

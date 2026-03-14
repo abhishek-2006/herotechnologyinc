@@ -102,7 +102,13 @@ $result = mysqli_query($conn, $query);
                                 </td>
                                 <td class="px-10 py-6">
                                     <div class="flex flex-col">
-                                        <span class="text-[10px] font-black uppercase text-slate-500 tracking-tighter"><?php echo htmlspecialchars($row['duration'] ?? 'N/A'); ?></span>
+                                        <span class="text-[10px] font-black uppercase text-slate-500 tracking-tighter">
+                                            <?php 
+                                                $minutes = $row['duration'] ?? 0;
+                                                $hours = $minutes / 60;
+                                                echo htmlspecialchars(number_format($hours, 2)) . ' Hrs';
+                                            ?>
+                                        </span>
                                         <span class="text-[8px] font-bold text-slate-400 uppercase opacity-40">System Time</span>
                                     </div>
                                 </td>
@@ -146,11 +152,23 @@ $result = mysqli_query($conn, $query);
     </main>
 
     <script>
-        if(localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
         }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
     </script>
 </body>
 </html>

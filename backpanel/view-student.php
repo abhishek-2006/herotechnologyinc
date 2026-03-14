@@ -126,7 +126,23 @@ $resNodes = mysqli_query($conn, $sqlNodes);
     </main>
 
     <script>
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
+        }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
     </script>
 </body>
 </html>

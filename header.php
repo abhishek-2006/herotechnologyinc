@@ -11,6 +11,7 @@ require_once 'config.php';
     
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.x"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
@@ -47,6 +48,10 @@ require_once 'config.php';
             opacity: 1;
             transform: translateY(0);
         }
+        .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; }
     </style>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-slate-900">

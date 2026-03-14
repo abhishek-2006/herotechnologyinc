@@ -66,7 +66,10 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Course | Hero Admin Terminal</title>
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -132,7 +135,7 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Full Course Description</label>
-                            <textarea name="description" rows="6" class="form-input"><?= htmlspecialchars($course['description']) ?></textarea>
+                            <textarea name="description" id="summernote" rows="6" class="form-input"><?= htmlspecialchars($course['description']) ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -205,13 +208,43 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
     </main>
 
     <script>
-        // Use local storage to keep theme consistent across administrative nodes
         if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-        
-        function toggleLocalTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+        themeToggle.addEventListener('click', toggleLocalTheme);
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
         }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
+
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                placeholder: 'Write your content here...',
+                tabsize: 2,
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
     </script>
 </body>
 </html>

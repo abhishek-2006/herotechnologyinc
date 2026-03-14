@@ -123,8 +123,8 @@ if (isset($_SESSION['user_id'])) {
                 </div>
 
                 <h2 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue mb-8 border-l-4 border-hero-orange pl-4">Node Intelligence</h2>
-                <div class="prose prose-slate max-w-none text-gray-600 leading-relaxed font-medium mb-16">
-                    <?php echo nl2br(htmlspecialchars($course['description'])); ?>
+                <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 leading-relaxed font-medium mb-16">
+                    <?php echo $course['description']; ?>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

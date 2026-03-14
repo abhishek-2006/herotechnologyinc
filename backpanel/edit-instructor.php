@@ -179,11 +179,25 @@ if(isset($_POST['update_instructor'])) {
 
     <script>
         if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-        
-        function toggleLocalTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+        themeToggle.addEventListener('click', toggleLocalTheme);
+        const toggleBtn = document.getElementById("theme-toggle");
+        const root = document.documentElement;
+
+        // load saved theme
+        if (localStorage.getItem("theme") === "dark") {
+            root.classList.add("dark");
         }
+
+        toggleBtn.addEventListener("click", () => {
+            root.classList.toggle("dark");
+
+            if (root.classList.contains("dark")) {
+                localStorage.setItem("theme", "dark");
+            } else {
+                localStorage.setItem("theme", "light");
+            }
+        });
     </script>
 </body>
 </html>
