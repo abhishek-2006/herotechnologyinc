@@ -2,7 +2,7 @@
 require 'config.php';
 
 // 1. Authentication Check
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['email']) || !isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }

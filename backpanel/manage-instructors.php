@@ -28,7 +28,7 @@ $result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +92,7 @@ $result = mysqli_query($conn, $query);
                         <tr class="hover:bg-hero-orange/[0.02] transition-colors">
                             <td class="px-10 py-6">
                                 <div class="flex items-center gap-5">
-                                    <img src="<?= !empty($row['profile_image']) ? '../assets/img/instructors/'.$row['profile_image'] : 'https://ui-avatars.com/api/?name='.urlencode($row['name']).'&background=1B264F&color=fff' ?>" class="w-10 h-10 rounded-xl object-cover">
+                                    <img src="<?= !empty($row['profile_image']) ? $row['profile_image'] : 'https://ui-avatars.com/api/?name='.urlencode($row['name']).'&background=1B264F&color=fff' ?>" class="w-10 h-10 rounded-xl object-cover">
                                     <div>
                                         <p class="text-sm font-black uppercase tracking-tight"><?= htmlspecialchars($row['name']) ?></p>
                                         <p class="text-[9px] font-mono text-slate-500 lowercase italic"><?= htmlspecialchars($row['qualification']) ?></p>

@@ -48,10 +48,7 @@ require_once 'config.php';
             opacity: 1;
             transform: translateY(0);
         }
-        .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; }
-        .prose ol { list-style-type: decimal; padding-left: 1.5rem; }
+        
     </style>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-slate-900">

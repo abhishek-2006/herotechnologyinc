@@ -51,6 +51,7 @@
                     <li><a href="staffing.php#jobs" class="hover:text-white hover:pl-2 transition-all duration-300">Open Jobs</a></li>
                     <li><a href="clients.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Clients</a></li>
                     <li><a href="certifications.php" class="hover:text-white hover:pl-2 transition-all duration-300">Certifications</a></li>
+                    <li><a href="our-team.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Team</a></li>
                 </ul>
             </div>
 
@@ -71,7 +72,13 @@
         </div>
 
         <div class="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+            <a href="https://itsoulinfotech.com" target="_blank" class="text-[10px] font-bold text-gray-500 uppercase tracking-widest hover:text-white transition-colors">
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest hover:text-white transition-colors">
+                    Made with <i class="fas fa-heart text-red-500 mx-1"></i> by ItSoul Infotech
+                </p>
+            </a>
+
+            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest transition-colors">
                 © 2026 Hero Technology Inc. All rights reserved.
             </p>
             <div class="flex items-center gap-8 grayscale opacity-40 hover:opacity-100 transition-opacity">

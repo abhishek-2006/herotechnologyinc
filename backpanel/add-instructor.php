@@ -8,27 +8,50 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $error = '';
-$success = '';
 
 // 2. DIRECT INITIALIZATION LOGIC
 if(isset($_POST['deploy_instructor'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    
     $bio = mysqli_real_escape_string($conn, $_POST['bio']);
     $expertise = mysqli_real_escape_string($conn, $_POST['expertise']);
     $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
     $experience = mysqli_real_escape_string($conn, $_POST['experience_years']);
     $linkedin = mysqli_real_escape_string($conn, $_POST['linkedin_url'] ?? '');
-    
-    $insert_inst = "INSERT INTO instructors (name, email, bio, expertise, qualification, experience_years, linkedin_url, status) 
-                    VALUES ( '$name', '$email', '$bio', '$expertise', '$qualification', '$experience', '$linkedin', 'active')";
+
+    $profile_image = ""; // Initialize empty
+
+    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === 0) {
+        $uploadDir = "../assets/img/instructors/";
         
-    if(mysqli_query($conn, $insert_inst)) {
-        header("Location: manage-instructors.php?msg=node_deployed");
-        exit();
-    } else {
-        $error = "FACULTY_TABLE_SYNC_ERROR: " . mysqli_error($conn);
+        // Ensure directory exists
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+        $fileName = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", basename($_FILES['profile_image']['name']));
+        $targetPath = $uploadDir . $fileName;
+        $fileType = strtolower(pathinfo($targetPath, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (in_array($fileType, $allowedTypes)) {
+            if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
+                // Store only the filename in DB, or the path relative to assets
+                $profile_image = $fileName; 
+            }
+        } else {
+            $error = "Only JPG, JPEG, PNG, and WEBP files are allowed.";
+        }
+    }
+    
+    if(empty($error)) {
+        $insert_inst = "INSERT INTO instructors (name, email, bio, expertise, qualification, experience_years, profile_image, linkedin_url, status) 
+                        VALUES ( '$name', '$email', '$bio', '$expertise', '$qualification', '$experience', '$profile_image', '$linkedin', 'active')";
+            
+        if(mysqli_query($conn, $insert_inst)) {
+            header("Location: manage-instructors.php?msg=instructor_added");
+            exit();
+        } else {
+            $error = "FACULTY_TABLE_SYNC_ERROR: " . mysqli_error($conn);
+        }
     }
 }
 
@@ -77,97 +100,137 @@ require 'sidebar.php';
         </header>
 
         <?php if($error): ?>
-            <div class="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500 text-[10px] font-black uppercase tracking-widest text-center">
+            <div class="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500 text-[10px] font-black uppercase tracking-widest text-center animate-pulse">
                 <i class="fas fa-triangle-exclamation mr-2"></i> <?= $error ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <form method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-8">
                 <div class="bg-[var(--card-bg)] p-10 rounded-[3rem] border border-[var(--border-color)] shadow-sm">
-                    <h3 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">1. Account Identity</h3>
+                    
+                    <h3 class="text-xs font-black uppercase tracking-widest text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">1. Account Identity</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div class="space-y-2">
-                            <label for="name" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Legal Name</label>
-                            <input type="text" id="name" name="name" placeholder="Legal Full Name" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Legal Name<span class="text-red-500"> *</span></label>
+                            <input type="text" name="name" placeholder="Full Name" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
                         </div>
                         <div class="space-y-2">
-                            <label for="email" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Corporate Email</label>
-                            <input type="email" id="email" name="email" placeholder="email@herotech.com" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Corporate Email<span class="text-red-500"> *</span></label>
+                            <input type="email" name="email" placeholder="email@herotech.com" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
                         </div>
-                        <div class="space-y-2">
-                            <label for="linkedin_url" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">LinkedIn Profile</label>
-                            <input id="linkedin_url" type="url" name="linkedin_url" placeholder="https://linkedin.com/in/username" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
+                    </div>
+
+                    <div class="space-y-2 mt-4">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">
+                            Faculty Identity Photo<span class="text-red-500"> *</span>
+                        </label>
+
+                        <div class="flex items-center gap-6 p-6 bg-slate-50 dark:bg-black/40 rounded-3xl border-2 border-dashed border-[var(--border-color)]">
+
+                            <label for="imgInput" class="w-20 h-20 rounded-2xl bg-[var(--card-bg)] flex items-center justify-center overflow-hidden border border-[var(--border-color)] cursor-pointer">
+                                <img id="preview"
+                                    src="https://ui-avatars.com/api/?name=H+F&background=1B264F&color=fff"
+                                    class="w-full h-full object-cover">
+                            </label>
+
+                            <div class="flex-1">
+                                <input
+                                    type="file"
+                                    name="profile_image"
+                                    id="imgInput"
+                                    accept="image/*"
+                                    required
+                                    class="text-xs text-slate-500 cursor-pointer
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-xl file:border-0
+                                    file:text-[10px] file:font-black
+                                    file:uppercase file:bg-hero-orange/10
+                                    file:text-hero-orange
+                                    hover:file:bg-hero-orange
+                                    hover:file:text-white
+                                    file:cursor-pointer
+                                    transition-all"
+                                >
+
+                                <p class="text-[8px] text-slate-400 mt-2 uppercase tracking-widest">
+                                    Recommended: Square Aspect Ratio (512x512px)
+                                </p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-[var(--card-bg)] p-10 rounded-[3rem] border border-[var(--border-color)] shadow-sm">
-                    <h3 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">2. Professional Narrative</h3>
+                    <h3 class="text-xs font-black uppercase tracking-widest text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">2. Professional Biography</h3>
                     <div class="space-y-2">
-                        <label for="bio" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Technical Biography</label>
-                        <textarea id="bio" name="bio" rows="6" placeholder="Describe the instructor's background and achievements..." required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-8 py-6 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20 resize-none"></textarea>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Technical Biography<span class="text-red-500"> *</span></label>
+                        <textarea name="bio" rows="6" placeholder="Achievements and Background..." required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-8 py-6 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20 resize-none"></textarea>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-8">
                 <div class="bg-[var(--card-bg)] p-10 rounded-[3rem] border border-[var(--border-color)] shadow-sm">
-                    <h3 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">3. Technical Metadata</h3>
+                    <h3 class="text-xs font-black uppercase tracking-widest text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">3. Technical Metadata</h3>
                     
                     <div class="space-y-6">
                         <div class="space-y-2">
-                            <label for="expertise" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Core Expertise</label>
-                            <input type="text" id="expertise" name="expertise" placeholder="e.g. AI/ML Architecture" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Core Expertise<span class="text-red-500"> *</span></label>
+                            <input type="text" name="expertise" placeholder="e.g. .NET Core Architecture" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="qualification" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Academic Qualification</label>
-                            <input type="text" id="qualification" name="qualification" placeholder="e.g. M.Tech in CS" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Highest Qualification<span class="text-red-500"> *</span></label>
+                            <input type="text" name="qualification" placeholder="e.g. PhD in AI" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="experience_years" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Years Active</label>
-                            <input type="number" id="experience_years" name="experience_years" placeholder="0" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Years Active<span class="text-red-500"> *</span></label>
+                            <input type="number" name="experience_years" placeholder="0" required class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">LinkedIn URL</label>
+                            <input type="url" name="linkedin_url" placeholder="https://linkedin.com/in/..." class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none">
                         </div>
 
                         <div class="pt-6">
                             <button type="submit" name="deploy_instructor" class="w-full py-5 bg-hero-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all active:scale-95">
-                                    <i class="fas fa-rocket mr-2"></i> Add Instructor
+                                <i class="fas fa-paper-plane mr-2"></i> Add Faculty
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-hero-orange/5 p-8 rounded-[2.5rem] border border-hero-orange/10 text-center">
-                    <p class="text-[10px] font-bold text-hero-orange uppercase tracking-widest mb-2">Protocol Note</p>
-                    <p class="text-[9px] text-slate-500 leading-relaxed uppercase">Initialization will automatically generate a temporary access key for this node.</p>
+                    <p class="text-[10px] font-bold text-hero-orange uppercase tracking-widest mb-2">Node Compliance</p>
+                    <p class="text-[9px] text-slate-500 leading-relaxed uppercase">By deploying, this faculty will be visible in the "Our Team" repository globally.</p>
                 </div>
             </div>
         </form>
     </main>
 
     <script>
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
+        // Image Preview Intelligence
+        const imgInput = document.getElementById('imgInput');
+        const preview = document.getElementById('preview');
 
-        themeToggle.addEventListener('click', toggleLocalTheme);
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
+        imgInput.onchange = evt => {
+            const [file] = imgInput.files;
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+            }
         }
 
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
+        const toggleBtn = document.getElementById("theme-toggle");
+        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
 
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
+        toggleBtn?.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+            localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
         });
     </script>
 </body>

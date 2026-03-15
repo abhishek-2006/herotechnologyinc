@@ -20,17 +20,51 @@ if (isset($_POST['submit_course'])) {
     $demo_video_url = mysqli_real_escape_string($conn, $_POST['demo_video_url']);
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     
-    // 1. Handle Thumbnail Upload Node
-    $thumbnail = time() . "_" . $_FILES['thumbnail']['name'];
-    $thumb_target = "../assets/img/courses/" . $thumbnail;
-    move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumb_target);
+    // 1. Handle Thumbnail Upload 
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {
+
+        $uploadDir = "../assets/img/courses/";
+
+        $fileName = time() . "_" . basename($_FILES['thumbnail']['name']);
+        $targetPath = $uploadDir . $fileName;
+
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+        if (in_array($fileExt, $allowed)) {
+
+            if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $targetPath)) {
+                $thumbnail = "assets/img/courses/" . $fileName;
+            }
+
+        } else {
+            echo "Only JPG, JPEG, PNG, and WEBP files are allowed.";
+        }
+    }
+
 
     // 2. Handle Video File Upload (Optional Internal Asset)
     $video_file = "";
-    if (!empty($_FILES['video_file']['name'])) {
-        $video_file = time() . "_" . $_FILES['video_file']['name'];
-        $video_target = "../assets/video/courses/" . $video_file;
-        move_uploaded_file($_FILES['video_file']['tmp_name'], $video_target);
+
+    if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === 0) {
+
+        $uploadDir = "../assets/video/courses/";
+
+        $fileName = time() . "_" . basename($_FILES['video_file']['name']);
+        $targetPath = $uploadDir . $fileName;
+
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowed = ['mp4', 'webm', 'mov'];
+
+        if (in_array($fileExt, $allowed)) {
+
+            if (move_uploaded_file($_FILES['video_file']['tmp_name'], $targetPath)) {
+                $video_file = "assets/video/courses/" . $fileName;
+            }
+
+        } else {
+            echo "Only MP4, WEBM, and MOV files are allowed.";
+        }
     }
 
     // 3. Intelligence Insert Protocol
@@ -219,7 +253,6 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
 
         if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
 
-        themeToggle.addEventListener('click', toggleLocalTheme);
         const toggleBtn = document.getElementById("theme-toggle");
         const root = document.documentElement;
 

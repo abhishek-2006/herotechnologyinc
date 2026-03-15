@@ -6,55 +6,118 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
     html, body {
         max-width: 100%;
         overflow-x: hidden;
         overflow-y: scroll; 
     }
 
-    .animate__animated {
-        backface-visibility: hidden;
-        will-change: transform, opacity;
+    .swiper-wrapper { 
+        display: flex; 
+        flex-direction: row !important;
     }
+
+    .heroSwiper { 
+        width: 100%; 
+        height: auto; 
+        margin-top: 0; 
+        position: relative;
+    }
+    .swiper-slide { 
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0; 
+        transition: opacity 0.8s ease-in-out; 
+    }
+    .swiper-slide-active { opacity: 1 !important; }
 </style>
 
-<header class="relative pt-12 pb-20 md:pt-20 md:pb-32 bg-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div class="text-center lg:text-left order-2 lg:order-1">
-                <span class="inline-block px-4 py-1.5 bg-blue-50 text-hero-blue text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
-                    Engineering Excellence
-                </span>
-                <h1 class="animate__animated animate__fadeInDown text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] text-hero-blue">
-                    Empowering the <span class="italic text-hero-orange">Next Generation</span> of Engineers.
-                </h1>
-                <p class="animate__animated animate__fadeInUp animate__delay-1s text-base sm:text-lg text-gray-500 mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                    Hero Technology Inc. bridges the gap between academic theory and industry reality with engineer-led technical training.
-                </p>
-                </div>
+<section class="relative bg-white dark:bg-slate-950 transition-colors duration-500 overflow-hidden pt-0">
+    <div class="absolute top-0 left-0 w-full h-1 z-50 bg-slate-100 dark:bg-slate-900">
+        <div id="slide-progress" class="h-full bg-hero-orange transition-all duration-[6000ms] ease-linear" style="width: 0%;"></div>
+    </div>
 
-            <div class="animate__animated animate__fadeInRight order-1 lg:order-2 px-4 group">
-                <div class="absolute -inset-4 bg-hero-orange/10 blur-3xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-700"></div>
-                <div class="aspect-square bg-gray-900 rounded-[3rem] overflow-hidden relative shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" 
-                         class="w-full h-full object-cover opacity-60 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700" 
-                         alt="Advanced Engineering Lab">
-                    <div class="absolute inset-0 bg-gradient-to-t from-hero-blue via-transparent to-transparent opacity-60"></div>
-                    
-                    <div class="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                        <div class="flex items-center gap-4 text-white">
-                            <i class="fas fa-microchip text-3xl text-hero-orange"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase tracking-widest opacity-60">Currently Deploying</p>
-                                <p class="text-sm font-bold uppercase">AI/ML Core Integration v2.0</p>
+    <div class="swiper heroSwiper">
+        <div class="swiper-wrapper">
+            
+            <?php
+            $slides = [
+                [
+                    'tag' => 'Engineering Excellence',
+                    'title' => 'Empowering the <span class="italic text-hero-orange">Next Generation</span> of Engineers.',
+                    'desc' => 'Hero Technology Inc. bridges the gap between academic theory and industry reality with engineer-led technical training.',
+                    'img' => 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
+                    'status_icon' => 'fa-microchip',
+                    'status_text' => 'AI/ML Core Integration v2.0'
+                ],
+                [
+                    'tag' => 'Cyber Defense',
+                    'title' => 'Hardening Infrastructure for <span class="italic text-hero-orange">Global Security</span>.',
+                    'desc' => 'Master advanced threat detection and secure architecture through our specialized cybersecurity nodes.',
+                    'img' => 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
+                    'status_icon' => 'fa-shield-halved',
+                    'status_text' => 'Firewall Protocol X-7 active'
+                ],
+                [
+                    'tag' => 'Full-Stack Development',
+                    'title' => 'Architecting <span class="italic text-hero-orange">Scalable Ecosystems</span>.',
+                    'desc' => 'Learn to build and deploy enterprise-grade applications using industry-standard tech stacks and DevOps workflows.',
+                    'img' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800',
+                    'status_icon' => 'fa-code',
+                    'status_text' => 'Deployment Node: Stable'
+                ]
+            ];
+
+            foreach ($slides as $slide):
+            ?>
+            <div class="swiper-slide pt-12 pb-20 lg:pt-16 lg:pb-32">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        <div class="text-center lg:text-left order-2 lg:order-1">
+                            <span class="inline-block px-4 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-hero-blue dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
+                                <?= $slide['tag'] ?>
+                            </span>
+                            <h1 class="slide-title text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 lg:mb-8 leading-[1.1] text-hero-blue dark:text-white">
+                                <?= $slide['title'] ?>
+                            </h1>
+                            <p class="slide-desc text-base sm:text-lg text-gray-500 dark:text-slate-400 mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                                <?= $slide['desc'] ?>
+                            </p>
+                            
+                            <div class="flex flex-wrap justify-center lg:justify-start gap-4">
+                                <a href="courses.php" class="px-10 py-4 bg-hero-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-hero-orange transition-all shadow-xl shadow-blue-900/20">Access Repository</a>
+                            </div>
+                        </div>
+
+                        <div class="order-1 lg:order-2 px-4 relative">
+                            <div class="aspect-square bg-gray-900 rounded-[4rem] overflow-hidden relative shadow-2xl border border-slate-100 dark:border-slate-800">
+                                <img src="<?= $slide['img'] ?>" 
+                                     class="w-full h-full object-cover opacity-60 mix-blend-luminosity grayscale hover:grayscale-0 transition-all duration-1000" 
+                                     alt="Tech Node">
+                                <div class="absolute inset-0 bg-gradient-to-t from-hero-blue via-transparent to-transparent opacity-60"></div>
+                                
+                                <div class="absolute bottom-10 left-10 right-10 bg-white/10 backdrop-blur-xl p-6 rounded-3xl border border-white/20">
+                                    <div class="flex items-center gap-4 text-white text-left">
+                                        <div class="w-12 h-12 rounded-xl bg-hero-orange/20 flex items-center justify-center">
+                                            <i class="fas <?= $slide['status_icon'] ?> text-2xl text-hero-orange"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[9px] font-black uppercase tracking-widest opacity-60">System Status</p>
+                                            <p class="text-xs font-bold uppercase tracking-tight"><?= $slide['status_text'] ?></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <?php endforeach; ?>
         </div>
     </div>
-</header>
+</section>
 
 <section class="relative py-32 md:py-48 overflow-x-hidden parallax-bg" 
          style="background-image: linear-gradient(rgba(27, 38, 79, 0.95), rgba(27, 38, 79, 0.95)), url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1200');">
@@ -186,7 +249,13 @@
                     </p>
 
                     <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Course Duration</p>
-                    <span class="text-sm font-bold uppercase tracking-tight text-hero-blue"><?= htmlspecialchars($course['duration']); ?></span>
+                    <span class="text-sm font-bold uppercase tracking-tight text-hero-blue">
+                        <?php 
+                            $minutes = $course['duration'] ?? 0;
+                            $hours = $minutes / 60;
+                            echo htmlspecialchars(number_format($hours, 2)) . ' Hrs';
+                        ?>
+                    </span>
                     
                     <div class="flex items-center justify-between pt-8 border-t border-[var(--border)]">
                         <div>
@@ -242,3 +311,47 @@
 </section>
 
 <?php include 'footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.getElementById('slide-progress');
+        const slideDelay = 6000;
+
+        const swiper = new Swiper('.heroSwiper', {
+            direction: 'horizontal',
+            loop: true,
+            effect: 'fade',
+            speed: 1000,
+            fadeEffect: { crossFade: true },
+            autoplay: {
+                delay: slideDelay,
+                disableOnInteraction: false,
+            },
+            on: {
+                init: function() {
+                    // Start first progress bar animation
+                    setTimeout(() => progressBar.style.width = '100%', 50);
+                },
+                slideChangeTransitionStart: function () {
+                    // Reset Progress Bar
+                    progressBar.style.transition = 'none';
+                    progressBar.style.width = '0%';
+                    
+                    // Re-trigger Title/Desc Animations
+                    const titles = document.querySelectorAll('.slide-title');
+                    titles.forEach(el => {
+                        el.classList.remove('animate__fadeInDown');
+                        void el.offsetWidth;
+                        el.classList.add('animate__fadeInDown');
+                    });
+                },
+                slideChangeTransitionEnd: function() {
+                    // Restart Progress Bar Animation
+                    progressBar.style.transition = `width ${slideDelay}ms linear`;
+                    progressBar.style.width = '100%';
+                }
+            }
+        });
+    });
+</script>

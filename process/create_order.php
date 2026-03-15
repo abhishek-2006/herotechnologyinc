@@ -13,6 +13,7 @@ $user_id = $_SESSION['user_id'];
 
 $key  = PAYU_MERCHANT_KEY;
 $salt = PAYU_SALT;
+$mode = PAYU_MODE;
 
 // Fetch verified price and user identity markers
 $course_query = "SELECT title, price FROM courses WHERE course_id = '$course_id' LIMIT 1";
@@ -54,7 +55,7 @@ echo json_encode([
         'email'       => $email,
         'phone'       => $user['phone'],
         'productinfo' => $productinfo,
-        'surl'        => "https://localhost/herotechnologyinc/process/payment_success.php",
-        'furl'        => "https://localhost/herotechnologyinc/process/payment_failure.php",
+        'surl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_success.php" : "https://herotechnologyinc/process/payment_success.php",
+        'furl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_failure.php" : "https://herotechnologyinc/process/payment_failure.php",
     ]
 ]);

@@ -4,9 +4,7 @@ require '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    /* =========================
-       1. Collect PayU Response
-       ========================= */
+    // 1. Collect PayU Response
     $status      = $_POST['status'];
     $firstname   = $_POST['firstname'];
     $amount      = $_POST['amount'];
