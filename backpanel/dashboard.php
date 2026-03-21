@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 // Data Intelligence: Procedural mysqli
 $totalStudents = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM user_master WHERE role='student'"))[0];
 $totalCourses = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM courses WHERE status='publish'"))[0];

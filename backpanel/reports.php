@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 // 1. Fetch Aggregated Financial Data
 $totalRevenue = mysqli_fetch_row(mysqli_query($conn, "SELECT SUM(amount) FROM payments WHERE payment_status='success'"))[0] ?: 0;
 $pendingRevenue = mysqli_fetch_row(mysqli_query($conn, "SELECT SUM(amount) FROM payments WHERE payment_status='pending'"))[0] ?: 0;

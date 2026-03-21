@@ -6,6 +6,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 $course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 
 // Fetch Existing Intelligence Node

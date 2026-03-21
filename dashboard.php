@@ -16,18 +16,18 @@ $user = mysqli_fetch_assoc($resUser);
 $user_id = $user['user_id'];
 
 // 2. Fetch Dynamic Analytics
-// Count Active Nodes
+// Count Active Courses
 $active_res = mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'active'");
 $active_count = mysqli_fetch_row($active_res)[0];
 
-// Count Verified Skillset (Completed Nodes)
+// Count Verified Skillset (Completed Courses)
 $skill_res = mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'completed'");
 $skill_count = mysqli_fetch_row($skill_res)[0];
 
 // Logic for Hours Logged (Placeholder logic: 5 hours per active course + 10 per completed)
 $hours_logged = ($active_count * 5.5) + ($skill_count * 12.0);
 
-// 3. Fetch Active Learning Nodes
+// 3. Fetch Active Learning Courses
 $sqlActive = "
     SELECT e.*, c.title, c.thumbnail, cat.category_name 
     FROM enrollments e
@@ -58,18 +58,16 @@ $resActive = mysqli_query($conn, $sqlActive);
                 <i class="fas fa-book-open text-[10px]"></i> Academy
             </a>
             <a href="profile.php" class="flex items-center gap-3 px-6 py-4 rounded-2xl text-gray-400 hover:bg-gray-50 font-black text-xs uppercase tracking-widest transition-all">
-                <i class="fas fa-user-gear text-[10px]"></i> Settings
+                <i class="fas fa-user-gear text-[10px]"></i> My Profile
+            </a>
+            <a href="logout.php" class="flex items-center gap-3 px-6 py-4 rounded-2xl text-red-400 hover:bg-red-100 font-black text-xs uppercase tracking-widest transition-all">
+                <i class="fas fa-sign-out-alt text-[10px]"></i> Logout
             </a>
         </nav>
 
         <div class="mt-auto p-6 bg-gray-50 rounded-[2rem] border border-gray-100">
-            <div class="flex justify-between items-center mb-2">
-                <p class="text-[9px] font-black uppercase text-hero-blue tracking-tighter">Pro Node Status</p>
-                <img src="assets/img/favicon.ico" class="w-3 h-3 opacity-30">
-            </div>
-            <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-hero-orange w-3/4 shadow-[0_0_8px_#EE6C4D]"></div>
-            </div>
+            <p class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Need Assistance?</p>
+            <a href="mailto:support@herotechnologyinc.com" class="text-hero-blue font-bold hover:underline">Contact Support</a>
         </div>
     </aside>
 
@@ -78,7 +76,7 @@ $resActive = mysqli_query($conn, $sqlActive);
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12">
             <div>
                 <h1 class="text-3xl font-black text-hero-blue uppercase italic tracking-tighter">System Initialized</h1>
-                <p class="text-gray-500 font-medium">Welcome back, <span class="text-hero-orange font-bold"><?php echo explode(' ', $user['name'])[0]; ?></span>. Your learning nodes are active.</p>
+                <p class="text-gray-500 font-medium">Welcome back, <span class="text-hero-orange font-bold"><?php echo explode(' ', $user['name'])[0]; ?></span>. Your courses are active.</p>
             </div>
             <div class="flex items-center gap-4 bg-white p-2 pr-6 rounded-2xl border border-gray-100 shadow-sm">
                 <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($user['name']); ?>&background=1B264F&color=fff" class="w-12 h-12 rounded-xl shadow-md">

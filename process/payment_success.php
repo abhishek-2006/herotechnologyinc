@@ -91,22 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
 
         $stmt->execute();
 
-        ?>
-        <!DOCTYPE html>
-        <html>
-        <head>
+?>
+<!DOCTYPE html>
+<html>
+    <head>
         <title>Payment Successful</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <meta http-equiv="refresh" content="3;url=../generate-invoice.php?txnid=<?= $txnid ?>">
-        </head>
+    </head>
 
-        <body class="flex items-center justify-center min-h-screen bg-green-50">
-
-        <div class="bg-white shadow-xl rounded-3xl p-10 text-center max-w-md">
-            
-            <div class="text-green-600 text-5xl mb-4">
-                ✓
-            </div>
+    <body class="flex items-center justify-center min-h-screen bg-green-50">
+        <div class="bg-white shadow-xl rounded-3xl p-10 text-center max-w-md">        
+            <div class="text-green-600 text-5xl mb-4"> ✓ </div>
 
             <h1 class="text-2xl font-bold mb-2">Payment Successful</h1>
             <p class="text-gray-500 mb-6">Your course access has been activated.</p>
@@ -120,15 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
             </p>
 
         </div>
-
-        </body>
-        </html>
-        <?php
-        exit();
-
+    </body>
+</html>
+<?php
+    exit();
     } else {
 
-        // Hash mismatch or payment failure - Log the error and redirect to checkout
         $error = $_POST['error_Message'] ?? "Hash mismatch";
 
         $stmt = $conn->prepare("
@@ -156,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         header("Location: ../checkout.php?payment=failed");
         exit();
     }
-
 } else {
     header("Location: ../index.php");
     exit();

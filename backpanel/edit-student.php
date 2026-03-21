@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 // 1. Fetch Student Data
 $id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 $query = "SELECT * FROM user_master WHERE user_id = '$id' AND role = 'student' LIMIT 1";

@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 // 2. Dynamic Identity Extraction
 $student_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 

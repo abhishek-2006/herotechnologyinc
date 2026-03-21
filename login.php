@@ -155,7 +155,7 @@
                         <div id="vercode-error" class="error-text"></div>
                     </div> 
 
-                    <button type="submit" name="login" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 uppercase tracking-[0.2em] text-xs">
+                    <button type="submit" name="login" class="cursor-pointer w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 uppercase tracking-[0.2em] text-xs">
                         Login
                     </button>
                     

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -72,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
     }
-
 
     // Redirect to Failure Page with Context
     $course = $_SESSION['last_course_id'] ?? 0;

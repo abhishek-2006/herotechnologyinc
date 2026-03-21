@@ -71,26 +71,23 @@ $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
                     <h1 class="text-4xl font-black text-hero-blue dark:text-white italic uppercase tracking-tighter">
                         <?= htmlspecialchars($user['name']); ?>
                     </h1>
-                    <span class="inline-flex items-center px-4 py-1 bg-emerald-500/10 text-emerald-500 text-[9px] font-black uppercase tracking-widest rounded-full border border-emerald-500/20">
-                        <i class="fas fa-circle text-[6px] mr-2 animate-pulse"></i> Engineering Node Active
-                    </span>
                 </div>
                 
                 <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <div class="identity-card px-6 py-4 rounded-2xl text-center min-w-[120px]">
                         <span class="block text-2xl font-black text-hero-blue dark:text-hero-orange"><?= $enroll_count; ?></span>
-                        <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Enrolled Tracks</span>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Enrolled Tracks</span>
                     </div>
                     <div class="identity-card px-6 py-4 rounded-2xl text-center min-w-[120px]">
                         <span class="block text-2xl font-black text-hero-orange dark:text-white"><?= $cert_count; ?></span>
-                        <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Certifications</span>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Certifications</span>
                     </div>
                 </div>
             </div>
 
             <div class="md:border-l border-slate-200 dark:border-slate-800 md:pl-8 flex flex-col items-center">
                 <div class="w-16 h-16 rounded-3xl <?= $is_vault_active ? 'bg-emerald-500/20 text-emerald-500' : 'bg-hero-orange/20 text-hero-orange' ?> flex items-center justify-center mb-3">
-                    <i class="fas <?= $is_vault_active ? 'fa-shield-check' : 'fa-shield-exclamation animate-pulse' ?> text-2xl"></i>
+                    <i class="fas <?= $is_vault_active ? 'fa-shield-halved' : 'fa-shield-exclamation animate-pulse' ?> text-2xl"></i>
                 </div>
                 <p class="text-[9px] font-black uppercase tracking-widest opacity-40">Security Vault</p>
                 <p class="text-[10px] font-bold"><?= $is_vault_active ? 'ENCRYPTED' : 'NOT CONFIGURED' ?></p>
@@ -108,37 +105,37 @@ $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
                     </h3>
                     <div class="space-y-6">
                         <div class="group">
-                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Identity</p>
-                            <p class="text-sm font-bold text-hero-blue dark:text-white group-hover:text-hero-orange transition-colors">@<?= htmlspecialchars($user['username']); ?></p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Username</p>
+                            <p class="text-sm font-bold text-hero-blue dark:text-white group-hover:text-hero-orange transition-colors"><?= htmlspecialchars($user['username']); ?></p>
                         </div>
                         <div class="group">
-                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Communication Protocol</p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Email Address</p>
                             <p class="text-sm font-bold text-hero-blue dark:text-white group-hover:text-hero-orange transition-colors"><?= htmlspecialchars($user['email']); ?></p>
                         </div>
                         <div class="group">
-                            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Registration Hash</p>
-                            <p class="text-[10px] font-mono font-bold text-slate-400">HT-NODE-<?= str_pad($user_id, 6, '0', STR_PAD_LEFT); ?></p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Registration ID</p>
+                            <p class="text-[12px] font-mono font-bold text-slate-400">HT-NODE-<?= str_pad($user_id, 6, '0', STR_PAD_LEFT); ?></p>
                         </div>
                     </div>
                 </div>
 
                 <a href="security-questions.php" class="block bg-hero-blue p-8 rounded-[3rem] text-center hover:scale-[1.02] transition-transform group">
-                    <i class="fas fa-key-skeleton text-white/20 text-4xl mb-4 group-hover:text-hero-orange transition-colors"></i>
-                    <p class="text-white text-[10px] font-black uppercase tracking-[0.3em]">Update Security Questions</p>
+                    <i class="fas fa-user-shield text-white/20 text-4xl mb-4 group-hover:text-hero-orange transition-colors"></i>
+                    <p class="text-white text-[10px] font-black uppercase tracking-[0.2em]">Update Security Questions</p>
                 </a>
             </div>
 
             <div class="lg:col-span-2">
                 <div class="identity-card p-8 md:p-12 rounded-[3.5rem] shadow-xl">
                     <div class="flex items-center justify-between mb-10">
-                        <h3 class="text-xl font-black uppercase tracking-tight text-hero-blue dark:text-white italic">Update <span class="text-hero-orange not-italic">Identity Node</span></h3>
+                        <h3 class="text-xl font-black uppercase tracking-tight text-hero-blue dark:text-white italic">Update <span class="text-hero-orange not-italic">Identity</span></h3>
                         <i class="fas fa-sliders text-hero-orange opacity-20 text-2xl"></i>
                     </div>
                     
                     <form action="process/update-profile.php" method="POST" class="space-y-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-2">
-                                <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-2">Display Name</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Display Name</label>
                                 <div class="relative">
                                     <i class="fas fa-user absolute left-5 top-1/2 -translate-y-1/2 text-hero-orange/40 text-xs"></i>
                                     <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" 
@@ -146,7 +143,7 @@ $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
                                 </div>
                             </div>
                             <div class="space-y-2">
-                                <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-2">Phone Link</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Phone Number</label>
                                 <div class="relative">
                                     <i class="fas fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-hero-orange/40 text-xs"></i>
                                     <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']); ?>" 
@@ -156,11 +153,11 @@ $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-2">Access Key Overwrite (Password)</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Update Password</label>
                             <div class="relative">
                                 <i class="fas fa-lock-open absolute left-5 top-1/2 -translate-y-1/2 text-hero-orange/40 text-xs"></i>
-                                <input type="password" name="password" placeholder="LEAVE BLANK TO RETAIN CURRENT HASH" 
-                                    class="w-full pl-12 pr-6 py-4 bg-slate-500/5 border border-slate-500/10 rounded-2xl outline-none focus:ring-2 focus:ring-hero-orange/20 text-sm font-bold text-hero-blue dark:text-white placeholder:text-[9px] placeholder:tracking-widest">
+                                <input type="password" name="password" placeholder="LEAVE BLANK TO RETAIN CURRENT PASSWORD" 
+                                    class="w-full pl-12 pr-6 py-4 bg-slate-500/5 border border-slate-500/10 rounded-2xl outline-none focus:ring-2 focus:ring-hero-orange/20 text-sm font-bold text-hero-blue dark:text-white placeholder:text-[10px] placeholder:tracking-widest">
                             </div>
                         </div>
 

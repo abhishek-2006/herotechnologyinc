@@ -55,7 +55,7 @@ echo json_encode([
         'email'       => $email,
         'phone'       => $user['phone'],
         'productinfo' => $productinfo,
-        'surl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_success.php" : "https://herotechnologyinc/process/payment_success.php",
-        'furl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_failure.php" : "https://herotechnologyinc/process/payment_failure.php",
+        'surl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_success.php" : "https://herotechnologyinc.com/process/payment_success.php",
+        'furl'        => $mode === 'sandbox' ? "https://localhost/herotechnologyinc/process/payment_failure.php" : "https://herotechnologyinc.com/process/payment_failure.php",
     ]
 ]);

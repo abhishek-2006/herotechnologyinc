@@ -6,6 +6,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
+    header("Location: ../dashboard.php");
+    exit();
+}
 if (isset($_POST['submit_category'])) {
     $name = mysqli_real_escape_string($conn, $_POST['category_name']);
     $status = mysqli_real_escape_string($conn, $_POST['status']);

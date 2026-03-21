@@ -13,7 +13,7 @@ if ($isLoggedIn) {
     $resUser = mysqli_query($conn, "SELECT user_id FROM user_master WHERE email='$email' LIMIT 1");
     $user_id = mysqli_fetch_column($resUser);
 
-    $resEnroll = mysqli_query($conn, "SELECT course_id FROM enrollments WHERE user_id = '$user_id' AND status = 'active'");
+    $resEnroll = mysqli_query($conn, "SELECT course_id FROM enrollments WHERE user_id = '$user_id' AND status = 'active' || status = 'completed' ");
     while($row = mysqli_fetch_assoc($resEnroll)) {
         $enrolled_courses[] = $row['course_id'];
     }
@@ -32,8 +32,8 @@ $sqlCourses = "
     JOIN instructors i ON c.instructor_id = i.instructor_id
     JOIN course_category cat ON c.category_id = cat.category_id
     WHERE c.status = 'publish' $category_filter
-    ORDER BY c.created_at DESC
-";
+    ORDER BY c.created_at DESC";
+
 $resCourses = mysqli_query($conn, $sqlCourses);
 $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
 ?>
@@ -107,7 +107,13 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
                 </p>
 
                 <p class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Course Duration</p>
-                <span class="text-sm font-bold uppercase tracking-tight text-hero-blue"><?php echo htmlspecialchars($course['duration']); ?></span>
+                <span class="text-sm font-bold uppercase tracking-tight text-hero-blue">
+                    <?php 
+                        $minutes = $course['duration'] ?? 0;
+                        $hours = $minutes / 60;
+                        echo htmlspecialchars(number_format($hours, 2)) . ' hrs';
+                    ?>
+                </span>
 
                 <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-50">
                     <div>
