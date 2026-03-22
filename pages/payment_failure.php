@@ -6,7 +6,7 @@ if (!isset($_SESSION['payment_flow'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 1. Collect PayU Response
     $status      = $_POST['status'];
