@@ -1,7 +1,12 @@
 <?php
 require '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (!isset($_SESSION['payment_flow'])) {
+    header("Location: ../");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
     // 1. Collect PayU Response
     $status      = $_POST['status'];
@@ -19,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // 2. Verify Hash
-    $hashSeq = "$salt|$status|||||||||||$email|$firstname|$productinfo|$amount|$txnid|$key";
+    $hashSeq = "$salt.'|'.$status.'|||||||||||'.$email.'|'.$firstname.'|'.$productinfo.'|'.$amount.'|'.$txnid.'|'.$key";
     $calc_hash = strtolower(hash("sha512", $hashSeq));
 
 
@@ -36,17 +41,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $enroll_id = null;
-        $user_id   = null;
-        $course_id = null;
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $enroll_id = $row['enrollment_id'];
-            $user_id   = $row['user_id'];
-            $course_id = $row['course_id'];
+        if ($result->num_rows === 0) {
+            die("Enrollment not found");
         }
 
+        $row = $result->fetch_assoc();
+        $enroll_id = $row['enrollment_id'];
+        $user_id   = $row['user_id'];
+        $course_id = $row['course_id'];
+
+        $stmt = $conn->prepare("SELECT username FROM user_master WHERE user_id=? LIMIT 1");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($user = $result->fetch_assoc()) {
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['username'] = $user['username'];
+        } else {
+            die("User not found");
+        }
 
         // 4. Log Failed Payment
         $stmt = $conn->prepare("
@@ -72,9 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
     }
 
-    // Redirect to Failure Page with Context
-    $course = $_SESSION['last_course_id'] ?? 0;
-    header("Location: ../checkout.php?id=$course&payment=failed");
+    $course = $_SESSION['course_id'] ?? 0;
+    header("Location: checkout.php?id=$course&payment=failed");
     exit();
 
 } else {

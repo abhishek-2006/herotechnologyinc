@@ -1,6 +1,11 @@
 <?php
 require '../config.php';
 
+if (!isset($_SESSION['payment_flow'])) {
+    header("Location: ../");
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
 
    // 1. Extract POST Data

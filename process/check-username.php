@@ -2,7 +2,6 @@
 require '../config.php';
 
 $username = isset($_GET['username']) ? mysqli_real_escape_string($conn, trim($_GET['username'])) : '';
-
 $response = ['available' => false, 'message' => ''];
 
 if (strlen($username) < 3) {

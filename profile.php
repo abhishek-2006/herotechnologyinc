@@ -1,7 +1,6 @@
 <?php 
 include 'header.php'; 
 
-// 1. Session & Identity Verification
 if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
@@ -10,16 +9,13 @@ if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
 $session_id = isset($_SESSION['email']) ? $_SESSION['email'] : $_SESSION['username'];
 $email = mysqli_real_escape_string($conn, $session_id);
 
-// 2. Fetch User Metadata
 $user_res = mysqli_query($conn, "SELECT * FROM user_master WHERE email = '$email' OR username = '$email' LIMIT 1");
 $user = mysqli_fetch_assoc($user_res);
 $user_id = $user['user_id'];
 
-// 3. Fetch Aggregate Metrics
 $enroll_count = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id'"))[0];
 $cert_count = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'completed'"))[0];
 
-// 4. Check Security Vault Status
 $vault_res = mysqli_query($conn, "SELECT COUNT(*) FROM user_security_answers WHERE user_id = '$user_id'");
 $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
 ?>
@@ -101,7 +97,7 @@ $is_vault_active = mysqli_fetch_row($vault_res)[0] >= 3;
                         <i class="fas fa-microchip text-6xl text-hero-blue"></i>
                     </div>
                     <h3 class="text-xs font-black uppercase tracking-widest text-hero-blue dark:text-hero-orange mb-8 flex items-center gap-3">
-                        <span class="w-8 h-[2px] bg-hero-orange"></span> Metadata
+                        <span class="w-8 h-[2px] bg-hero-orange"></span> Your Identity
                     </h3>
                     <div class="space-y-6">
                         <div class="group">

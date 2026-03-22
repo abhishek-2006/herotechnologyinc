@@ -13,6 +13,10 @@ if(mysqli_num_rows($result) > 0){
 
     if($role == 'admin'){
         $_SESSION['user_id'] = $row['user_id'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['name'] = $row['name'];
+        $_SESSION['role'] = $row['role'];
         $id = $row['user_id'];
         $ip = $_SERVER['REMOTE_ADDR'];
 

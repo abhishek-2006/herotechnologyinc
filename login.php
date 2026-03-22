@@ -1,9 +1,11 @@
 <?php 
     require 'config.php' ;
+    
     if(isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])) {
         header("Location: dashboard.php?already_logged_in");
         exit();
     }
+    $_SESSION['captcha_request'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,30 +131,29 @@
 
                     <div class="bg-gray-50 p-5 rounded-[2rem] border border-gray-100 shadow-inner overflow-hidden animate__animated animate__fadeInUp animate__delay-1s">
                         <div class="flex items-center justify-between mb-4 px-1">
-                            <label for="vercode" class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
+                            <label for="captcha" class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
                                 Captcha <span class="text-red-500">*</span>
                             </label>
-                            <span class="text-hero-blue text-[9px] font-bold tracking-widest opacity-40">SECURE_NODE</span>
                         </div>
                         
                         <div class="flex flex-nowrap items-center gap-3">
                             <div class="w-full">
-                                <input id="vercode" type="text" name="vercode" maxlength="5" placeholder="CODE" 
-                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] outline-none focus:border-hero-orange transition-all shadow-sm" />
+                                <input id="captcha" type="text" name="captcha" maxlength="5" placeholder="CODE" 
+                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] outline-none focus:border-hero-orange transition-all shadow-sm" required/>
                             </div>
                             
                             <div class="flex-shrink-0 flex items-center gap-2">
                                 <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 relative group">
-                                    <img src="captcha.php" alt="Code" id="captcha_img" 
+                                    <img src="process/captcha.php" alt="Code" id="captcha_img" 
                                         class="h-full w-full object-cover block grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-                                    <button type="button" onclick="document.getElementById('captcha_img').src='captcha.php?'+Math.random();" 
+                                    <button type="button" onclick="document.getElementById('captcha_img').src='process/captcha.php?'+Math.random();" 
                                         class="absolute inset-0 bg-hero-blue/10 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
                                         <i class="fas fa-sync-alt text-hero-blue text-xs"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div id="vercode-error" class="error-text"></div>
+                        <div id="captcha-error" class="error-text"></div>
                     </div> 
 
                     <button type="submit" name="login" class="cursor-pointer w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 uppercase tracking-[0.2em] text-xs">
@@ -195,7 +196,7 @@
             password: {
                 presence: { allowEmpty: false, message: "is required" }
             },
-            vercode: {
+            captcha: {
                 presence: { allowEmpty: false, message: "is required" },
                 length: { is: 5, message: "must be 5 characters" }
             }

@@ -7,13 +7,18 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['username'])) {
     exit();
 }
 
+if ($_SESSION['role'] !== 'student') {
+    die("Access Denied: Only students can view certifications.");
+}
+
 $email = mysqli_real_escape_string($conn, $_SESSION['email']);
 $resUser = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE email='$email' LIMIT 1");
 $user = mysqli_fetch_assoc($resUser);
+
 $user_id = $user['user_id'];
+$name = $user['name'];
 
 // 2. Fetch Completed Nodes (100% Progress)
-// Note: Logic assumes a 'status' or 'progress' flag indicates completion
 $sqlCerts = "
     SELECT e.*, c.title, c.course_id, cat.category_name 
     FROM enrollments e
@@ -23,6 +28,10 @@ $sqlCerts = "
     ORDER BY e.enrolled_at DESC
 ";
 $resCerts = mysqli_query($conn, $sqlCerts);
+
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$baseUrl = $protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/";
+
 include 'header.php';
 ?>
 
@@ -35,7 +44,7 @@ include 'header.php';
             Verified <span class="text-hero-orange not-italic">Certifications.</span>
         </h1>
         <p class="animate__animated animate__fadeInUp animate__delay-1s text-base text-gray-500 max-w-2xl mx-auto leading-relaxed px-4 font-medium">
-            Your technical achievements are cryptographically secured and mapped to global engineering standards. Initialize download for your verified nodes.
+            Your technical achievements are cryptographically secured and mapped to global engineering standards. Initialize download for your verified certifications.
         </p>
     </div>
 </section>
@@ -48,9 +57,13 @@ include 'header.php';
             if (mysqli_num_rows($resCerts) > 0):
                 $delay=0;
                 while($cert = mysqli_fetch_assoc($resCerts)): 
+                    $course = htmlspecialchars($cert['title']);
+                    $shareUrl = $baseUrl . "course-details.php?id=" . $cert['course_id'];
+
+                    $message = "$name is inviting you to start learning an online course on '$course' for free! Accept their invitation and advance your career! Start learning for free now! $shareUrl";
             ?>
             <div class="animate__animated animate__fadeInUp bg-white rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:border-hero-blue transition-all hover:-translate-y-2 duration-500"
-            style="animation-delay: <? echo $delay; ?>ms">
+            style="animation-delay: <?php echo $delay; ?>ms">
                 <div class="p-8 pb-0 text-center">
                     <div class="w-20 h-20 bg-hero-blue/5 rounded-3xl flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-award text-4xl text-hero-orange"></i>
@@ -74,11 +87,12 @@ include 'header.php';
                     </div>
 
                     <div class="flex flex-col gap-3">
-                        <a href="generate-pdf.php?id=<?php echo $cert['course_id']; ?>" class="w-full bg-hero-blue text-white py-4 rounded-xl font-black uppercase tracking-widest text-[10px] text-center shadow-lg shadow-blue-900/10 hover:bg-hero-orange transition-all active:scale-95">
-                            <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                        <a href="view-certificate.php?id=<?php echo $cert['enrollment_id']; ?>" class="w-full bg-hero-blue text-white py-4 rounded-xl font-black uppercase tracking-widest text-[10px] text-center shadow-lg shadow-blue-900/10 hover:bg-hero-orange transition-all active:scale-95">
+                            <i class="fas fa-file mr-2"></i> View Certificate
                         </a>
-                        <button onclick="navigator.clipboard.writeText('https://herotechnologyinc.com/verify/HT-<?php echo strtoupper(substr(md5($cert['enrollment_id']), 0, 8)); ?>')" class="w-full bg-white border border-gray-200 text-hero-blue py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-50 transition-all">
-                            <i class="fas fa-share-nodes mr-2"></i> Share Node Link
+                        <button onclick="shareCourse(`<?php echo addslashes($message); ?>`)" 
+                        class="w-full bg-white border border-gray-200 text-hero-blue py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-gray-50 transition-all">
+                            <i class="fas fa-share-nodes mr-2"></i> Share Course Link
                         </button>
                     </div>
                 </div>
@@ -93,7 +107,7 @@ include 'header.php';
                     <i class="fas fa-graduation-cap text-4xl text-gray-200"></i>
                 </div>
                 <h3 class="text-xl font-black text-hero-blue uppercase italic mb-2">No Verified Credentials</h3>
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8">Complete a curriculum node to 100% to initialize certification.</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8">Complete a course to 100% to generate certificate.</p>
                 <a href="courses.php" class="bg-hero-orange text-white px-10 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-orange-500/20">
                     Explore Academy
                 </a>
@@ -103,19 +117,41 @@ include 'header.php';
     </div>
 </section>
 
-<section class="py-20 bg-hero-blue text-white overflow-hidden relative">
-    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <h2 class="animate__animated animate__fadeInUp text-3xl font-black italic uppercase tracking-tighter mb-6">Institutional <span class="text-hero-orange not-italic">Validation.</span></h2>
-        <p class="animate__animated animate__fadeInUp animate__delay-1s text-gray-400 text-sm mb-12 leading-relaxed">
-            Employers can verify Hero Technology certificates directly through our global staffing mainframe using the unique Node ID found on the credential.
-        </p>
-        <div class="flex justify-center gap-12 opacity-30">
-            <i class="fas fa-shield-check text-6xl animate__animated animate__bounceIn animate__delay-2s"></i>
-            <i class="fas fa-microchip text-6xl animate__animated animate__bounceIn animate__delay-3s"></i>
-            <i class="fas fa-server text-6xl animate__animated animate__bounceIn animate__delay-4s"></i>
-        </div>
-    </div>
-    <div class="absolute -top-24 -left-24 w-64 h-64 bg-hero-orange/10 rounded-full blur-3xl"></div>
-</section>
+<script>
+function shareCourse(text) {
+
+    if (navigator.share && /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        // Mobile → open native share sheet
+        navigator.share({ text: text }).catch(err => console.log(err));
+    } else {
+        // Desktop → copy to clipboard
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("Link copied to clipboard!");
+        });
+    }
+}
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.innerText = message;
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.left = "50%";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.background = "#111";
+    toast.style.color = "#fff";
+    toast.style.padding = "12px 20px";
+    toast.style.borderRadius = "10px";
+    toast.style.fontSize = "12px";
+    toast.style.zIndex = "9999";
+    toast.style.boxShadow = "0 10px 25px rgba(0,0,0,0.2)";
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2000);
+}
+</script>
 
 <?php include 'footer.php'; ?>

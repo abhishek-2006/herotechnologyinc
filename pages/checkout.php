@@ -7,6 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$_SESSION['payment_flow'] = true;
+
 $course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 $course_query = "SELECT * FROM courses WHERE course_id = '$course_id' AND status = 'publish' LIMIT 1";
 $course = mysqli_fetch_assoc(mysqli_query($conn, $course_query));
@@ -41,21 +43,8 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
             --text: #F8FAFC;
             --border-node: rgba(255, 255, 255, 0.05);
         }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
-        .glass { backdrop-filter: blur(25px); border: 1px solid var(--border-node); }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; } 
         
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-        .scan-line {
-            background: linear-gradient(to bottom, transparent, var(--color-hero-orange), transparent);
-            height: 100px;
-            width: 100%;
-            position: absolute;
-            opacity: 0.1;
-            animation: scan 4s linear infinite;
-        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex items-center justify-center p-6 transition-colors duration-500">
@@ -67,18 +56,16 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
         <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-hero-orange/10 blur-[120px] rounded-full"></div>
 
         <div class="flex justify-center mb-10 animate__animated animate__fadeInDown">
-            <div class="w-25 h-15 rounded-2xl bg-white/5 border border-white/10 p-2 flex items-center justify-center glass overflow-hidden">
+            <div class="w-25 h-15 rounded-2xl bg-white/5 border border-white/10 p-2 flex items-center justify-center overflow-hidden">
                 <img src="../assets/img/logo.png" class="h-8 dark:invert opacity-90" alt="Hero Tech">
             </div>
         </div>
 
-        <div class="glass bg-[var(--card)] rounded-[4rem] p-10 sm:p-14 shadow-2xl relative overflow-hidden animate__animated animate__zoomIn">
-            <div class="scan-line"></div>
+        <div class="bg-[var(--card)] rounded-[4rem] p-10 sm:p-14 shadow-2xl relative overflow-hidden animate__animated animate__zoomIn">
 
             <header class="text-center mb-12 relative z-10">
-                <span class="text-[10px] font-black uppercase tracking-[0.6em] text-hero-orange mb-3 block animate__animated animate__fadeIn animate__delay-1s">Security Handshake</span>
-                <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">
-                    Initialize <span class="text-hero-orange not-italic">Billing</span>
+                <h1 class="text-3xl font-black tracking-tighter uppercase italic leading-none">
+                    Authorize Access to <span class="text-hero-orange"><?= htmlspecialchars($course['title']) ?></span>
                 </h1>
             </header>
 
@@ -149,8 +136,8 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
             btn.style.opacity = '0.8';
 
             try {
-                // Pointing to your PayU order creation script
-                const response = await fetch('create_order.php', {
+                
+                const response = await fetch('../process/create_order.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ course_id: '<?= $course_id ?>' })
@@ -159,7 +146,7 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
                 const data = await response.json();
 
                 if (data.params && data.url) {
-                    // Create a high-fidelity hidden form to POST to PayUMoney Mainframe
+                
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = data.url;

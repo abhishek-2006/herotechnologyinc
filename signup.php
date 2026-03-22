@@ -1,9 +1,11 @@
 <?php 
     require 'config.php';
+    
     if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])) {
         header("Location: dashboard.php?already_logged_in");
         exit();
     }
+    $_SESSION['captcha_request'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,19 +154,19 @@
                     <div class="bg-[var(--color-app-bg)] p-4 rounded-2xl border border-[var(--color-border-dim)] shadow-inner">
                         <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 px-1">Captcha <span class="text-red-500">*</span></label>
                         <div class="flex flex-nowrap items-center gap-3">
-                            <input type="text" name="vercode" id="vercode" maxlength="5" placeholder="CODE" 
+                            <input type="text" name="captcha" id="captcha" maxlength="5" placeholder="CODE" 
                                 class="flex-1 min-w-0 px-4 py-2.5 bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] uppercase focus:border-hero-orange outline-none transition-all" />
                             <div class="flex-shrink-0 flex items-center gap-2">
                                 <div class="h-10 w-24 bg-white rounded-xl overflow-hidden shadow-sm border border-[var(--color-border-dim)]">
-                                    <img src="captcha.php" alt="Code" class="h-full w-full object-cover" id="captcha_img">
+                                    <img src="process/captcha.php" alt="Code" class="h-full w-full object-cover" id="captcha_img">
                                 </div>
-                                <button type="button" onclick="document.getElementById('captcha_img').src='captcha.php?'+Math.random();" 
+                                <button type="button" onclick="document.getElementById('captcha_img').src='process/captcha.php?'+Math.random();" 
                                     class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-hero-orange transition-colors active:scale-90">
                                     <i class="fas fa-rotate"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="vercode-error" class="error-text"></div>
+                        <div id="captcha-error" class="error-text"></div>
                     </div>
 
                     <button type="submit" name="signup" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all active:scale-95 uppercase tracking-widest text-xs">
@@ -206,7 +208,7 @@
             gender: { presence: { allowEmpty: false, message: "is required" } },
             password: { presence: { allowEmpty: false, message: "is required" }, length: { minimum: 6 } },
             confirmpassword: { equality: "password" },
-            vercode: { presence: { allowEmpty: false, message: "is required" }, length: { is: 5 } }
+            captcha: { presence: { allowEmpty: false, message: "is required" }, length: { is: 5 } }
         };
 
         const form = document.getElementById('student-signup');

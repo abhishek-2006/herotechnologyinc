@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
     } else {
         // 3. Handover to Checkout Node
         // We do NOT insert data here yet; create_order.php will handle the pending entry.
-        header("Location: checkout.php?id=" . $course_id);
+        header("Location: ../pages/checkout.php?id=" . $course_id);
         exit();
     }
 } else {

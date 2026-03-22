@@ -1,9 +1,20 @@
 <?php
 session_start();
 
+if (
+    $_SERVER['REQUEST_METHOD'] !== 'GET' ||
+    !isset($_SESSION['captcha_request']) ||
+    $_SESSION['captcha_request'] !== true
+) {
+    http_response_code(403);
+    exit();
+}
+
+unset($_SESSION['captcha_request']);
+
 $permitted_chars = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz1234567890';
 $captcha_string = substr(str_shuffle($permitted_chars), 0, 5);
-$_SESSION["vercode"] = $captcha_string;
+$_SESSION["captcha"] = $captcha_string;
 
 $width = 120;
 $height = 45;
@@ -11,23 +22,24 @@ $image = imagecreatetruecolor($width, $height);
 
 // Colors
 $bg_color = imagecolorallocate($image, 255, 255, 255);
-$line_color = imagecolorallocate($image, 220, 220, 220);
 $text_color = imagecolorallocate($image, 10, 82, 255);
 
 imagefill($image, 0, 0, $bg_color);
 
+// Add noise dots
 for ($i = 0; $i < 500; $i++) {
     $dot_color = imagecolorallocate($image, rand(200, 240), rand(200, 240), rand(200, 240));
     imagesetpixel($image, rand(0, $width), rand(0, $height), $dot_color);
 }
 
+// Add noise lines
 for ($i = 0; $i < 4; $i++) {
     imagesetthickness($image, rand(1, 2));
     $line_color = imagecolorallocate($image, rand(200, 230), rand(200, 230), rand(200, 230));
     imageline($image, rand(0, $width), rand(0, $height), rand(0, $width), rand(0, $height), $line_color);
 }
 
-$font = __DIR__ . '/arial.ttf'; 
+$font = __DIR__ . '/arial.ttf';
 
 if (file_exists($font)) {
     $step = $width / 6;
@@ -44,5 +56,4 @@ if (file_exists($font)) {
 
 header('Content-type: image/png');
 imagepng($image);
-imagedestroy($image);
-?>
+?>  
