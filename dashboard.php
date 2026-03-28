@@ -7,6 +7,11 @@ if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'student') {
+    header("Location: backpanel/dashboard.php");
+    exit();
+}
+
 require_once 'header.php';
 
 $session_id = isset($_SESSION['email']) ? $_SESSION['email'] : $_SESSION['username'];
@@ -97,7 +102,7 @@ $resActive = mysqli_query($conn, $sqlActive);
                 <h4 class="text-4xl font-black text-hero-orange"><?php echo number_format($hours_logged, 1); ?></h4>
             </div>
             <div class="animate__animated animate__zoomIn animate__delay-1s bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
-                <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Verified Skillset</p>
+                <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Completed Courses</p>
                 <h4 class="text-4xl font-black text-hero-blue"><?php echo str_pad($skill_count, 2, '0', STR_PAD_LEFT); ?></h4>
             </div>
         </div>
@@ -122,13 +127,6 @@ $resActive = mysqli_query($conn, $sqlActive);
                     <div class="flex-1 w-full text-center sm:text-left">
                         <span class="text-[9px] font-black text-hero-orange uppercase tracking-widest mb-1 block"><?php echo $row['category_name']; ?></span>
                         <h4 class="text-lg font-black text-hero-blue uppercase italic leading-tight mb-4"><?php echo htmlspecialchars($row['title']); ?></h4>
-                        
-                        <div class="flex items-center gap-4">
-                            <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-hero-blue w-2/3 group-hover:w-full transition-all duration-1000 ease-in-out"></div>
-                            </div>
-                            <span class="text-[10px] font-black text-gray-400">Node Syncing...</span>
-                        </div>
                     </div>
                     <a href="learn.php?id=<?php echo $row['course_id']; ?>" class="w-full sm:w-auto px-8 py-4 bg-hero-blue/5 text-hero-blue rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-hero-blue hover:text-white transition-all shadow-sm">
                         Resume Course

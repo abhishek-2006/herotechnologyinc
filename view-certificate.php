@@ -19,8 +19,12 @@ if (!$data) {
     die("Certificate generation failed: Invalid enrollment node.");
 }
 
-// Generate unique hash
+// 2. Intelligence Tracking: Generate unique hash
 $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']), 0, 12));
+
+// 3. QR Code Protocol: Link to verification terminal
+$verify_url = "https://localhost/herotechnologyinc/verify.php?cert=" . $cert_hash;
+$qr_api_url = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . urlencode($verify_url) . "&choe=UTF-8";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +33,7 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate - <?= htmlspecialchars($data['student_name']) ?></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;700;900&family=Pinyon+Script&display=swap');
@@ -53,7 +58,7 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
             border: 8px double var(--hero-blue);
             padding: 50px;
             position: relative;
-            min-height: 780px; /* Dynamic height to prevent overflow */
+            min-height: 780px;
             background: #fff url('https://www.transparenttextures.com/patterns/white-paper.png');
             display: flex;
             flex-direction: column;
@@ -137,13 +142,15 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
                         <img src="assets/img/logo.png" class="h-14">
                         <div class="h-10 w-px bg-slate-300"></div>
                         <div class="text-left">
-                            <h4 class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 leading-none mb-1">Mainframe Node</h4>
-                            <p class="text-xs font-bold text-[#1B264F]">Terminal Deployment 4.0</p>
+                            <h4 class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 leading-none mb-1">Certificate ID</h4>
+                            <p class="text-xs font-bold text-[#1B264F]">HT-CERT-<?= $cert_hash ?></p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Authentic Node ID</p>
-                        <p class="text-sm font-mono font-black text-[#1B264F]">HT-<?= $cert_hash ?></p>
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Issued On</p>
+                        <p class="text-xs font-bold text-[#1B264F] italic uppercase">
+                            <?= date('d M Y', strtotime($data['enrolled_at'])) ?>
+                        </p>
                     </div>
                 </div>
 
@@ -156,7 +163,7 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
                         <div class="w-1/2 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent mx-auto mt-4"></div>
                     </div>
 
-                    <p class="max-w-2xl mx-auto text-slate-500 text-sm italic mb-8 leading-relaxed">
+                    <p class="max-w-2xl mx-auto text-slate-500 text-sm italic mb-8 leading-relaxed font-medium">
                         For successful synchronization with the academic architecture and mastery of technical competencies in the following intelligence track:
                     </p>
 
@@ -164,8 +171,8 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
                         <h3 class="text-3xl font-black uppercase italic tracking-tighter text-[#1B264F]">
                             <?= htmlspecialchars($data['course_title']) ?>
                         </h3>
-                        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-[#EE6C4D] mt-3">
-                            <?= htmlspecialchars($data['category_name']) ?> Technical Domain
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#EE6C4D] mt-3">
+                            Technical Domain: <?= htmlspecialchars($data['category_name']) ?>
                         </p>
                     </div>
                 </div>
@@ -174,8 +181,8 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
                     <div class="text-center w-64">
                         <div class="cert-script-font text-4xl text-slate-700 mb-0 leading-none">Abhishek Shah</div>
                         <div class="w-full h-px bg-slate-400 mb-3 mt-4"></div>
-                        <p class="text-[9px] font-black uppercase tracking-widest text-[#1B264F]">Chief Technology Officer</p>
-                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-tighter">Hero Technology Inc. Faculty</p>
+                        <p class="text-[9px] font-black uppercase tracking-widest text-[#1B264F]">Chief Executive Officer</p>
+                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-tighter">Hero Technology Inc.</p>
                     </div>
 
                     <div class="verified-seal">
@@ -190,11 +197,12 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
                     </div>
 
                     <div class="text-right w-64">
-                        <div class="bg-white p-2 border border-slate-200 rounded-xl inline-block mb-4 shadow-sm">
-                            <div class="w-20 h-20 bg-slate-50 flex items-center justify-center">
-                                <i class="fas fa-qrcode text-4xl text-slate-200"></i>
+                        <div class="bg-white p-2 border border-slate-200 rounded-xl inline-block mb-3 shadow-sm hover:scale-105 transition-transform">
+                            <div class="w-20 h-20 bg-white flex items-center justify-center overflow-hidden">
+                                <img src="<?= $qr_api_url ?>" alt="Verification QR" class="w-full h-full object-contain">
                             </div>
                         </div>
+                        <p class="text-[7px] font-black uppercase tracking-[0.3em] text-slate-400 mb-2">Scan to Verify Node</p>
                         <p class="text-[9px] font-black uppercase tracking-widest text-[#1B264F] leading-none mb-1">Verified Date</p>
                         <p class="text-xs font-bold text-[#EE6C4D] italic uppercase">
                             <?= date('d M Y', strtotime($data['enrolled_at'])) ?>
@@ -208,7 +216,7 @@ $cert_hash = strtoupper(substr(md5($data['enrollment_id'] . $data['enrolled_at']
 
     <div class="mt-12 text-center no-print pb-20">
         <button onclick="window.print()" class="px-12 py-5 bg-[#1B264F] text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-2xl hover:bg-[#EE6C4D] transition-all hover:-translate-y-1 cursor-pointer">
-            <i class="fas fa-print mr-3"></i> Print Certificate
+            <i class="fas fa-print mr-3"></i> Download Certificate
         </button>
         <p class="text-[10px] font-bold text-slate-400 uppercase mt-8 tracking-[0.2em] max-w-lg mx-auto leading-relaxed">
             Note: For high-fidelity output, ensure "Background Graphics" is enabled in your system's print configuration.

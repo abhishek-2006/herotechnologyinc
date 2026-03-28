@@ -27,7 +27,8 @@ $result = mysqli_query($conn, $query);
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Category Nodes | Hero Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Category | Hero Admin</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <style type="text/tailwindcss">
@@ -41,7 +42,7 @@ $result = mysqli_query($conn, $query);
     <main class="flex-1 h-screen overflow-y-auto p-6 lg:p-12">
         <header class="flex justify-between items-center mb-12">
             <div>
-                <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">Category <span class="text-hero-orange not-italic">Nodes</span></h1>
+                <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">Course <span class="text-hero-orange not-italic">Category</span></h1>
                 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Classify learning architectures</p>
             </div>
             <a href="add-category.php" class="bg-hero-blue text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all">

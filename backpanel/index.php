@@ -1,4 +1,7 @@
-<?php require '../config.php' ?>
+<?php 
+    require '../config.php';
+    $_SESSION['captcha_request'] = true; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +41,11 @@
                 box-shadow: 0 0 0 4px rgba(238, 108, 77, 0.1);
                 background-color: white;
             }
+        }
+        
+        #captcha_img:hover {
+            filter: grayscale(0) contrast(1.1);
+            box-shadow: 0 0 15px rgba(27, 38, 79, 0.2);
         }
     </style>
 </head>
@@ -84,14 +92,14 @@
                     <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3 px-2">Identity Verification</label>
                     
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                        <input type="text" name="vercode" maxlength="5" placeholder="CODE" required 
+                        <input type="text" name="captcha" maxlength="5" placeholder="CODE" required 
                             class="flex-1 min-w-0 px-4 py-3 bg-white border border-slate-200 rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] focus:border-hero-orange outline-none transition-all shadow-sm" />
                         
                         <div class="flex items-center gap-2 h-12">
                             <div class="h-full w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
-                                <img src="../captcha.php" alt="Code" class="h-full w-full object-contain p-1">
+                                <img src="../process/captcha.php" alt="Code" id="captcha_img" class="h-full w-full object-contain p-1">
                             </div>
-                            <button type="button" onclick="this.previousElementSibling.firstElementChild.src='../captcha.php?'+Math.random();" 
+                            <button type="button" onclick="document.getElementById('captcha_img').src='../process/captcha.php?'+Math.random();" 
                                 class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-hero-orange active:scale-90 transition-all">
                                 <i class="fas fa-rotate"></i>
                             </button>
@@ -107,7 +115,7 @@
 
         <div class="mt-8 text-center px-4">
             <p class="text-[9px] font-black text-slate-300 uppercase tracking-[0.4em] leading-relaxed">
-                Hero Technology Inc. Security Layer 
+                Hero Technology Inc.
             </p>
         </div>
     </div>

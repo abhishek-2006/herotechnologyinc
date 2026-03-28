@@ -1,9 +1,20 @@
 <?php 
 include 'header.php';
 
-$course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
+$slug = isset($_GET['slug']) ? mysqli_real_escape_string($conn, $_GET['slug']) : '';
 
-// Dynamic Query: Pulling all relevant course data including metadata
+// 2. Resolve Slug to Course ID (Primary Intelligence Fetch)
+$sql = "SELECT course_id FROM courses WHERE slug = '$slug' AND status = 'publish' LIMIT 1";
+$res = mysqli_query($conn, $sql);
+$resolved = mysqli_fetch_assoc($res);
+
+if (!$resolved) {
+    header("Location: courses.php");
+    exit();
+}
+
+$course_id = $resolved['course_id'];
+
 $query = "SELECT c.*, cat.category_name, i.name as instructor_name, i.email as instructor_email, i.profile_image as instructor_img
           FROM courses c 
           JOIN course_category cat ON c.category_id = cat.category_id 
@@ -13,11 +24,6 @@ $query = "SELECT c.*, cat.category_name, i.name as instructor_name, i.email as i
 $result = mysqli_query($conn, $query);
 $course = mysqli_fetch_assoc($result);
 
-if (!$course) {
-    header("Location: courses.php");
-    exit();
-}
-
 // Check Enrollment Status
 $isEnrolled = false;
 if (isset($_SESSION['user_id'])) {
@@ -25,9 +31,6 @@ if (isset($_SESSION['user_id'])) {
     $check = mysqli_query($conn, "SELECT 1 FROM enrollments WHERE user_id = '$u_id' AND course_id = '$course_id' AND status = 'active' LIMIT 1");
     $isEnrolled = mysqli_num_rows($check) > 0;
 }
-
-// Logic for Dynamic Favicon
-$favicon = file_exists('assets/img/favicon.ico') ? 'assets/img/favicon.ico' : 'assets/img/logo.png';
 ?>
 
 <script>
@@ -70,7 +73,7 @@ $favicon = file_exists('assets/img/favicon.ico') ? 'assets/img/favicon.ico' : 'a
             <div class="lg:w-1/3 w-full lg:relative lg:right-4 z-25 animate__animated animate__zoomIn">
                 <div class="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden">
                     <div class="h-64 relative overflow-hidden">
-                        <img src="assets/img/courses/<?php echo $course['thumbnail']; ?>" 
+                        <img src="<?php echo BASE_URL; ?>assets/img/courses/<?php echo $course['thumbnail']; ?>" 
                              class="w-full h-full object-cover transition-all duration-500 hover:scale-110">
                     </div>
                     <div class="p-8">
@@ -80,19 +83,24 @@ $favicon = file_exists('assets/img/favicon.ico') ? 'assets/img/favicon.ico' : 'a
                         </div>
                         
                         <div class="flex flex-col gap-3">
-                            <?php if($isEnrolled): ?>
-                                <a href="learn.php?id=<?php echo $course['course_id']; ?>" 
+                            <?php if(isset($_SESSION['user_id']) && $isEnrolled): ?>
+                                <a href="<?php echo BASE_URL; ?>learn.php?id=<?php echo $course['course_id']; ?>" 
                                    class="block w-full text-center bg-emerald-500 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-all">
                                    Continue Learning
                                 </a>
+                            <?php elseif(isset($_SESSION['user_id'])): ?>
+                                <a href="<?php echo BASE_URL; ?>process/enroll.php?id=<?php echo $course['course_id']; ?>" 
+                                   class="block w-full text-center bg-hero-orange text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all">
+                                   Enroll Now
+                                </a>
                             <?php else: ?>
-                                <a href="process/enroll.php?id=<?php echo $course['course_id']; ?>" 
+                                <a href="<?php echo BASE_URL; ?>login.php?redirect=course-details.php?id=<?php echo $course['course_id']; ?>" 
                                    class="block w-full text-center bg-hero-orange text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all">
                                    Enroll Now
                                 </a>
                             <?php endif; ?>
 
-                            <a href="demo-lecture.php?id=<?php echo $course['course_id']; ?>" 
+                            <a href="<?php echo BASE_URL; ?>demo/course/<?php echo $course['slug']; ?>" 
                                class="block w-full text-center border-2 border-hero-blue dark:border-white/20 text-hero-blue dark:text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-hero-blue hover:text-white transition-all">
                                 Watch Demo
                             </a>
@@ -102,10 +110,7 @@ $favicon = file_exists('assets/img/favicon.ico') ? 'assets/img/favicon.ico' : 'a
             </div>
         </div>
     </div>
-    
-    <?php if(file_exists('assets/img/logo.png')): ?>
-        <img src="assets/img/logo.png" class="absolute -right-20 -bottom-20 h-96 opacity-5 brightness-0 invert pointer-events-none">
-    <?php endif; ?>
+    <img src="<?php echo BASE_URL; ?>assets/img/logo.png" class="absolute -right-20 -bottom-20 h-96 opacity-5 brightness-0 invert pointer-events-none">
 </section>
 
 <section class="max-w-7xl mx-auto px-4 mt-20 dark:bg-[#020617]">
@@ -209,9 +214,7 @@ $favicon = file_exists('assets/img/favicon.ico') ? 'assets/img/favicon.ico' : 'a
     </div>
 
     <div class="mt-20 pt-10 border-t border-gray-100 dark:border-slate-800 flex justify-center">
-        <?php if(file_exists('assets/img/logo.png')): ?>
-            <img src="assets/img/logo.png" class="h-8 opacity-20 dark:invert" alt="Hero Tech">
-        <?php endif; ?>
+        <img src="<?php echo BASE_URL; ?>assets/img/logo.png" class="h-8 opacity-20 dark:invert" alt="Hero Tech">
     </div>
 </section>
 

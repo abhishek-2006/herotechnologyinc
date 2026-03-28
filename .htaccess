@@ -1,0 +1,7 @@
+RewriteEngine On
+
+RewriteRule ^home/?$ index.php [L,QSA]
+
+RewriteRule ^demo/course/([a-zA-Z0-9-]+)/?$ demo-lecture.php?slug=$1 [L,QSA]
+
+RewriteRule ^course/([a-zA-Z0-9-]+)/?$ course-details.php?slug=$1 [L,QSA]

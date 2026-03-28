@@ -30,29 +30,18 @@ $result = mysqli_query($conn, "
 while ($row = mysqli_fetch_assoc($result)) { $recentActivities[] = $row; }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hero Admin | Global Control</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
-        @theme {
-            --color-hero-blue: #1B264F;   /* From Logo Text */
-            --color-hero-orange: #EE6C4D; /* From Logo Icon */
-            --color-app-bg: #F8FAFC;
-            --color-side-bg: #FFFFFF;
-            --color-border-dim: #E2E8F0;
-            --color-text-main: #0F172A;
-        }
-        .dark {
-            --color-app-bg: #020617;
-            --color-side-bg: #0F172A;
-            --color-border-dim: #1E293B;
-            --color-text-main: #F8FAFC;
-        }
+        @theme { --color-hero-blue: #1B264F; --color-hero-orange: #EE6C4D; }
+        :root { --app-bg: #F8FAFC; --card-bg: #FFFFFF; --text-main: #1B264F; --border-color: #E2E8F0; }
+        .dark { --app-bg: #020617; --card-bg: #0F172A; --text-main: #F8FAFC; --border-color: #1E293B; }
         @utility stat-card {
             background-color: var(--color-side-bg);
             border: 1px solid var(--color-border-dim);

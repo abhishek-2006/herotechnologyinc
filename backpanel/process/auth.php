@@ -4,6 +4,14 @@ require '../../config.php';
 $username = $_POST['username'];
 $password = md5($_POST['password']);
 
+if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha'] || empty($_SESSION['captcha'])) {
+    echo "<script>
+            alert('Invalid Captcha. Access Denied.'); 
+            window.location='../login.php';
+          </script>";
+    exit();
+}
+
 $sql = "SELECT * FROM user_master WHERE (username='$username' OR email='$username') AND password='$password'";
 $result = mysqli_query($conn, $sql);
 

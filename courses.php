@@ -87,7 +87,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
              data-title="<?= strtolower($course['title']) ?>">
             
             <div class="h-75 bg-gray-50 relative overflow-hidden">
-                <a href="course-details.php?id=<?php echo $course['course_id']; ?>" class="absolute inset-0 z-10">
+                <a href="course/<?php echo $course['slug']; ?>" class="absolute inset-0 z-10">
                     <img src="assets/img/courses/<?php echo htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-fill transition-all duration-500 group-hover:scale-110 cursor-pointer" alt="Course Thumbnail">
                 </a>
             </div>
@@ -126,7 +126,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
                             Resume Course
                         </a>
                     <?php else: ?>
-                        <a href="course-details.php?id=<?php echo $course['course_id']; ?>" class="bg-hero-orange text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:-translate-y-1 transition-all">
+                        <a href="course/<?php echo $course['slug']; ?>" class="bg-hero-orange text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:-translate-y-1 transition-all">
                             View Course Details
                         </a>
                     <?php endif; ?>

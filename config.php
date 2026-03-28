@@ -18,6 +18,7 @@ try {
 
 // 2. PayU Gateway Configuration
 define('PAYU_MODE', 'sandbox'); 
+define('BASE_URL', '/herotechnologyinc/');
 
 define('PAYU_MERCHANT_KEY', (PAYU_MODE == 'sandbox') ? "TxuxLn" : "K4cfY7");
 define('PAYU_SALT', (PAYU_MODE == 'sandbox') ? "oYVA5vyBJvRcn9fMqbFHM71LRLByuvf3" : "Dr2DZtzxj6h59L15q1Pj5L91tCBBZAf7");

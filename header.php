@@ -10,7 +10,7 @@ require_once 'config.php';
     <title>Hero Technology Inc. | Next-Gen Learning</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>assets/img/favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.x"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -60,11 +60,11 @@ require_once 'config.php';
                 <div class="flex items-center">
                     <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
                         <a href="dashboard.php" class="block">
-                            <img src="assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
+                            <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
                         </a>
                     <?php else: ?>
                         <a href="index.php" class="block">
-                            <img src="assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
+                            <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
                         </a>
                     <?php endif; ?>
                 </div>
@@ -74,18 +74,17 @@ require_once 'config.php';
                 </button>
 
                 <ul class="hidden lg:flex items-center space-x-8 h-full">
+                    <li class="h-full nav-link-item">
+                        <a href="index.php" class="nav-link-item <?= ($currentPage == 'index.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
+                            Home
+                            <?php if($currentPage == 'index.php') echo '<div class="active-indicator"></div>'; ?>
+                        </a>
+                    </li>
                     <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                         <li class="h-full nav-link-item">
                             <a href="dashboard.php" class="nav-link-item <?= ($currentPage == 'dashboard.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                                 Dashboard
                                 <?php if($currentPage == 'dashboard.php') echo '<div class="active-indicator"></div>'; ?>
-                            </a>
-                        </li>
-                    <?php else: ?>
-                        <li class="h-full nav-link-item">
-                            <a href="index.php" class="nav-link-item <?= ($currentPage == 'index.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
-                                Home
-                                <?php if($currentPage == 'index.php') echo '<div class="active-indicator"></div>'; ?>
                             </a>
                         </li>
                     <?php endif; ?>
@@ -101,12 +100,6 @@ require_once 'config.php';
                             <?php if($currentPage == 'staffing.php') echo '<div class="active-indicator"></div>'; ?>
                         </a>
                     </li>
-                    <li class="h-full nav-link-item">
-                        <a href="clients.php" class="nav-link-item <?= ($currentPage == 'clients.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
-                            Clients
-                            <?php if($currentPage == 'clients.php') echo '<div class="active-indicator"></div>'; ?>
-                        </a>
-                    </li>
 
                     <li class="h-full group relative nav-link-item">
                         <a href="training.php" class="nav-link-item <?= ($currentPage == 'training.php' || $currentPage == 'courses.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
@@ -118,12 +111,6 @@ require_once 'config.php';
                             <li><a href="training.php" class="block py-2 text-[10px] font-bold uppercase hover:text-hero-orange">Online Training</a></li>
                             <li><a href="classroom.php" class="block py-2 text-[10px] font-bold uppercase hover:text-hero-orange">Classroom</a></li>
                         </ul>
-                    </li>
-                    <li class="h-full nav-link-item">
-                        <a href="testimonials.php" class="nav-link-item <?= ($currentPage == 'testimonials.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
-                            Testimonials
-                            <?php if($currentPage == 'testimonials.php') echo '<div class="active-indicator"></div>'; ?>
-                        </a>
                     </li>
                     <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
                         <li class="h-full nav-link-item">
@@ -137,12 +124,6 @@ require_once 'config.php';
                         <a href="contact.php" class="nav-link-item <?= ($currentPage == 'contact.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                             Contact Us
                             <?php if($currentPage == 'contact.php') echo '<div class="active-indicator"></div>'; ?>
-                        </a>
-                    </li>
-                    <li class="h-full nav-link-item">
-                        <a href="faq.php" class="nav-link-item <?= ($currentPage == 'faq.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
-                            FAQ
-                            <?php if($currentPage == 'faq.php') echo '<div class="active-indicator"></div>'; ?>
                         </a>
                     </li>
                 </ul>

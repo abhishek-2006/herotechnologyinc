@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 14, 2026 at 08:47 AM
+-- Generation Time: Mar 28, 2026 at 12:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -89,6 +89,7 @@ CREATE TABLE `courses` (
   `category_id` int(11) DEFAULT NULL,
   `instructor_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
   `summary` varchar(500) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
@@ -106,12 +107,12 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `is_featured`, `status`, `created_at`) VALUES
-(1, 1, 1, 'Mastering C Programming', 'C Language Course', 'Complete C course from basics to advanced', 240, 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 0, 'publish', '2026-01-01 06:06:05'),
-(2, 2, 1, 'Full Stack Web Dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 06:06:05'),
-(3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 13:58:14'),
-(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 06:26:32'),
-(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 07:22:34');
+INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `slug`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `is_featured`, `status`, `created_at`) VALUES
+(1, 1, 1, 'Mastering C Programming', 'mastering-c-programming', 'C Language Course', 'Complete C course from basics to advanced', 240, 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 0, 'publish', '2026-01-01 06:06:05'),
+(2, 2, 1, 'Full Stack Web Dev', 'full-stack-web-dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 06:06:05'),
+(3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'full-stack-web-development-with-php-and-mysql', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 13:58:14'),
+(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'ai-and-machine-learning-mastery:-from-zero-to-real-world-models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 06:26:32'),
+(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'advanced-cyber-defense-and-infrastructure-hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 07:22:34');
 
 -- --------------------------------------------------------
 
@@ -235,9 +236,11 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`enrollment_id`, `user_id`, `course_id`, `enrolled_at`, `status`, `txnid`, `activated_at`) VALUES
-(1, 4, 4, '2026-03-07 14:20:02', 'active', 'HT_1772893202_4', '2026-03-07 14:20:02'),
+(1, 4, 4, '2026-03-07 14:20:02', 'completed', 'HT_1772893202_4', '2026-03-07 14:20:02'),
 (2, 4, 3, '2026-03-07 14:27:12', 'active', 'HT_1772893632_4', '2026-03-07 14:27:12'),
-(3, 4, 1, '2026-03-08 06:44:46', 'active', 'HT_1772952286_4', '2026-03-08 06:44:46');
+(3, 4, 1, '2026-03-08 06:44:46', 'active', 'HT_1772952286_4', '2026-03-08 06:44:46'),
+(11, 4, 6, '2026-03-28 07:31:06', 'pending', 'HT_1774683066_4', '2026-03-28 07:31:06'),
+(12, 4, 6, '2026-03-28 09:12:47', 'pending', 'HT_1774689167_4', '2026-03-28 09:12:47');
 
 -- --------------------------------------------------------
 
@@ -253,6 +256,7 @@ CREATE TABLE `instructors` (
   `expertise` varchar(255) DEFAULT NULL,
   `qualification` varchar(255) DEFAULT NULL,
   `experience_years` int(11) DEFAULT 0,
+  `profile_image` varchar(255) NOT NULL,
   `linkedin_url` varchar(255) DEFAULT NULL,
   `status` enum('active','inactive','suspended') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -263,8 +267,8 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`instructor_id`, `name`, `email`, `bio`, `expertise`, `qualification`, `experience_years`, `linkedin_url`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 05:57:39', '2026-03-08 06:25:47');
+INSERT INTO `instructors` (`instructor_id`, `name`, `email`, `bio`, `expertise`, `qualification`, `experience_years`, `profile_image`, `linkedin_url`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, '../assets/img/tutors/1773586913_abhishek.jpg', 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 05:57:39', '2026-03-15 15:01:53');
 
 -- --------------------------------------------------------
 
@@ -319,7 +323,29 @@ INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `con
 (8, 4, '::1', 'Student Logged Out', 'offline', '2026-03-08 10:35:57'),
 (9, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 10:46:10'),
 (10, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:49:18'),
-(11, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:50:33');
+(11, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:50:33'),
+(12, 4, '::1', 'Student Logged Out', 'offline', '2026-03-15 06:35:19'),
+(13, 1, '::1', 'Admin Logged In', 'online', '2026-03-15 10:43:02'),
+(14, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 05:02:06'),
+(15, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 05:05:38'),
+(16, 4, '::1', 'Admin Logged Out', 'offline', '2026-03-21 05:06:52'),
+(17, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 06:24:40'),
+(18, 1, '::1', 'Admin Logged In', 'online', '2026-03-21 06:25:55'),
+(19, 4, '::1', 'Student Logged In', 'online', '2026-03-21 06:31:12'),
+(20, 1, '::1', 'Admin Logged In', 'online', '2026-03-22 05:13:41'),
+(21, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 05:15:17'),
+(22, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 07:29:49'),
+(23, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 07:58:57'),
+(24, 4, '::1', 'Student Logged In', 'online', '2026-03-22 08:14:56'),
+(25, 4, '::1', 'Student Logged In', 'online', '2026-03-22 10:08:20'),
+(26, 4, '::1', 'Student Logged In', 'online', '2026-03-22 10:25:16'),
+(27, 4, '::1', 'Student Logged In', 'online', '2026-03-22 17:31:56'),
+(28, 4, '::1', 'Student Logged In', 'online', '2026-03-28 07:26:33'),
+(29, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 07:27:52'),
+(30, 4, '::1', 'Student Logged In', 'online', '2026-03-28 09:12:18'),
+(31, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 10:39:23'),
+(32, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 10:42:05'),
+(33, 1, '::1', 'Admin Logged In', 'online', '2026-03-28 10:47:14');
 
 -- --------------------------------------------------------
 
@@ -453,6 +479,8 @@ ALTER TABLE `corporate_clients`
 --
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`course_id`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD UNIQUE KEY `slug_2` (`slug`),
   ADD KEY `category_id` (`category_id`),
   ADD KEY `instructor_id` (`instructor_id`);
 
@@ -570,7 +598,7 @@ ALTER TABLE `corporate_clients`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `course_category`
@@ -606,7 +634,7 @@ ALTER TABLE `demo_usage_logs`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -624,13 +652,13 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `security_questions`

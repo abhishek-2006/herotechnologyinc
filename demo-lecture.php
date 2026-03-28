@@ -1,14 +1,14 @@
 <?php
 include 'header.php';
 
-$course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 $ip = $_SERVER['REMOTE_ADDR'];
 $limit_minutes = 5.0; 
 
-// Fetch Course Data
-$course_query = "SELECT title, demo_video_url FROM courses WHERE course_id = '$course_id' LIMIT 1";
-$course_res = mysqli_query($conn, $course_query);
-$course_data = mysqli_fetch_assoc($course_res);
+$slug = isset($_GET['slug']) ? mysqli_real_escape_string($conn, $_GET['slug']) : '';
+$query = "SELECT * FROM courses WHERE slug = '$slug' AND status = 'publish' LIMIT 1";
+$res = mysqli_query($conn, $query);
+$course_data = mysqli_fetch_assoc($res);
+$course_id = $course_data['course_id'] ?? 0;
 
 // Parse YouTube ID
 $v_id = "";
@@ -34,7 +34,7 @@ $random_msg = $messages[array_rand($messages)];
             <h1 class="text-xl font-black italic uppercase tracking-widest text-hero-orange">
                 <i class="fas fa-play-circle"></i> <?= htmlspecialchars($course_data['title']) ?>
             </h1>
-            <img src="assets/img/logo.png" class="h-8 opacity-80 brightness-0 invert" alt="Hero Logo">
+            <img src="<?= BASE_URL ?>assets/img/logo.png" class="h-8 opacity-80 brightness-0 invert" alt="Hero Logo">
         </div>
 
         <div class="animate__animated animate__zoomIn aspect-video bg-zinc-900 rounded-[3rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-zinc-800 relative">
@@ -48,8 +48,8 @@ $random_msg = $messages[array_rand($messages)];
                     <p class="text-blue-200 text-sm max-w-sm mb-10 font-medium leading-relaxed uppercase tracking-widest opacity-60">Demo Node Access Expired</p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 w-full justify-center items-center">
-                        <a href="signup.php?id=<?= $course_id ?>" class="bg-hero-orange text-white px-12 py-4 rounded-xl font-black uppercase text-[10px] tracking-[0.2em] shadow-xl shadow-orange-500/20 hover:scale-105 transition-transform active:scale-95">Enroll Now</a>
-                        <a href="courses.php" class="bg-white/5 border border-white/10 text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white/10 transition-colors">Explore Others</a>
+                        <a href="<?= BASE_URL ?>signup.php?id=<?= $course_id ?>" class="bg-hero-orange text-white px-12 py-4 rounded-xl font-black uppercase text-[10px] tracking-[0.2em] shadow-xl shadow-orange-500/20 hover:scale-105 transition-transform active:scale-95">Enroll Now</a>
+                        <a href="<?= BASE_URL ?>courses.php" class="bg-white/5 border border-white/10 text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white/10 transition-colors">Explore Others</a>
                     </div>
                 </div>
             </div>

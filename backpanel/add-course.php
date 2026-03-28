@@ -12,6 +12,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+function createSlug($string) {
+    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
+    return $slug;
+}
+
 if (isset($_POST['submit_course'])) {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $category_id = mysqli_real_escape_string($conn, $_POST['category_id']);
@@ -24,6 +29,7 @@ if (isset($_POST['submit_course'])) {
     $video_url = mysqli_real_escape_string($conn, $_POST['video_url']);
     $demo_video_url = mysqli_real_escape_string($conn, $_POST['demo_video_url']);
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
+    $slug = createSlug($title);
     
     // 1. Handle Thumbnail Upload 
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {
@@ -73,8 +79,8 @@ if (isset($_POST['submit_course'])) {
     }
 
     // 3. Intelligence Insert Protocol
-    $sql = "INSERT INTO courses (category_id, instructor_id, title, summary, description, duration, video_url, video_file, demo_video_url, price, thumbnail, status, is_featured) 
-            VALUES ('$category_id', '$instructor_id', '$title', '$summary', '$description', '$duration', '$video_url', '$video_file', '$demo_video_url', '$price', '$thumbnail', '$status', $is_featured)";
+    $sql = "INSERT INTO courses (category_id, instructor_id, title, slug, summary, description, duration, video_url, video_file, demo_video_url, price, thumbnail, status, is_featured) 
+            VALUES ('$category_id', '$instructor_id', '$title', '$slug', '$summary', '$description', '$duration', '$video_url', '$video_file', '$demo_video_url', '$price', '$thumbnail', '$status', $is_featured)";
     
     if (mysqli_query($conn, $sql)) {
         header("Location: manage-courses.php?msg=course_deployed");

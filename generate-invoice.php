@@ -28,6 +28,7 @@ if (!$data) { die("FULFILLMENT_ERROR: Transaction data not found in PayUMoney no
     <meta charset="UTF-8">
     <title>Clearance_<?= $txnid ?> | Hero Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500&display=swap');
@@ -130,7 +131,7 @@ if (!$data) { die("FULFILLMENT_ERROR: Transaction data not found in PayUMoney no
             <i class="fas fa-arrow-left mr-2"></i> Dashboard
         </a>
         <button onclick="executeFulfillment()" id="print-button" class="bg-[#1B264F] text-white px-8 py-3 rounded-xl text-xs font-black uppercase tracking-widest shadow-xl hover:bg-[#EE6C4D] transition-all active:scale-95">
-            <i class="fas fa-file-pdf mr-2"></i> Download Clearance
+            <i class="fas fa-file-pdf mr-2"></i> Download Invoice
         </button>
     </div>
 
@@ -146,14 +147,14 @@ if (!$data) { die("FULFILLMENT_ERROR: Transaction data not found in PayUMoney no
 
             const opt = {
                 margin: 0.3,
-                filename: 'HeroTech_Clearance_<?= $txnid ?>.pdf',
+                filename: 'HeroTech_Invoice_<?= $txnid ?>.pdf',
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: { scale: 3, scrollY: 0, useCORS: true },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i> Download Clearance';
+                btn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i> Download Invoice';
                 btn.disabled = false;
             });
         }

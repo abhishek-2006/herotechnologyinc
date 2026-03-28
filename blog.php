@@ -1,7 +1,7 @@
 <?php 
 include 'header.php'; 
 
-// 1. Fetch Blog Posts (Procedural mysqli)
+// 1. Fetch Blog Posts
 $sqlBlogs = "SELECT c.title, c.description, c.thumbnail, cat.category_name, u.name as author, c.created_at 
              FROM courses c 
              JOIN course_category cat ON c.category_id = cat.category_id 
@@ -102,22 +102,6 @@ $resBlogs = mysqli_query($conn, $sqlBlogs);
             </button>
         </div>
     </div>
-</section>
-
-<section id="newsletter-node" class="animate__animated py-20 bg-hero-blue overflow-hidden relative">
-    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <i class="fas fa-microchip animate__animated animate__pulse animate__infinite animate__slow text-4xl text-hero-orange mb-6"></i>
-        <h2 class="text-3xl font-black text-white italic uppercase tracking-tighter mb-4">Synchronize Your Inbox</h2>
-        <p class="text-gray-400 text-sm mb-10 max-w-lg mx-auto leading-relaxed">Join 5,000+ engineers receiving weekly technical dispatches and curriculum updates.</p>
-        
-        <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input type="email" placeholder="ENTER EMAIL NODE" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-xs font-bold outline-none focus:border-hero-orange transition-all uppercase tracking-widest">
-            <button type="submit" class="bg-hero-orange text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs shadow-lg shadow-orange-500/20 active:scale-95 transition-all">
-                Subscribe
-            </button>
-        </form>
-    </div>
-    <div class="absolute -top-20 -right-20 w-64 h-64 bg-hero-orange/10 rounded-full blur-3xl"></div>
 </section>
 
 <?php include 'footer.php'; ?>

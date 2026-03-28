@@ -8,7 +8,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="bg-white p-3 rounded-2xl shadow-xl inline-block mb-6">
             <img src="assets/img/logo.png" alt="Hero Tech Logo" class="h-10 w-auto object-contain">
         </div>
-        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Command Center</p>
+        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Command Center</p>
     </div>
 
     <nav class="flex-1 px-6 space-y-2">

@@ -11,6 +11,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+function createSlug($string) {
+    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
+    return $slug;
+}
+
 $course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 
 // Fetch Existing Intelligence Node
@@ -33,6 +38,7 @@ if (isset($_POST['update_course'])) {
     $status = mysqli_real_escape_string($conn, $_POST['status']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
     $video_url = mysqli_real_escape_string($conn, $_POST['video_url']);
+    $slug = createSlug($title);
 
     // Asset Management: Thumbnail
     $thumb_name = $course['thumbnail'];

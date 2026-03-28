@@ -82,7 +82,9 @@
                 © 2026 Hero Technology Inc. All rights reserved.
             </p>
             <div class="flex items-center gap-8 grayscale opacity-40 hover:opacity-100 transition-opacity">
-                <i class="fas fa-certificate text-xl"></i>
+                <a href="certifications.php" class="hover:text-white transition-colors">
+                    <i class="fas fa-certificate text-xl"></i>
+                </a>
                 <i class="fas fa-shield-halved text-xl"></i>
                 <i class="fas fa-medal text-xl"></i>
             </div>

@@ -221,7 +221,7 @@
             <div class="animate__animated animate__fadeInUp <?= $delay_class ?> group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
                 
                 <div class="h-64 relative overflow-hidden bg-slate-900">
-                    <a href="course-details.php?id=<?= $course['course_id']; ?>" class="absolute inset-0 z-10">
+                    <a href="course/<?= htmlspecialchars($course['slug']); ?>" class="absolute inset-0 z-10">
                         <img src="assets/img/courses/<?= htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 cursor-pointer" alt="Course Thumbnail">
                     </a>
                     
@@ -262,7 +262,7 @@
                             <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Tuition Fee</p>
                             <span class="text-2xl font-black italic text-hero-blue dark:text-hero-orange">₹<?= number_format($course['price'], 0); ?></span>
                         </div>
-                        <a href="course-details.php?id=<?= $course['course_id']; ?>" 
+                        <a href="course/<?= htmlspecialchars($course['slug']); ?>" 
                            class="bg-hero-blue dark:bg-white text-white dark:text-hero-blue px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-hero-orange dark:hover:bg-hero-orange dark:hover:text-white transition-all shadow-xl shadow-blue-500/10">
                             Enroll Now
                         </a>
