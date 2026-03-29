@@ -80,7 +80,7 @@ require_once 'config.php';
                             <?php if($currentPage == 'index.php') echo '<div class="active-indicator"></div>'; ?>
                         </a>
                     </li>
-                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                         <li class="h-full nav-link-item">
                             <a href="dashboard.php" class="nav-link-item <?= ($currentPage == 'dashboard.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                                 Dashboard
@@ -129,7 +129,7 @@ require_once 'config.php';
                 </ul>
 
                 <div class="hidden lg:flex items-center gap-4">
-                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                         <a href="logout.php" class="text-[11px] font-black uppercase text-red-500 hover:underline">Logout</a>
                     <?php else: ?>
                         <a href="login.php" class="text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-hero-blue">Login</a>
