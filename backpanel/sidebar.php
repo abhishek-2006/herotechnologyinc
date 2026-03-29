@@ -37,9 +37,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <i class="fas fa-fingerprint"></i> Student Base
         </a>
 
-        <a href="revenue-nodes.php" 
-           class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-xs uppercase tracking-widest <?= ($current_page == 'revenue-nodes.php') ? 'bg-hero-blue text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:bg-hero-blue/5 hover:text-hero-orange' ?>">
-            <i class="fas fa-wallet"></i> Revenue Nodes
+        <a href="revenue.php" 
+           class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-xs uppercase tracking-widest <?= ($current_page == 'revenue.php') ? 'bg-hero-blue text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:bg-hero-blue/5 hover:text-hero-orange' ?>">
+            <i class="fas fa-wallet"></i> Revenue
         </a>
 
         <a href="reports.php" 

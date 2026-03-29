@@ -192,87 +192,81 @@
 <section class="relative py-24 md:py-32 overflow-hidden bg-[var(--app-bg)]">
     
     <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none" 
-         style="background-image: radial-gradient(var(--text-main) 1px, transparent 1px); background-size: 30px 30px;"></div>
+         style="background-image: radial-gradient(var(--text-main) 1px, transparent 1px); background-size: 40px 40px;"></div>
 
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
             <div class="text-left">
                 <div class="flex items-center gap-3 mb-4">
                     <span class="w-12 h-[2px] bg-hero-orange"></span>
-                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-hero-orange">Global Repository</span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-hero-orange animate-pulse">Global Repository</span>
                 </div>
                 <h2 class="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-none">
                     Premium <span class="text-hero-orange not-italic">Learning Tracks</span>
                 </h2>
             </div>
-            <a href="courses.php" class="mono text-[12px] font-bold uppercase tracking-widest border-b border-hero-orange pb-2 hover:text-hero-orange transition-all">
+            <a href="courses.php" class="mono text-[12px] font-bold uppercase tracking-widest group flex items-center gap-3 transition-all">
                 Explore All Courses
+                <i class="fas fa-arrow-right text-hero-orange group-hover:translate-x-2 transition-transform"></i>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             <?php 
-                $delay = 0;
                 $result = mysqli_query($conn, "SELECT c.*, cat.category_name FROM courses c JOIN course_category cat ON c.category_id = cat.category_id WHERE c.status = 'publish' AND c.is_featured = 1 ORDER BY RAND() LIMIT 3");
-                $delay_class = ($delay == 0) ? "" : "animate__delay-{$delay}s";
                 while($course = mysqli_fetch_assoc($result)): 
             ?>
-            <div class="animate__animated animate__fadeInUp <?= $delay_class ?> group relative bg-[var(--card-bg)] rounded-[2.5rem] border border-[var(--border)] overflow-hidden transition-all duration-500 hover:border-hero-orange/50 shadow-2xl shadow-black/5">
+            <div class="group relative bg-[var(--card-bg)] rounded-[3rem] overflow-hidden transition-all duration-700 hover:-translate-y-4 
+                        shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] 
+                        hover:shadow-[0_40px_80px_rgba(238,108,77,0.15)]">
                 
-                <div class="h-64 relative overflow-hidden bg-slate-900">
+                <div class="h-72 relative overflow-hidden">
                     <a href="course/<?= htmlspecialchars($course['slug']); ?>" class="absolute inset-0 z-10">
-                        <img src="assets/img/courses/<?= htmlspecialchars($course['thumbnail']); ?>" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 cursor-pointer" alt="Course Thumbnail">
+                        <img src="assets/img/courses/<?= htmlspecialchars($course['thumbnail']); ?>" 
+                             class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale-[0.5] group-hover:grayscale-0" alt="Thumbnail">
                     </a>
                     
-                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-hero-orange/10 to-transparent h-full w-full -translate-y-full group-hover:animate-[scan_3s_linear_infinite] pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-hero-orange/20 to-transparent h-full w-full -translate-y-full group-hover:animate-[scan_2s_linear_infinite] pointer-events-none z-20"></div>
                     
-                    <div class="absolute top-6 left-6 px-4 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full">
-                        <span class="text-[8px] font-black uppercase tracking-widest text-white"><?= htmlspecialchars($course['category_name']); ?></span>
+                    <div class="absolute top-8 left-8 z-30">
+                        <span class="px-5 py-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl text-[8px] font-black uppercase tracking-[0.2em] text-white">
+                            <?= htmlspecialchars($course['category_name']); ?>
+                        </span>
                     </div>
                 </div>
 
-                <div class="p-10">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex gap-1">
-                            <div class="w-1 h-1 bg-hero-orange rounded-full animate-ping"></div>
-                            <div class="w-1 h-1 bg-hero-orange rounded-full"></div>
-                        </div>
+                <div class="p-10 relative">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-2 h-2 bg-hero-orange rounded-full animate-ping"></div>
+                        <span class="text-[8px] font-black uppercase tracking-widest text-slate-400">Course Active</span>
                     </div>
                     
-                    <h3 class="text-xl font-black uppercase tracking-tight mb-4 leading-snug">
+                    <h3 class="text-2xl font-black uppercase tracking-tighter mb-4 leading-none group-hover:text-hero-orange transition-colors">
                         <?= htmlspecialchars($course['title']); ?>
                     </h3>
                     
-                    <p class="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2 mb-8">
+                    <p class="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2 mb-8 opacity-80">
                         <?= htmlspecialchars($course['summary']); ?>
                     </p>
 
-                    <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Course Duration</p>
-                    <span class="text-sm font-bold uppercase tracking-tight text-hero-blue">
-                        <?php 
-                            $minutes = $course['duration'] ?? 0;
-                            $hours = $minutes / 60;
-                            echo htmlspecialchars(number_format($hours, 2)) . ' Hrs';
-                        ?>
-                    </span>
-                    
-                    <div class="flex items-center justify-between pt-8 border-t border-[var(--border)]">
+                    <div class="flex items-center justify-between pt-8 bg-gradient-to-t from-hero-orange/[0.03] to-transparent -mx-10 px-10">
                         <div>
-                            <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1">Tuition Fee</p>
-                            <span class="text-2xl font-black italic text-hero-blue dark:text-hero-orange">₹<?= number_format($course['price'], 0); ?></span>
+                            <p class="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1 italic">Total Tuition</p>
+                            <span class="text-3xl font-black italic text-hero-blue dark:text-white group-hover:text-hero-orange transition-colors">
+                                ₹<?= number_format($course['price'], 0); ?>
+                            </span>
                         </div>
+                        
                         <a href="course/<?= htmlspecialchars($course['slug']); ?>" 
-                           class="bg-hero-blue dark:bg-white text-white dark:text-hero-blue px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-hero-orange dark:hover:bg-hero-orange dark:hover:text-white transition-all shadow-xl shadow-blue-500/10">
-                            Enroll Now
+                           class="relative overflow-hidden bg-hero-blue dark:bg-hero-orange text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-orange-500/20 active:scale-95 transition-all">
+                           <span class="relative z-10">View Details</span>
+                           <div class="absolute inset-0 bg-hero-orange dark:bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                         </a>
                     </div>
                 </div>
             </div>
-            <?php 
-                $delay++;
-                endwhile; 
-                ?>
+            <?php endwhile; ?>
         </div>
     </div>
 </section>

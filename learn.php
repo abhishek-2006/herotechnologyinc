@@ -1,8 +1,13 @@
 <?php
 include 'header.php'; 
 // 1. Authentication
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['email']) || !isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
     header("Location: login.php");
+    exit();
+}
+
+if ($_SESSION['role'] !== 'student') {
+    header("Location: index.php");
     exit();
 }
 
@@ -65,7 +70,7 @@ if (!$course) {
                             class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-hero-orange mb-6 h-32 transition-all"></textarea>
                     
                     <button type="submit" class="w-full py-4 bg-hero-orange text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all">
-                        Submit Intelligence Review
+                        Submit Review
                     </button>
                 </form>
             </div>

@@ -54,7 +54,7 @@ if ($status === 'success') {
             <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner animate__animated animate__bounceIn animate__delay-1s">
                 <i class="fas fa-check text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-black uppercase italic tracking-tighter mb-2">Protocol <span class="text-hero-orange not-italic">Cleared</span></h2>
+            <h2 class="text-3xl font-black uppercase italic tracking-tighter mb-2">Payment <span class="text-emerald-500 not-italic">Successful</span></h2>
             <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-10">Access to course has been granted.</p>
             
             <div class="space-y-4">
@@ -69,9 +69,9 @@ if ($status === 'success') {
             <div class="w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner animate__animated animate__shakeX">
                 <i class="fas fa-times text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-black uppercase italic tracking-tighter mb-2">Sync <span class="text-hero-orange not-italic">Aborted</span></h2>
+            <h2 class="text-3xl font-black uppercase italic tracking-tighter mb-2">Payment <span class="text-red-500 not-italic">Failed</span></h2>
             <p class="text-slate-500 text-xs mb-10">The payment gateway could not verify the transaction signature.</p>
-            <a href="courses.php" class="block w-full py-5 bg-hero-orange text-white rounded-2xl font-black uppercase tracking-widest text-[10px]">Return to Academy</a>
+            <a href="courses.php" class="block w-full py-5 bg-hero-orange text-white rounded-2xl font-black uppercase tracking-widest text-[10px]">Return to Courses</a>
         <?php endif; ?>
 
     </div>

@@ -21,16 +21,16 @@ $user = mysqli_fetch_assoc($resUser);
 $user_id = $user['user_id'];
 
 // 2. Fetch Dynamic Analytics
-// Count Active Courses
+
 $active_res = mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'active'");
 $active_count = mysqli_fetch_row($active_res)[0];
 
-// Count Verified Skillset (Completed Courses)
-$skill_res = mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'completed'");
-$skill_count = mysqli_fetch_row($skill_res)[0];
+// Count Verified Certificates (Completed Courses)
+$cert_res = mysqli_query($conn, "SELECT COUNT(*) FROM enrollments WHERE user_id = '$user_id' AND status = 'completed'");
+$cert_count = mysqli_fetch_row($cert_res)[0];
 
 // Logic for Hours Logged (Placeholder logic: 5 hours per active course + 10 per completed)
-$hours_logged = ($active_count * 5.5) + ($skill_count * 12.0);
+$hours_logged = ($active_count * 5.5) + ($cert_count * 12.0);
 
 // 3. Fetch Active Learning Courses
 $sqlActive = "
@@ -80,7 +80,7 @@ $resActive = mysqli_query($conn, $sqlActive);
         
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12">
             <div>
-                <h1 class="text-3xl font-black text-hero-blue uppercase italic tracking-tighter">System Initialized</h1>
+                <h1 class="text-3xl font-black text-hero-blue uppercase italic tracking-tighter">Dashboard</h1>
                 <p class="text-gray-500 font-medium">Welcome back, <span class="text-hero-orange font-bold"><?php echo explode(' ', $user['name'])[0]; ?></span>. Your courses are active.</p>
             </div>
             <div class="flex items-center gap-4 bg-white p-2 pr-6 rounded-2xl border border-gray-100 shadow-sm">

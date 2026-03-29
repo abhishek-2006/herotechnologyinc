@@ -2,10 +2,8 @@
 require 'config.php'; 
 
 $error = '';
-// Determine current UI state
 $step = isset($_GET['step']) ? $_GET['step'] : 'identity';
 
-// Redirect protection: If trying to reset without passing security
 if ($step === 'reset' && !isset($_SESSION['recovery_user_id'])) {
     header("Location: forgot-password.php?error=unauthorized access");
     exit();

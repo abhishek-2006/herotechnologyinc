@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (isset($_SESSION['role']) && $_SESSION['role'] !== 'student') {
+    header("Location: ../backpanel/dashboard.php");
+    exit();
+}
+
 $_SESSION['payment_flow'] = true;
 
 $course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;

@@ -7,7 +7,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['username'])) {
     exit();
 }
 
-if ($_SESSION['role'] !== 'student') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
     die("Access Denied: Only students can view certifications.");
 }
 

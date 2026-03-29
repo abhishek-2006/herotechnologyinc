@@ -1,7 +1,6 @@
 <?php
 require '../config.php';
 
-$_SESSION['payment_flow'] = true;
 // 1. Session & Identity Validation
 if (!isset($_SESSION['payment_flow'])) {
     header("Location: ../");

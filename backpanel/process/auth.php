@@ -7,7 +7,7 @@ $password = md5($_POST['password']);
 if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha'] || empty($_SESSION['captcha'])) {
     echo "<script>
             alert('Invalid Captcha. Access Denied.'); 
-            window.location='../login.php';
+            window.location='../index.php';
           </script>";
     exit();
 }
