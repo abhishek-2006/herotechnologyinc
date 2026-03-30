@@ -7,12 +7,12 @@
                 <div class="flex items-center gap-3">
                     <div class="w-20 h-12 rounded-lg bg-white p-1 flex items-center justify-center overflow-hidden shadow-lg">
                         <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
-                            <a href="dashboard.php" class="w-full h-full flex items-center justify-center">
-                                <img src="assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
+                            <a href="<?php echo BASE_URL; ?>dashboard.php" class="w-full h-full flex items-center justify-center">
+                                <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
                             </a>
                         <?php else: ?>
-                            <a href="index.php" class="w-full h-full flex items-center justify-center">
-                                <img src="assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
+                            <a href="<?php echo BASE_URL; ?>index.php" class="w-full h-full flex items-center justify-center">
+                                <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Hero Tech" class="animate__animated animate__fadeInLeft animate__delay-500ms w-full h-full object-contain">
                             </a>
                         <?php endif; ?>
                         </a>
@@ -31,15 +31,15 @@
             <div>
                 <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-hero-orange mb-6">Training Nodes</h4>
                 <ul class="space-y-4 text-xs font-bold text-gray-400">
-                    <li><a href="courses.php" class="hover:text-white hover:pl-2 transition-all duration-300">All Courses</a></li>
-                    <li><a href="training.php" class="hover:text-white hover:pl-2 transition-all duration-300">Online Training</a></li>
-                    <li><a href="classroom.php" class="hover:text-white hover:pl-2 transition-all duration-300">Classroom Sessions</a></li>
-                    <li><a href="corporate.php" class="hover:text-white hover:pl-2 transition-all duration-300">Corporate Solutions</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>courses.php" class="hover:text-white hover:pl-2 transition-all duration-300">All Courses</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>training.php" class="hover:text-white hover:pl-2 transition-all duration-300">Online Training</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>classroom.php" class="hover:text-white hover:pl-2 transition-all duration-300">Classroom Sessions</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>corporate.php" class="hover:text-white hover:pl-2 transition-all duration-300">Corporate Solutions</a></li>
                     <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
-                        <li><a href="dashboard.php" class="hover:text-white hover:pl-2 transition-all duration-300">My Dashboard</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>dashboard.php" class="hover:text-white hover:pl-2 transition-all duration-300">My Dashboard</a></li>
                     <?php else: ?>
-                        <li><a href="signup.php" class="hover:text-white hover:pl-2 transition-all duration-300">Register</a></li>
-                        <li><a href="login.php" class="hover:text-white hover:pl-2 transition-all duration-300">Login</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>signup.php" class="hover:text-white hover:pl-2 transition-all duration-300">Register</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>login.php" class="hover:text-white hover:pl-2 transition-all duration-300">Login</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -47,20 +47,20 @@
             <div>
                 <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-hero-orange mb-6">Engineering Services</h4>
                 <ul class="space-y-4 text-xs font-bold text-gray-400">
-                    <li><a href="staffing.php" class="hover:text-white hover:pl-2 transition-all duration-300">Staffing Solutions</a></li>
-                    <li><a href="staffing.php#jobs" class="hover:text-white hover:pl-2 transition-all duration-300">Open Jobs</a></li>
-                    <li><a href="clients.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Clients</a></li>
-                    <li><a href="certifications.php" class="hover:text-white hover:pl-2 transition-all duration-300">Certifications</a></li>
-                    <li><a href="our-team.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Team</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>staffing.php" class="hover:text-white hover:pl-2 transition-all duration-300">Staffing Solutions</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>staffing.php#jobs" class="hover:text-white hover:pl-2 transition-all duration-300">Open Jobs</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>clients.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Clients</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>certifications.php" class="hover:text-white hover:pl-2 transition-all duration-300">Certifications</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>our-team.php" class="hover:text-white hover:pl-2 transition-all duration-300">Our Team</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-hero-orange mb-6">Support Terminal</h4>
                 <ul class="space-y-4 text-xs font-bold text-gray-400">
-                    <li><a href="faqs.php" class="hover:text-white transition-colors">Common FAQs</a></li>
-                    <li><a href="blog.php" class="hover:text-white transition-colors">Technical Blog</a></li>
-                    <li><a href="contact.php" class="hover:text-white transition-colors">Contact Us</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>faqs.php" class="hover:text-white transition-colors">Common FAQs</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>blog.php" class="hover:text-white transition-colors">Technical Blog</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>contact.php" class="hover:text-white transition-colors">Contact Us</a></li>
                     <li class="pt-2 border-t border-white/5 mt-4">
                         <span class="block text-white mb-1">HQ Location</span>
                         <span class="text-[10px] font-medium leading-loose tracking-wider opacity-60">
@@ -82,7 +82,7 @@
                 © 2026 Hero Technology Inc. All rights reserved.
             </p>
             <div class="flex items-center gap-8 grayscale opacity-40 hover:opacity-100 transition-opacity">
-                <a href="certifications.php" class="hover:text-white transition-colors">
+                <a href="<?php echo BASE_URL; ?>certifications.php" class="hover:text-white transition-colors">
                     <i class="fas fa-certificate text-xl"></i>
                 </a>
                 <i class="fas fa-shield-halved text-xl"></i>
