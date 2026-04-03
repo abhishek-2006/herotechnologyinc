@@ -124,7 +124,7 @@ $total_clients = mysqli_fetch_row($clients_query)[0];
 
 <section class="py-24 bg-white">
     <div class="max-w-5xl mx-auto px-4 text-center">
-        <div class="animate__animated animate__pulse animate__infinite animate__slow p-16 bg-hero-blue rounded-[4rem] relative overflow-hidden group">
+        <div class="p-16 bg-hero-blue rounded-[4rem] relative overflow-hidden group">
             <div class="relative z-10 text-white">
                 <img src="assets/img/logo.png" class="h-10 mx-auto mb-8 brightness-0 invert" alt="Hero Logo">
                 <h2 class="text-4xl font-black tracking-tight mb-8 italic uppercase">Ready to join the <span class="text-hero-orange not-italic">Curriculum?</span></h2>

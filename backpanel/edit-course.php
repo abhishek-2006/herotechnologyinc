@@ -175,7 +175,7 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Duration (in Minutes)</label>
-                            <input type="text" name="duration" value="<?= htmlspecialchars($course['duration']) ?>" class="form-input" placeholder="e.g. 12 Hours / 4 Weeks">
+                            <input type="text" name="duration" value="<?= htmlspecialchars($course['duration']) ?>" class="form-input" placeholder="e.g. 120 for 2 hours">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Assigned Instructor</label>

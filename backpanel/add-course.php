@@ -197,8 +197,8 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors WHERE status='acti
                 <div class="bg-[var(--card-bg)] p-8 rounded-[3rem] border border-[var(--border-dim)] shadow-sm">
                     <div class="space-y-6">
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Temporal Scale (Duration)</label>
-                            <input type="text" name="duration" class="input-field" placeholder="e.g. 15 Hours" required>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Duration (In Minutes)</label>
+                            <input type="text" name="duration" class="input-field" placeholder="e.g. 900" required>
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Technical Category</label>
