@@ -12,9 +12,18 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-function createSlug($string) {
-    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
-    return $slug;
+function generateTechnicalSlug($text) {
+        
+    $text = strtolower(trim($text));
+
+    // 2. Replace non-letters/numbers (Unicode) with a hyphen
+    $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+    // 3. Remove duplicate hyphens (e.g. --- to -)
+    $text = preg_replace('~-+~', '-', $text);
+
+    // 4. Trim leading/trailing hyphens
+    return trim($text, '-');
 }
 
 if (isset($_POST['submit_course'])) {
@@ -29,7 +38,7 @@ if (isset($_POST['submit_course'])) {
     $video_url = mysqli_real_escape_string($conn, $_POST['video_url']);
     $demo_video_url = mysqli_real_escape_string($conn, $_POST['demo_video_url']);
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
-    $slug = createSlug($title);
+    $slug = generateTechnicalSlug($title);
     
     // 1. Handle Thumbnail Upload 
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === 0) {

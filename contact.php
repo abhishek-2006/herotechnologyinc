@@ -1,17 +1,57 @@
 <?php 
 include 'header.php'; 
 
-// 1. Handle Inquiry Transmission (Procedural mysqli)
 $message_sent = false;
-if (isset($_POST['send_message'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
-    $message = mysqli_real_escape_string($conn, $_POST['message']);
 
-    // Logic to insert into contact_inquiries table if it exists
-    $sql = "INSERT INTO contact_inquiries (name, email, subject, message) VALUES ('$name', '$email', '$subject', '$message')";
+if (isset($_POST['send_message'])) {
+    // 1. Sanitize Incoming Data
+    $name    = mysqli_real_escape_string($conn, $_POST['name']);
+    $email   = mysqli_real_escape_string($conn, $_POST['email']);
+    $message = mysqli_real_escape_string($conn, $_POST['message']);
+    
+    // Handle Custom Subject Logic
+    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
+    if ($subject === 'Other' && !empty($_POST['custom_subject'])) {
+        $subject = mysqli_real_escape_string($conn, $_POST['custom_subject']);
+    }
+
+    // 2. Database Synchronization
+    $sql = "INSERT INTO contact_inquiries (name, email, subject, message) 
+            VALUES ('$name', '$email', '$subject', '$message')";
+    
     if(mysqli_query($conn, $sql)) {
+        
+        // 3. Email Dispatch Protocol
+        $to = "shahabhishek051@gmail.com";
+        $email_subject = "NEW INQUIRY: [" . $subject . "] from " . $name;
+        
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "From: Hero Technology Solutions <noreply@herotechnologyinc.com>" . "\r\n";
+        $headers .= "Reply-To: $email" . "\r\n";
+
+        $email_body = "
+        <html>
+        <head><title>New Dispatch</title></head>
+        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #1B264F;'>
+            <div style='max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #E2E8F0; border-radius: 20px;'>
+                <h2 style='color: #EE6C4D;'>New Intelligence Dispatch Received</h2>
+                <hr style='border: 0; border-top: 1px solid #E2E8F0;'>
+                <p><strong>Identity:</strong> $name</p>
+                <p><strong>Node Email:</strong> $email</p>
+                <p><strong>Protocol:</strong> $subject</p>
+                <div style='background: #F8FAFC; padding: 15px; border-radius: 10px;'>
+                    <strong>Message Content:</strong><br>
+                    $message
+                </div>
+                <p style='font-size: 10px; color: #94A3B8; margin-top: 20px;'>Hero Technology Inc. - Automated Terminal Notification</p>
+            </div>
+        </body>
+        </html>";
+
+        // Dispatch Email
+        @mail($to, $email_subject, $email_body, $headers);
+        
         $message_sent = true;
     }
 }
