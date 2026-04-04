@@ -1,16 +1,15 @@
 <?php
 session_start();
 
-if (
-    $_SERVER['REQUEST_METHOD'] !== 'GET' ||
-    !isset($_SESSION['captcha_request']) ||
-    $_SESSION['captcha_request'] !== true
-) {
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(403);
     exit();
 }
 
-unset($_SESSION['captcha_request']);
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
 
 $permitted_chars = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz1234567890';
 $captcha_string = substr(str_shuffle($permitted_chars), 0, 5);

@@ -9,7 +9,6 @@
         }
         exit;
     }
-    $_SESSION['captcha_request'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,32 +132,31 @@
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 p-5 rounded-[2rem] border border-gray-100 shadow-inner overflow-hidden animate__animated animate__fadeInUp animate__delay-1s">
-                        <div class="flex items-center justify-between mb-4 px-1">
-                            <label for="captcha" class="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                                Captcha <span class="text-red-500">*</span>
-                            </label>
+                    <div class="flex flex-nowrap items-center gap-3">
+                        <div class="w-full">
+                            <input id="captcha" type="text" name="captcha" maxlength="5" placeholder="CODE" 
+                                class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] outline-none focus:border-hero-orange transition-all shadow-sm" required/>
                         </div>
                         
-                        <div class="flex flex-nowrap items-center gap-3">
-                            <div class="w-full">
-                                <input id="captcha" type="text" name="captcha" maxlength="5" placeholder="CODE" 
-                                    class="w-full min-w-0 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-center font-mono text-lg text-hero-blue tracking-[0.5em] outline-none focus:border-hero-orange transition-all shadow-sm" required/>
-                            </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
                             
-                            <div class="flex-shrink-0 flex items-center gap-2">
-                                <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 relative group">
-                                    <img src="process/captcha.php" alt="Code" id="captcha_img" 
-                                        class="h-full w-full object-cover block grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-                                    <button type="button" onclick="document.getElementById('captcha_img').src='process/captcha.php?'+Math.random();" 
-                                        class="absolute inset-0 bg-hero-blue/10 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
-                                        <i class="fas fa-sync-alt text-hero-blue text-xs"></i>
-                                    </button>
-                                </div>
+                            <!-- captcha image -->
+                            <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                                <img src="process/captcha.php" alt="Code" id="captcha_img" 
+                                    class="h-full w-full object-cover block">
                             </div>
+
+                            <!-- refresh button -->
+                            <button 
+                                type="button"
+                                title="Refresh Captcha"
+                                onclick="document.getElementById('captcha_img').src='process/captcha.php?'+Math.random();"
+                                class="h-12 w-12 flex items-center justify-center bg-white border border-gray-200 rounded-xl shadow-sm hover:bg-gray-100 transition">
+                                <i class="fas fa-sync-alt text-hero-blue"></i>
+                            </button>
+
                         </div>
-                        <div id="captcha-error" class="error-text"></div>
-                    </div> 
+                    </div>
 
                     <button type="submit" name="login" class="cursor-pointer w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 uppercase tracking-[0.2em] text-xs">
                         Login

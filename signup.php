@@ -5,7 +5,6 @@
         header("Location: dashboard.php?already_logged_in");
         exit();
     }
-    $_SESSION['captcha_request'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
