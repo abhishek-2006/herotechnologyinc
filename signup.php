@@ -151,20 +151,50 @@
                     </div>
 
                     <div class="bg-[var(--color-app-bg)] p-4 rounded-2xl border border-[var(--color-border-dim)] shadow-inner">
-                        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 px-1">Captcha <span class="text-red-500">*</span></label>
-                        <div class="flex flex-nowrap items-center gap-3">
-                            <input type="text" name="captcha" id="captcha" maxlength="5" placeholder="CODE" 
-                                class="flex-1 min-w-0 px-4 py-2.5 bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] uppercase focus:border-hero-orange outline-none transition-all" />
-                            <div class="flex-shrink-0 flex items-center gap-2">
-                                <div class="h-10 w-24 bg-white rounded-xl overflow-hidden shadow-sm border border-[var(--color-border-dim)]">
-                                    <img src="process/captcha.php" alt="Code" class="h-full w-full object-cover" id="captcha_img">
+                        
+                        <label class="block text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 px-1">
+                            Captcha <span class="text-red-500">*</span>
+                        </label>
+
+                        <div class="flex items-center gap-3">
+
+                            <!-- input -->
+                            <input 
+                                type="text" 
+                                name="captcha" 
+                                id="captcha" 
+                                maxlength="5" 
+                                placeholder="CODE"
+                                class="flex-1 min-w-0 px-4 py-2.5 bg-[var(--color-card-bg)] border border-[var(--color-border-dim)] rounded-xl text-center font-mono text-lg text-hero-orange tracking-[0.4em] uppercase focus:border-hero-orange outline-none transition-all"
+                            />
+
+                            <!-- captcha + refresh -->
+                            <div class="flex items-center gap-2">
+
+                                <!-- captcha image -->
+                                <div class="h-12 w-28 bg-white rounded-xl overflow-hidden shadow-sm border border-[var(--color-border-dim)]">
+                                    <img 
+                                        src="process/captcha.php" 
+                                        alt="Captcha Code" 
+                                        id="captcha_img"
+                                        class="h-full w-full object-cover select-none"
+                                    >
                                 </div>
-                                <button type="button" onclick="document.getElementById('captcha_img').src='process/captcha.php?'+Math.random();" 
-                                    class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-hero-orange transition-colors active:scale-90">
-                                    <i class="fas fa-rotate"></i>
+
+                                <!-- refresh button -->
+                                <button 
+                                    type="button"
+                                    title="Refresh captcha"
+                                    onclick="refreshCaptcha()"
+                                    class="h-12 px-3 flex items-center gap-1 rounded-xl border border-[var(--color-border-dim)] bg-[var(--color-card-bg)] text-gray-500 hover:text-hero-orange hover:border-hero-orange transition-all active:scale-95"
+                                >
+                                    <i class="fas fa-rotate text-sm"></i>
                                 </button>
+
                             </div>
+
                         </div>
+
                         <div id="captcha-error" class="error-text"></div>
                     </div>
 
@@ -242,6 +272,11 @@
                 } catch (e) { console.error("Node failure"); }
             }, 300);
         });
-    </script>
+        function refreshCaptcha() {
+            const img = document.getElementById('captcha_img');
+            img.src = 'process/captcha.php?ts=' + Date.now();
+        }
+        </script>
+
 </body>
 </html> 
