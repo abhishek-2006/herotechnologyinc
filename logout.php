@@ -9,15 +9,7 @@ $row = mysqli_fetch_assoc($result);
 $role = $row['role'];
 $user_id = $row['user_id'];
 
-if($role === 'manager'){
-    $sql = "UPDATE login_tracking 
-        SET is_online='offline', content='Manager Logged Out' 
-        WHERE user_id='$user_id' 
-        ORDER BY login_tracking_id DESC 
-        LIMIT 1";
-
-    mysqli_query($conn, $sql);
-} elseif ($role === 'student') {
+if ($role === 'student') {
     $sql = "UPDATE login_tracking 
         SET is_online='offline', content='Student Logged Out' 
         WHERE user_id='$user_id' 

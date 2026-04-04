@@ -58,7 +58,7 @@
             <div>
                 <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-hero-orange mb-6">Support Terminal</h4>
                 <ul class="space-y-4 text-xs font-bold text-gray-400">
-                    <li><a href="<?php echo BASE_URL; ?>faqs.php" class="hover:text-white transition-colors">Common FAQs</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>faq.php" class="hover:text-white transition-colors">Common FAQs</a></li>
                     <li><a href="<?php echo BASE_URL; ?>blog.php" class="hover:text-white transition-colors">Technical Blog</a></li>
                     <li><a href="<?php echo BASE_URL; ?>contact.php" class="hover:text-white transition-colors">Contact Us</a></li>
                     <li class="pt-2 border-t border-white/5 mt-4">

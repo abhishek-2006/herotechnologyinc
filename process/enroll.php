@@ -9,6 +9,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
+    die("Access Denied: Only students can enroll in courses.");
+}
+
 if (isset($_GET['id'])) {
     $course_id = mysqli_real_escape_string($conn, $_GET['id']);
     $user_id = $_SESSION['user_id'];

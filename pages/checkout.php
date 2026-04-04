@@ -126,7 +126,7 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
         
         <div class="mt-8 text-center animate__animated animate__fadeIn animate__delay-2s">
             <a href="../course-details.php?id=<?= $course_id ?>" class="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-hero-orange transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i> Return to Curriculum details
+                <i class="fas fa-arrow-left mr-2"></i> Return to Course details
             </a>
         </div>
     </div>
@@ -136,7 +136,11 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
             const btn = this;
             const originalContent = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fas fa-sync fa-spin mr-2"></i> ESTABLISHING SECURE HANDSHAKE...';
+            btn.innerHTML = `
+                <span class="flex items-center justify-center gap-3">
+                    <i class="fas fa-satellite-dish animate-pulse"></i> 
+                    SPLICING GATEWAY NODE...
+                </span>`;
             btn.style.pointerEvents = 'none';
             btn.style.opacity = '0.8';
 
@@ -160,7 +164,7 @@ if (!$course) { header("Location: ../courses.php"); exit(); }
                         const input = document.createElement('input');
                         input.type = 'hidden';
                         input.name = key;
-                        input.value = data.params[key];
+                        input.value = String(data.params[key] || '');
                         form.appendChild(input);
                     }
 

@@ -1,11 +1,6 @@
 <?php
 require '../config.php';
 
-if (!isset($_SESSION['payment_flow'])) {
-    header("Location: ../");
-    exit();
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
 
    // 1. Extract POST Data
@@ -18,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
     $productinfo = $_POST['productinfo'];
     $email       = $_POST['email'];
     $payu_id     = $_POST['mihpayid'];
-    $mode        = $_POST['mode'] ?? "Unknown";
+    $mode        = $_POST['mode'] ?? "Digital Payment";
 
     $salt = PAYU_SALT;
 
@@ -46,14 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         $user_id   = $row['user_id'];
         $course_id = $row['course_id'];
 
-        $stmt = $conn->prepare("SELECT username FROM user_master WHERE user_id=? LIMIT 1");
+        $stmt = $conn->prepare("SELECT username, name FROM user_master WHERE user_id=? LIMIT 1");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($user = $result->fetch_assoc()) {
             $_SESSION['user_id'] = $user_id;
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['email'] = $email;
             $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = 'student';
+            $_SESSION['payment_flow'] = false;
         } else {
             die("User not found");
         }
@@ -64,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         $stmt->execute();
 
         // 5. Determine Payment Method
-        $method = "Unknown";
+        $method = "Gateway";
 
         if (isset($_POST['PG_TYPE'])) {
             if (strpos($_POST['PG_TYPE'], "UPI") !== false) $method = "UPI";
@@ -74,28 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         }
 
         // 6. Log Payment in Database
-        $stmt = $conn->prepare("
-            INSERT INTO payments
-            (enrollment_id,user_id,course_id,amount,payment_status,transaction_id,gateway_id,payment_method)
-            VALUES (?,?,?,?,?,?,?,?)
-        ");
-
-        $statusText = "success";
-
-        $stmt->bind_param(
-            "iiidssss",
-            $enroll_id,
-            $user_id,
-            $course_id,
-            $amount,
-            $statusText,
-            $txnid,
-            $payu_id,
-            $method
-        );
-
+        $stmt = $conn->prepare("INSERT INTO payments (enrollment_id, user_id, course_id, amount, payment_status, transaction_id, gateway_id, payment_method) VALUES (?,?,?,?,'success',?,?,?)");
+        $stmt->bind_param("iiidsss", $enroll_id, $user_id, $course_id, $amount, $txnid, $payu_id, $method);
         $stmt->execute();
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -124,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
     </body>
 </html>
 <?php
-    exit();
+    exit;
     } else {
 
         $error = $_POST['error_Message'] ?? "Hash mismatch";
@@ -140,13 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hash'])) {
         $dummyGateway = $_POST['mihpayid'] ?? "NA";
 
         $stmt->bind_param(
-            "idssss",
-            $dummyEnroll,
-            $amount,
-            $fail,
-            $txnid,
-            $error,
-            $dummyGateway
+            "idssss", $dummyEnroll, $amount, $fail, $txnid, $error, $dummyGateway
         );
 
         $stmt->execute();

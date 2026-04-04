@@ -6,7 +6,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['user_id']) || !isset($_SESSI
     exit();
 }
 
-if ($_SESSION['role'] !== 'student') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
     header("Location: index.php");
     exit();
 }
@@ -26,7 +26,7 @@ if (mysqli_num_rows($enroll_check) == 0) {
     exit();
 }
 
-// 3. Fetch Course Media Node (Pulling from the table you provided)
+// 3. Fetch Course Media Node
 $course_res = mysqli_query($conn, "SELECT * FROM courses WHERE course_id = '$course_id'");
 $course = mysqli_fetch_assoc($course_res);
 

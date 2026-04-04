@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $input = json_decode(file_get_contents('php://input'), true);
 $course_id = mysqli_real_escape_string($conn, $input['course_id']);
 $user_id = $_SESSION['user_id'];
+$_SESSION['payment_flow'] = true;
 
 $key  = PAYU_MERCHANT_KEY;
 $salt = PAYU_SALT;

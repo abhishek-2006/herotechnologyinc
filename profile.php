@@ -6,6 +6,10 @@ if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
     exit();
 }
 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
+    die("Access Denied: Only students can view this page.");
+}
+
 $session_id = isset($_SESSION['email']) ? $_SESSION['email'] : $_SESSION['username'];
 $email = mysqli_real_escape_string($conn, $session_id);
 

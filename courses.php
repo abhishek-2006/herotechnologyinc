@@ -98,7 +98,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
                     <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Instructor: <?php echo htmlspecialchars($course['instructor_name']); ?></span>
                 </div>
                 
-                <h3 class="course-title text-xl font-bold mb-4 h-14 overflow-hidden leading-tight text-hero-blue italic uppercase">
+                <h3 class="course-title text-xl font-bold mb-4 h-18 overflow-hidden leading-tight text-hero-blue italic uppercase">
                     <?php echo htmlspecialchars($course['title']); ?>
                 </h3>
 

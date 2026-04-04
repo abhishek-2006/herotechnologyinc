@@ -2,8 +2,12 @@
     require 'config.php' ;
     
     if(isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])) {
-        header("Location: dashboard.php?already_logged_in");
-        exit();
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'student') {
+            header("Location: dashboard.php?already_logged_in");
+        } else {
+            header("Location: backpanel/dashboard.php?already_logged_in");
+        }
+        exit;
     }
     $_SESSION['captcha_request'] = true;
 ?>

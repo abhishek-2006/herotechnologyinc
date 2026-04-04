@@ -58,7 +58,7 @@ require_once 'config.php';
             <div class="flex justify-between h-20 items-center">
                 
                 <div class="flex items-center">
-                    <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                         <a href="<?php echo BASE_URL; ?>dashboard.php" class="block">
                             <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Hero Logo" class="h-12 w-auto object-contain">
                         </a>
@@ -112,7 +112,7 @@ require_once 'config.php';
                             <li><a href="<?php echo BASE_URL; ?>classroom.php" class="block py-2 text-[10px] font-bold uppercase hover:text-hero-orange">Classroom</a></li>
                         </ul>
                     </li>
-                    <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
+                    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                         <li class="h-full nav-link-item">
                             <a href="<?php echo BASE_URL; ?>blog.php" class="nav-link-item <?= ($currentPage == 'blog.php') ? 'text-hero-blue' : 'text-gray-500 hover:text-hero-blue' ?>">
                                 Blog
@@ -142,7 +142,7 @@ require_once 'config.php';
     
     <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-100 overflow-hidden transition-all duration-300">
         <div class="px-4 pt-2 pb-6 space-y-1">
-            <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                 <a href="<?php echo BASE_URL; ?>dashboard.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'dashboard.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Dashboard</a>
             <?php else: ?>
                 <a href="<?php echo BASE_URL; ?>index.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'index.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Home</a>
@@ -165,7 +165,7 @@ require_once 'config.php';
             <a href="<?php echo BASE_URL; ?>contact.php" class="block px-3 py-4 text-[11px] font-black uppercase tracking-widest <?= ($currentPage == 'contact.php') ? 'text-hero-blue border-l-4 border-hero-blue bg-slate-50' : 'text-gray-500' ?>">Contact</a>
 
             <div class="pt-6 pb-2 px-3">
-                <?php if(isset($_SESSION['username']) || isset($_SESSION['email'])): ?>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
                     <a href="<?php echo BASE_URL; ?>logout.php" class="block w-full text-center py-4 text-[11px] font-black uppercase tracking-widest text-red-500 border border-red-100 rounded-xl bg-red-50">Logout</a>
                 <?php else: ?>
                     <div class="flex flex-col gap-3">

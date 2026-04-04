@@ -1,4 +1,14 @@
 <?php
+
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => '', 
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax' // Allow session to persist during redirects
+]);
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

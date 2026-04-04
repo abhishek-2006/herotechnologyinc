@@ -2,7 +2,7 @@
 require_once 'config.php'; 
 
 // 1. Session & Identity Verification
-if (!isset($_SESSION['email']) && !isset($_SESSION['username'])) {
+if (!isset($_SESSION['email']) || !isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
@@ -103,7 +103,7 @@ $resActive = mysqli_query($conn, $sqlActive);
             </div>
             <div class="animate__animated animate__zoomIn animate__delay-1s bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
                 <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-2">Completed Courses</p>
-                <h4 class="text-4xl font-black text-hero-blue"><?php echo str_pad($skill_count, 2, '0', STR_PAD_LEFT); ?></h4>
+                <h4 class="text-4xl font-black text-hero-blue"><?php echo str_pad($cert_count, 2, '0', STR_PAD_LEFT); ?></h4>
             </div>
         </div>
 
