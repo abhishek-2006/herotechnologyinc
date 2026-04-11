@@ -32,10 +32,10 @@ if (isset($_POST['send_message'])) {
 
         $email_body = "
         <html>
-        <head><title>New Dispatch</title></head>
+        <head><title>New Query</title></head>
         <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #1B264F;'>
             <div style='max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #E2E8F0; border-radius: 20px;'>
-                <h2 style='color: #EE6C4D;'>New Intelligence Dispatch Received</h2>
+                <h2 style='color: #EE6C4D;'>New Intelligence Query Received</h2>
                 <hr style='border: 0; border-top: 1px solid #E2E8F0;'>
                 <p><strong>Identity:</strong> $name</p>
                 <p><strong>Node Email:</strong> $email</p>
@@ -98,7 +98,7 @@ if (isset($_POST['send_message'])) {
                     <div class="w-12 h-12 bg-hero-orange rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg">
                         <i class="fas fa-headset text-xl"></i>
                     </div>
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-4">Voice Dispatches</h4>
+                    <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-4">Voice Support</h4>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-[9px] font-black uppercase text-white/50">Local</span>
@@ -132,9 +132,9 @@ if (isset($_POST['send_message'])) {
                             <div class="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center text-white text-3xl mb-6 shadow-xl shadow-emerald-500/20">
                                 <i class="fas fa-paper-plane"></i>
                             </div>
-                            <h3 class="text-3xl font-black uppercase italic text-hero-blue mb-2">Transmission Logged</h3>
-                            <p class="text-gray-500 font-medium">Our engineering team will synchronize with your request shortly.</p>
-                            <button onclick="window.location.reload()" class="mt-8 px-8 py-3 bg-hero-blue text-white rounded-xl font-black uppercase text-[10px] tracking-widest">Send New Dispatch</button>
+                            <h3 class="text-3xl font-black uppercase italic text-hero-blue mb-2">Message Sent</h3>
+                            <p class="text-gray-500 font-medium">Our engineering team will respond to your request shortly.</p>
+                            <button onclick="window.location.reload()" class="mt-8 px-8 py-3 bg-hero-blue text-white rounded-xl font-black uppercase text-[10px] tracking-widest cursor-pointer">Send New Message</button>
                         </div>
                     <?php endif; ?>
 
@@ -171,7 +171,7 @@ if (isset($_POST['send_message'])) {
                             </div>
 
                             <div id="custom-subject-container" class="hidden animate__animated animate__fadeIn">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-hero-orange ml-2">Specify Custom Subject</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-hero-orange ml-2">Specify Subject</label>
                                 <input type="text" name="custom_subject" id="custom_subject" placeholder="Enter custom subject..." 
                                     class="w-full px-6 py-4 bg-gray-50 border border-hero-orange/30 rounded-2xl outline-none focus:border-hero-orange transition-all font-bold text-hero-blue">
                             </div>
@@ -183,8 +183,8 @@ if (isset($_POST['send_message'])) {
                                 class="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-hero-orange transition-all font-medium resize-none text-hero-blue"></textarea>
                         </div>
 
-                        <button type="submit" name="send_message" class="w-full py-5 bg-hero-blue text-white font-black rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all uppercase tracking-[0.2em] text-[10px]">
-                            Transmit Intelligence Node
+                        <button type="submit" name="send_message" class="cursor-pointer w-full py-5 bg-hero-blue text-white font-black rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all uppercase tracking-[0.2em] text-[12px]">
+                            Send Message
                         </button>
                     </form>
                 </div>
