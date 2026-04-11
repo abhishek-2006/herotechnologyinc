@@ -31,23 +31,51 @@ if (isset($_POST['send_message'])) {
         $headers .= "Reply-To: $email" . "\r\n";
 
         $email_body = "
-        <html>
-        <head><title>New Query</title></head>
-        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #1B264F;'>
-            <div style='max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #E2E8F0; border-radius: 20px;'>
-                <h2 style='color: #EE6C4D;'>New Intelligence Query Received</h2>
-                <hr style='border: 0; border-top: 1px solid #E2E8F0;'>
-                <p><strong>Identity:</strong> $name</p>
-                <p><strong>Node Email:</strong> $email</p>
-                <p><strong>Protocol:</strong> $subject</p>
-                <div style='background: #F8FAFC; padding: 15px; border-radius: 10px;'>
-                    <strong>Message Content:</strong><br>
-                    $message
-                </div>
-                <p style='font-size: 10px; color: #94A3B8; margin-top: 20px;'>Hero Technology Inc. - Automated Terminal Notification</p>
-            </div>
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width'>
+            </head>
+            <body style='margin:0;padding:0;background:#f5f7fb;font-family:Arial,sans-serif;'>
+                <table width='100%' cellpadding='0' cellspacing='0' style='background:#f5f7fb;padding:30px 0;'>
+                <tr>
+                    <td align='center'>
+                        <table width='600' cellpadding='0' cellspacing='0' style='background:#ffffff;border-radius:12px;overflow:hidden;'>
+                            <tr>
+                                <td style='background:#1B264F;color:#ffffff;padding:20px 30px;font-size:20px;font-weight:bold;'>
+                                    New Contact Inquiry
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding:30px;'>
+
+                                    <p style='margin:0 0 10px;'><strong>Name:</strong> $name</p>
+                                    <p style='margin:0 0 10px;'><strong>Email:</strong> $email</p>
+                                    <p style='margin:0 0 20px;'><strong>Subject:</strong> $subject</p>
+
+                                    <table width='100%' cellpadding='0' cellspacing='0' style='background:#f1f5f9;border-radius:8px;'>
+                                        <tr>
+                                            <td style='padding:15px;'>
+                                                <strong>Message:</strong><br><br>
+                                                $message
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='background:#f8fafc;padding:15px 30px;font-size:12px;color:#64748b;text-align:center;'>
+                                    Hero Technology Inc. — Automated Notification
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </body>
-        </html>";
+        </html>
+        ";
 
         // Dispatch Email
         @mail($to, $email_subject, $email_body, $headers);
@@ -172,7 +200,7 @@ if (isset($_POST['send_message'])) {
 
                             <div id="custom-subject-container" class="hidden animate__animated animate__fadeIn">
                                 <label class="text-[10px] font-black uppercase tracking-widest text-hero-orange ml-2">Specify Subject</label>
-                                <input type="text" name="custom_subject" id="custom_subject" placeholder="Enter custom subject..." 
+                                <input type="text" name="custom_subject" id="custom_subject" placeholder="Enter subject..." 
                                     class="w-full px-6 py-4 bg-gray-50 border border-hero-orange/30 rounded-2xl outline-none focus:border-hero-orange transition-all font-bold text-hero-blue">
                             </div>
                         </div>
