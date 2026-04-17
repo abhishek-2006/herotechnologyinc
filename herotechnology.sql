@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 28, 2026 at 12:36 PM
+-- Generation Time: Apr 17, 2026 at 09:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+05:30";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,6 +20,24 @@ SET time_zone = "+05:30";
 --
 -- Database: `herotechnology`
 --
+
+CREATE DATABASE `herotechnology` IF NOT EXISTS;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_inquiries`
+--
+
+CREATE TABLE `contact_inquiries` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `status` enum('unread','read','replied') DEFAULT 'unread',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,42 +59,42 @@ CREATE TABLE `corporate_clients` (
 --
 
 INSERT INTO `corporate_clients` (`client_id`, `client_name`, `industry_sector`, `is_featured`, `status`, `created_at`) VALUES
-(1, 'AT&T', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(2, 'Pfizer', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(3, 'GMAC', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(4, 'Texas Instruments', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(5, 'Citigroup', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(6, 'Armstrong', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(7, 'Nestle', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(8, 'HYLSAOMEX', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(9, 'MINOLTA', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(10, 'Johnson', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(11, 'BASF', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(12, 'Heineken', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(13, 'Bayer', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(14, 'RANBAXY', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(15, 'BOSCH', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(16, 'STONGGLY', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(17, 'FannieMae', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(18, 'WebMD', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(19, 'Wellmark', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(20, 'CISCO', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(21, 'Genentech', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(22, 'Capital Group', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(23, 'RCI', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(24, 'WELLS FARGO', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(25, 'Imagination', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(26, 'mxenergy', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(27, 'JCPenney', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(28, 'BT', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(29, 'Hitachi', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(30, 'Autodesk', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(31, 'Energizer', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(32, 'Citi', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(33, 'Verizon', 'General Engineering', 1, 'active', '2026-01-18 05:07:31'),
-(34, 'babycenter', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(35, 'Bea', 'General Engineering', 0, 'active', '2026-01-18 05:07:31'),
-(36, 'NaviSite', 'General Engineering', 0, 'active', '2026-01-18 05:07:31');
+(1, 'AT&T', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(2, 'Pfizer', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(3, 'GMAC', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(4, 'Texas Instruments', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(5, 'Citigroup', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(6, 'Armstrong', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(7, 'Nestle', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(8, 'HYLSAOMEX', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(9, 'MINOLTA', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(10, 'Johnson', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(11, 'BASF', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(12, 'Heineken', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(13, 'Bayer', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(14, 'RANBAXY', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(15, 'BOSCH', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(16, 'STONGGLY', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(17, 'FannieMae', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(18, 'WebMD', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(19, 'Wellmark', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(20, 'CISCO', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(21, 'Genentech', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(22, 'Capital Group', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(23, 'RCI', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(24, 'WELLS FARGO', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(25, 'Imagination', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(26, 'mxenergy', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(27, 'JCPenney', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(28, 'BT', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(29, 'Hitachi', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(30, 'Autodesk', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(31, 'Energizer', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(32, 'Citi', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(33, 'Verizon', 'General Engineering', 1, 'active', '2026-01-17 23:37:31'),
+(34, 'babycenter', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(35, 'Bea', 'General Engineering', 0, 'active', '2026-01-17 23:37:31'),
+(36, 'NaviSite', 'General Engineering', 0, 'active', '2026-01-17 23:37:31');
 
 -- --------------------------------------------------------
 
@@ -108,11 +126,10 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `slug`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `is_featured`, `status`, `created_at`) VALUES
-(1, 1, 1, 'Mastering C Programming', 'mastering-c-programming', 'C Language Course', 'Complete C course from basics to advanced', 240, 'https://www.youtube.com/watch?v=xND0t1pr3KY', '', 'https://www.youtube.com/watch?v=xND0t1pr3KY', 1999.00, 'c.jpg', 0, 'publish', '2026-01-01 06:06:05'),
-(2, 2, 1, 'Full Stack Web Dev', 'full-stack-web-dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 06:06:05'),
-(3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'full-stack-web-development-with-php-and-mysql', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 13:58:14'),
-(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'ai-and-machine-learning-mastery:-from-zero-to-real-world-models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 06:26:32'),
-(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'advanced-cyber-defense-and-infrastructure-hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 07:22:34');
+(2, 2, 1, 'Full Stack Web Dev', 'full-stack-web-dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 00:36:05'),
+(3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'full-stack-web-development-with-php-and-mysql', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 08:28:14'),
+(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'ai-and-machine-learning-mastery-from-zero-to-real-world-models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 00:56:32'),
+(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'advanced-cyber-defense-and-infrastructure-hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 01:52:34');
 
 -- --------------------------------------------------------
 
@@ -141,21 +158,6 @@ INSERT INTO `course_category` (`category_id`, `category_name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course_progress`
---
-
-CREATE TABLE `course_progress` (
-  `progress_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `lesson_id` int(11) DEFAULT NULL,
-  `is_completed` tinyint(1) DEFAULT 0,
-  `completed_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `course_reviews`
 --
 
@@ -173,31 +175,7 @@ CREATE TABLE `course_reviews` (
 --
 
 INSERT INTO `course_reviews` (`review_id`, `user_id`, `course_id`, `rating`, `review`, `created_at`) VALUES
-(1, 2, 1, 5, 'Amazing course! Loved it.', '2026-01-01 06:10:14'),
-(2, 3, 2, 4, 'Very helpful for beginners.', '2026-01-01 06:10:14');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course_sections`
---
-
-CREATE TABLE `course_sections` (
-  `section_id` int(11) NOT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `section_title` varchar(255) DEFAULT NULL,
-  `sort_order` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `course_sections`
---
-
-INSERT INTO `course_sections` (`section_id`, `course_id`, `section_title`, `sort_order`) VALUES
-(1, 1, 'Introduction to C', 1),
-(2, 1, 'Pointers & Memory', 2),
-(3, 2, 'Frontend Basics', 1),
-(4, 2, 'Backend with PHP', 2);
+(2, 3, 2, 4, 'Very helpful for beginners.', '2026-01-01 00:40:14');
 
 -- --------------------------------------------------------
 
@@ -236,11 +214,9 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`enrollment_id`, `user_id`, `course_id`, `enrolled_at`, `status`, `txnid`, `activated_at`) VALUES
-(1, 4, 4, '2026-03-07 14:20:02', 'completed', 'HT_1772893202_4', '2026-03-07 14:20:02'),
-(2, 4, 3, '2026-03-07 14:27:12', 'active', 'HT_1772893632_4', '2026-03-07 14:27:12'),
-(3, 4, 1, '2026-03-08 06:44:46', 'active', 'HT_1772952286_4', '2026-03-08 06:44:46'),
-(11, 4, 6, '2026-03-28 07:31:06', 'pending', 'HT_1774683066_4', '2026-03-28 07:31:06'),
-(12, 4, 6, '2026-03-28 09:12:47', 'pending', 'HT_1774689167_4', '2026-03-28 09:12:47');
+(16, 4, 4, '2026-04-04 07:02:16', 'pending', 'HT_1775286136_4', '2026-04-04 07:02:16'),
+(17, 4, 6, '2026-04-04 07:39:37', 'active', 'HT_1775288377_4', '2026-04-04 07:39:37'),
+(18, 4, 4, '2026-04-04 07:42:05', 'active', 'HT_1775288525_4', '2026-04-04 07:42:05');
 
 -- --------------------------------------------------------
 
@@ -268,30 +244,7 @@ CREATE TABLE `instructors` (
 --
 
 INSERT INTO `instructors` (`instructor_id`, `name`, `email`, `bio`, `expertise`, `qualification`, `experience_years`, `profile_image`, `linkedin_url`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, '../assets/img/tutors/1773586913_abhishek.jpg', 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 05:57:39', '2026-03-15 15:01:53');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lessons`
---
-
-CREATE TABLE `lessons` (
-  `lesson_id` int(11) NOT NULL,
-  `section_id` int(11) DEFAULT NULL,
-  `lesson_title` varchar(255) DEFAULT NULL,
-  `video_url` varchar(255) DEFAULT NULL,
-  `duration` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `lessons`
---
-
-INSERT INTO `lessons` (`lesson_id`, `section_id`, `lesson_title`, `video_url`, `duration`) VALUES
-(1, 1, 'What is C Programming?', 'intro_c.mp4', 10),
-(2, 1, 'Variables & Data Types', 'variables.mp4', 15),
-(3, 3, 'HTML Basics', 'html.mp4', 20);
+(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, '../assets/img/tutors/1773586913_abhishek.jpg', 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 00:27:39', '2026-03-15 09:31:53');
 
 -- --------------------------------------------------------
 
@@ -307,45 +260,6 @@ CREATE TABLE `login_tracking` (
   `is_online` enum('online','offline') DEFAULT NULL,
   `tracking_datetime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `login_tracking`
---
-
-INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `content`, `is_online`, `tracking_datetime`) VALUES
-(1, 1, '::1', 'Admin Logged In', 'online', '2026-03-07 15:25:57'),
-(2, 1, '::1', 'Admin Logged In', 'online', '2026-03-07 16:10:04'),
-(3, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 04:52:21'),
-(4, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 04:55:56'),
-(5, 4, '::1', 'Student Logged In', 'online', '2026-03-08 06:28:20'),
-(6, 12, '::1', 'Student Logged Out', 'offline', '2026-03-08 06:57:52'),
-(7, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 06:58:48'),
-(8, 4, '::1', 'Student Logged Out', 'offline', '2026-03-08 10:35:57'),
-(9, 1, '::1', 'Admin Logged In', 'online', '2026-03-08 10:46:10'),
-(10, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:49:18'),
-(11, 1, '::1', 'Admin Logged In', 'online', '2026-03-14 05:50:33'),
-(12, 4, '::1', 'Student Logged Out', 'offline', '2026-03-15 06:35:19'),
-(13, 1, '::1', 'Admin Logged In', 'online', '2026-03-15 10:43:02'),
-(14, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 05:02:06'),
-(15, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 05:05:38'),
-(16, 4, '::1', 'Admin Logged Out', 'offline', '2026-03-21 05:06:52'),
-(17, 4, '::1', 'Student Logged Out', 'offline', '2026-03-21 06:24:40'),
-(18, 1, '::1', 'Admin Logged In', 'online', '2026-03-21 06:25:55'),
-(19, 4, '::1', 'Student Logged In', 'online', '2026-03-21 06:31:12'),
-(20, 1, '::1', 'Admin Logged In', 'online', '2026-03-22 05:13:41'),
-(21, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 05:15:17'),
-(22, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 07:29:49'),
-(23, 4, '::1', 'Student Logged Out', 'offline', '2026-03-22 07:58:57'),
-(24, 4, '::1', 'Student Logged In', 'online', '2026-03-22 08:14:56'),
-(25, 4, '::1', 'Student Logged In', 'online', '2026-03-22 10:08:20'),
-(26, 4, '::1', 'Student Logged In', 'online', '2026-03-22 10:25:16'),
-(27, 4, '::1', 'Student Logged In', 'online', '2026-03-22 17:31:56'),
-(28, 4, '::1', 'Student Logged In', 'online', '2026-03-28 07:26:33'),
-(29, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 07:27:52'),
-(30, 4, '::1', 'Student Logged In', 'online', '2026-03-28 09:12:18'),
-(31, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 10:39:23'),
-(32, 4, '::1', 'Student Logged Out', 'offline', '2026-03-28 10:42:05'),
-(33, 1, '::1', 'Admin Logged In', 'online', '2026-03-28 10:47:14');
 
 -- --------------------------------------------------------
 
@@ -372,9 +286,8 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `enrollment_id`, `user_id`, `course_id`, `amount`, `payment_status`, `payment_date`, `payment_method`, `transaction_id`, `error_log`, `gateway_id`) VALUES
-(1, 1, 4, 4, 5999.00, 'success', '2026-03-07 14:20:36', 'NetBanking', 'HT_1772893202_4', NULL, '403993715536931471'),
-(2, 2, 4, 3, 3999.00, 'success', '2026-03-07 14:28:09', 'Card', 'HT_1772893632_4', NULL, '403993715536931493'),
-(3, 3, 4, 1, 1999.00, 'success', '2026-03-08 06:45:49', 'Card', 'HT_1772952286_4', NULL, '403993715536932670');
+(5, 17, 4, 6, 5999.00, 'success', '2026-04-04 07:40:18', 'Card', 'HT_1775288377_4', NULL, '403993715537136957'),
+(9, 18, 4, 4, 5999.00, 'success', '2026-04-04 07:42:24', 'UPI', 'HT_1775288525_4', NULL, '403993715537136970');
 
 -- --------------------------------------------------------
 
@@ -432,11 +345,11 @@ CREATE TABLE `user_master` (
 --
 
 INSERT INTO `user_master` (`user_id`, `name`, `username`, `phone`, `email`, `gender`, `password`, `role`, `datetime`, `status`) VALUES
-(1, 'Abhishek', 'abs123', '1203456789', 'abhishek@hero.com', 'male', '202cb962ac59075b964b07152d234b70', 'admin', '2026-02-14 07:06:20', 'publish'),
-(2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 12:01:16', 'publish'),
-(3, 'Mina', 'mbshah12', '1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-14 07:06:28', 'publish'),
-(4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-21 12:45:45', 'publish'),
-(12, 'Sandip Mistry', 'sandi009', '8488982013', 'itsoulinfotech@gmail.com', 'male', '6d071901727aec1ba6d8e2497ef5b709', 'student', '2026-03-07 05:45:12', 'publish');
+(1, 'Abhishek', 'abs123', '1203456789', 'abhishek@hero.com', 'male', '202cb962ac59075b964b07152d234b70', 'admin', '2026-02-14 01:36:20', 'publish'),
+(2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 06:31:16', 'publish'),
+(3, 'Mina', 'mbshah12', '1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-14 01:36:28', 'publish'),
+(4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-21 07:15:45', 'publish'),
+(12, 'Sandip Mistry', 'sandi009', '8488982013', 'itsoulinfotech@gmail.com', 'male', '6d071901727aec1ba6d8e2497ef5b709', 'student', '2026-03-07 00:15:12', 'publish');
 
 -- --------------------------------------------------------
 
@@ -457,16 +370,22 @@ CREATE TABLE `user_security_answers` (
 --
 
 INSERT INTO `user_security_answers` (`id`, `user_id`, `question_id`, `answer_hash`, `created_at`) VALUES
-(1, 4, 2, 'c286b9545aaf7fdedebee6e2c526bf14', '2026-02-14 11:53:53'),
-(2, 4, 5, '9ed244e30701f591f8859cde5ee71b8c', '2026-02-14 11:53:53'),
-(3, 4, 9, '95ff712b4813b5376c1757b2e634eaae', '2026-02-14 11:53:53'),
-(7, 12, 5, '4568a803478957719bf3ca27b73ca0cd', '2026-03-07 05:46:00'),
-(8, 12, 6, '9ed244e30701f591f8859cde5ee71b8c', '2026-03-07 05:46:00'),
-(9, 12, 13, '6d659c8e177098f5a39c03d0a52e5ba3', '2026-03-07 05:46:00');
+(1, 4, 2, 'c286b9545aaf7fdedebee6e2c526bf14', '2026-02-14 06:23:53'),
+(2, 4, 5, '9ed244e30701f591f8859cde5ee71b8c', '2026-02-14 06:23:53'),
+(3, 4, 9, '95ff712b4813b5376c1757b2e634eaae', '2026-02-14 06:23:53'),
+(7, 12, 5, '4568a803478957719bf3ca27b73ca0cd', '2026-03-07 00:16:00'),
+(8, 12, 6, '9ed244e30701f591f8859cde5ee71b8c', '2026-03-07 00:16:00'),
+(9, 12, 13, '6d659c8e177098f5a39c03d0a52e5ba3', '2026-03-07 00:16:00');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `contact_inquiries`
+--
+ALTER TABLE `contact_inquiries`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `corporate_clients`
@@ -491,27 +410,11 @@ ALTER TABLE `course_category`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `course_progress`
---
-ALTER TABLE `course_progress`
-  ADD PRIMARY KEY (`progress_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `lesson_id` (`lesson_id`);
-
---
 -- Indexes for table `course_reviews`
 --
 ALTER TABLE `course_reviews`
   ADD PRIMARY KEY (`review_id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `course_id` (`course_id`);
-
---
--- Indexes for table `course_sections`
---
-ALTER TABLE `course_sections`
-  ADD PRIMARY KEY (`section_id`),
   ADD KEY `course_id` (`course_id`);
 
 --
@@ -536,13 +439,6 @@ ALTER TABLE `enrollments`
 --
 ALTER TABLE `instructors`
   ADD PRIMARY KEY (`instructor_id`);
-
---
--- Indexes for table `lessons`
---
-ALTER TABLE `lessons`
-  ADD PRIMARY KEY (`lesson_id`),
-  ADD KEY `section_id` (`section_id`);
 
 --
 -- Indexes for table `login_tracking`
@@ -589,6 +485,12 @@ ALTER TABLE `user_security_answers`
 --
 
 --
+-- AUTO_INCREMENT for table `contact_inquiries`
+--
+ALTER TABLE `contact_inquiries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `corporate_clients`
 --
 ALTER TABLE `corporate_clients`
@@ -607,22 +509,10 @@ ALTER TABLE `course_category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `course_progress`
---
-ALTER TABLE `course_progress`
-  MODIFY `progress_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
 -- AUTO_INCREMENT for table `course_reviews`
 --
 ALTER TABLE `course_reviews`
   MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `course_sections`
---
-ALTER TABLE `course_sections`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `demo_usage_logs`
@@ -634,7 +524,7 @@ ALTER TABLE `demo_usage_logs`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -643,22 +533,16 @@ ALTER TABLE `instructors`
   MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `lessons`
---
-ALTER TABLE `lessons`
-  MODIFY `lesson_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `security_questions`
@@ -692,14 +576,6 @@ ALTER TABLE `courses`
   ADD CONSTRAINT `fk_course_instructor` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `course_progress`
---
-ALTER TABLE `course_progress`
-  ADD CONSTRAINT `course_progress_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`),
-  ADD CONSTRAINT `course_progress_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`),
-  ADD CONSTRAINT `course_progress_ibfk_3` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`lesson_id`);
-
---
 -- Constraints for table `course_reviews`
 --
 ALTER TABLE `course_reviews`
@@ -707,23 +583,11 @@ ALTER TABLE `course_reviews`
   ADD CONSTRAINT `course_reviews_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`);
 
 --
--- Constraints for table `course_sections`
---
-ALTER TABLE `course_sections`
-  ADD CONSTRAINT `course_sections_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`);
-
---
 -- Constraints for table `enrollments`
 --
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`),
   ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`);
-
---
--- Constraints for table `lessons`
---
-ALTER TABLE `lessons`
-  ADD CONSTRAINT `lessons_ibfk_1` FOREIGN KEY (`section_id`) REFERENCES `course_sections` (`section_id`);
 
 --
 -- Constraints for table `login_tracking`

@@ -12,15 +12,17 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// 1. Handle Course Decommissioning
+// 1. Handle Course Deletion
 if (isset($_GET['delete'])) {
     $id = mysqli_real_escape_string($conn, $_GET['delete']);
+    mysqli_query($conn, "DELETE FROM enrollments WHERE course_id = '$id'");
+    mysqli_query($conn, "DELETE FROM course_reviews WHERE course_id = '$id'");
     mysqli_query($conn, "DELETE FROM courses WHERE course_id = '$id'");
-    header("Location: manage-courses.php?msg=course_decommissioned");
+    header("Location: manage-courses.php?msg=Course+Deleted+Successfully");
     exit();
 }
 
-// 2. Fetch All Courses with Intelligence Sync
+// 2. Fetch All Courses
 // We join directly to user_master for the instructor's name to avoid empty rows
 $query = "SELECT c.*, cat.category_name, u.name as instructor_name 
           FROM courses c 
@@ -133,10 +135,10 @@ $result = mysqli_query($conn, $query);
                                 </td>
                                 <td class="px-10 py-6 text-right">
                                     <div class="flex justify-end gap-2">
-                                        <a href="edit-course.php?id=<?php echo $row['course_id']; ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all shadow-sm">
+                                        <a href="edit-course.php?id=<?php echo $row['title']; ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="?delete=<?php echo $row['course_id']; ?>" onclick="return confirm('Are you sure you want to delete this course?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                        <a href="?delete=<?php echo $row['title']; ?>" onclick="return confirm('Are you sure you want to delete this course?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -146,7 +148,10 @@ $result = mysqli_query($conn, $query);
                         <?php else: ?>
                             <tr>
                                 <td colspan="6" class="px-10 py-20 text-center text-slate-400 font-bold uppercase text-xs tracking-widest opacity-30">
-                                    No courses Synchronized
+                                    No courses found. <br>
+                                    <a href="add-course.php" class="mt-4 inline-block bg-hero-blue text-white px-6 py-3 rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all">
+                                        <i class="fas fa-plus mr-2"></i> Add Your First Course
+                                    </a>
                                 </td>
                             </tr>
                         <?php endif; ?>

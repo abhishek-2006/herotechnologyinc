@@ -226,8 +226,6 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
             </div>
         </form>
     </main>
-
-    <script src="assets/js/theme.js"></script>
     <script>
         $(document).ready(function() {
             $('#summernote').summernote({
@@ -246,5 +244,6 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
             });
         });
     </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>
