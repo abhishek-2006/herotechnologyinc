@@ -5,7 +5,7 @@ $sqlClients = "SELECT client_name FROM corporate_clients WHERE status = 'active'
 $resClients = mysqli_query($conn, $sqlClients);
 ?>
 
-<link rel="icon" type="image/x-icon" href="backpanel/assets/img/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 
 <section class="relative pt-20 pb-24 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
@@ -18,6 +18,38 @@ $resClients = mysqli_query($conn, $sqlClients);
         <p class="animate__animated animate__fadeInUp animate__delay-1s text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed font-medium">
             Hero Technology Solutions Inc. serves as the primary technical upskilling node and software quality assurance partner for the world's leading enterprises.
         </p>
+    </div>
+</section>
+
+<section class="py-20 bg-gray-50/50 border-y border-gray-100">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-blue-900/[0.03] group hover:border-hero-orange transition-all duration-500">
+                <div class="w-12 h-12 bg-hero-blue rounded-2xl flex items-center justify-center text-white mb-6 group-hover:rotate-12 transition-transform">
+                    <i class="fas fa-handshake-angle text-xl"></i>
+                </div>
+                <h4 class="text-lg font-black text-hero-blue uppercase italic mb-3">Strategic <span class="text-hero-orange">Nodes</span></h4>
+                <p class="text-xs text-slate-500 leading-relaxed font-medium">Co-developing next-generation QA frameworks with global technology leaders to set new industry standards.</p>
+            </div>
+
+            <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-blue-900/[0.03] group hover:border-hero-orange transition-all duration-500">
+                <div class="w-12 h-12 bg-hero-blue rounded-2xl flex items-center justify-center text-white mb-6 group-hover:rotate-12 transition-transform">
+                    <i class="fas fa-university text-xl"></i>
+                </div>
+                <h4 class="text-lg font-black text-hero-blue uppercase italic mb-3">Academic <span class="text-hero-orange">Uplink</span></h4>
+                <p class="text-xs text-slate-500 leading-relaxed font-medium">Partnering with premier institutions like AMTICS, UTU to bridge the gap between academia and production-grade engineering.</p>
+            </div>
+
+            <div class="bg-hero-blue p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20 text-white flex flex-col justify-between group">
+                <div>
+                    <h4 class="text-lg font-black uppercase italic mb-3">Become a <span class="text-hero-orange">Partner</span></h4>
+                    <p class="text-xs text-white/60 leading-relaxed font-medium mb-6">Initialize a partnership dispatch to integrate your organization into our global excellence network.</p>
+                </div>
+                <a href="contact.php?subject=Partner Opportunities" class="inline-flex items-center justify-center w-full py-4 bg-hero-orange text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-white hover:text-hero-blue transition-all">
+                    Initiate Handshake <i class="fas fa-arrow-right ml-2 text-[8px]"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -35,52 +67,17 @@ $resClients = mysqli_query($conn, $sqlClients);
                 $delay = ($i % 10) * 0.1; 
             ?>
             <div class="text-center group">
-                <p class="animate__animated animate__fadeInUp animate__delay-<?= $delay ?>s text-sm font-black text-slate-400 uppercase tracking-tighter group-hover:text-hero-blue transition-colors cursor-default">
+                <p class="animate__animated animate__fadeInUp text-sm font-black text-slate-400 uppercase tracking-tighter group-hover:text-hero-blue transition-colors cursor-default" style="animation-delay: <?= $delay ?>s;">
                     <?= htmlspecialchars($client['client_name']) ?>
                 </p>
                 <div class="h-0.5 w-0 group-hover:w-full bg-hero-orange mx-auto mt-2 transition-all duration-500"></div>
             </div>
-            <?php endwhile; ?>
+            <?php 
+                $i++;
+                endwhile; 
+            ?>
         </div>
     </div>
-</section>
-
-<section class="py-24 bg-hero-blue text-white overflow-hidden relative">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-col lg:flex-row gap-16 items-center">
-            <div class="lg:w-1/2 animate__animated animate__fadeInLeft">
-                <h2 class="text-4xl font-black tracking-tight mb-8 uppercase italic leading-tight">
-                    Human Capital <br><span class="text-hero-orange not-italic">Optimization.</span>
-                </h2>
-                <p class="text-gray-300 mb-10 leading-relaxed font-medium">
-                    Our priority is to improve clients’ management and control of costs to increase their business performance to maximum.
-                </p>
-                <div class="space-y-4">
-                    <div class="animate__animated animate__bounceIn animate__delay-1s flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
-                        <i class="fas fa-layer-group text-hero-orange"></i>
-                        <span class="text-[10px] font-black uppercase tracking-widest">Enterprise Learning Paths</span>
-                    </div>
-                    <div class="animate__animated animate__bounceIn animate__delay-2s flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
-                        <i class="fas fa-user-plus text-hero-orange"></i>
-                        <span class="text-[10px] font-black uppercase tracking-widest">Direct-to-Hire Pipelines</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="lg:w-1/2 w-full animate__animated animate__fadeInRight animate__delay-1s">
-                <div class="bg-white rounded-[3.5rem] p-10 md:p-16 text-center shadow-2xl">
-                    <img src="assets/img/logo.png" class="h-10 mx-auto mb-8 animate__animated animate__pulse animate__infinite animate__slow" alt="Hero Logo">
-                    <i class="fas fa-handshake-angle text-6xl text-hero-orange mb-6"></i>
-                    <h3 class="text-2xl font-black text-hero-blue uppercase mb-4 italic">Initialize Partnership</h3>
-                    <p class="text-gray-400 text-xs mb-10 leading-relaxed font-bold uppercase tracking-widest">Bridging Information Technology Challenges Together.</p>
-                    <a href="contact.php" class="inline-block w-full bg-hero-blue text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all active:scale-95">
-                        Transmit Proposal
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <img src="backpanel/assets/img/favicon.ico" class="absolute -left-10 -bottom-10 w-40 opacity-5" alt="Favicon">
 </section>
 
 <?php include 'footer.php'; ?>

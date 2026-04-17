@@ -82,8 +82,8 @@ $resOnline = mysqli_query($conn, $sqlOnline);
                     <h3 class="text-lg font-black text-hero-blue uppercase italic mb-4 h-12 overflow-hidden"><?php echo htmlspecialchars($course['title']); ?></h3>
                     <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                         <span class="text-xl font-black text-hero-blue">₹<?php echo number_format($course['price'], 0); ?></span>
-                        <a href="course /<?php echo $course['slug']; ?>" class="bg-hero-orange text-white px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20">
-                            Initialize Track
+                        <a href="course/<?php echo $course['slug']; ?>" class="bg-hero-orange text-white px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20">
+                            Start Learning
                         </a>
                     </div>
                 </div>
