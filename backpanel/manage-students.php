@@ -182,27 +182,11 @@ $result = mysqli_query($conn, $query);
     <script>
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
         function confirmDelete(id) {
-            if(confirm('Terminate this student node?')) {
+            if(confirm('Remove this student from the system?')) {
                 window.location.href = 'manage-students.php?delete_id=' + id;
             }
         }
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
-        }
-
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
-
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
-        });
     </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

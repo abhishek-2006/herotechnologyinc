@@ -227,28 +227,8 @@ $instructors = mysqli_query($conn, "SELECT * FROM instructors");
         </form>
     </main>
 
+    <script src="assets/js/theme.js"></script>
     <script>
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-
-        themeToggle.addEventListener('click', toggleLocalTheme);
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
-        }
-
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
-
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
-        });
-
         $(document).ready(function() {
             $('#summernote').summernote({
                 placeholder: 'Write your content here...',

@@ -144,27 +144,11 @@ $result = mysqli_query($conn, $query);
 
     <script>
         function confirmDelete(id) {
-            if(confirm('Remove this instructor from the mainframe?')) {
+            if(confirm('Remove this instructor from the system?')) {
                 window.location.href = 'manage-instructors.php?delete_id=' + id;
             }
         }
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
-        }
-
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
-
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
-        });
     </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

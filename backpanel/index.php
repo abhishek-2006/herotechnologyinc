@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                <button type="submit" name="admin_login" class="w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:bg-hero-orange hover:shadow-orange-500/20 transition-all active:scale-[0.98] tracking-[0.2em] uppercase text-[11px]">
+                <button type="submit" name="admin_login" class="cursor-pointer w-full py-4 bg-hero-blue text-white font-black rounded-xl shadow-lg shadow-blue-900/20 hover:bg-hero-orange hover:shadow-orange-500/20 transition-all active:scale-[0.98] tracking-[0.2em] uppercase text-[11px]">
                     Login
                 </button>
             </form>
@@ -119,25 +119,6 @@
             </p>
         </div>
     </div>
-    <script>
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
-        }
-
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
-
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
-        });
-    </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

@@ -229,14 +229,7 @@ require 'sidebar.php';
                 preview.src = URL.createObjectURL(file);
             }
         }
-
-        const toggleBtn = document.getElementById("theme-toggle");
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-
-        toggleBtn?.addEventListener("click", () => {
-            document.documentElement.classList.toggle("dark");
-            localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-        });
     </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

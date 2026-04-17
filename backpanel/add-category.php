@@ -57,13 +57,6 @@ if (isset($_POST['submit_category'])) {
             </form>
         </div>
     </main>
-    <script>
-        if(localStorage.getItem('theme') === 'light') document.documentElement.classList.remove('dark');
-        
-        function toggleLocalTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        }
-    </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

@@ -136,7 +136,7 @@ $result = mysqli_query($conn, $query);
                                         <a href="edit-course.php?id=<?php echo $row['course_id']; ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="?delete=<?php echo $row['course_id']; ?>" onclick="return confirm('Initiate decommissioning protocol?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                        <a href="?delete=<?php echo $row['course_id']; ?>" onclick="return confirm('Are you sure you want to delete this course?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -155,25 +155,6 @@ $result = mysqli_query($conn, $query);
             </div>
         </div>
     </main>
-
-    <script>
-        const toggleBtn = document.getElementById("theme-toggle");
-        const root = document.documentElement;
-
-        // load saved theme
-        if (localStorage.getItem("theme") === "dark") {
-            root.classList.add("dark");
-        }
-
-        toggleBtn.addEventListener("click", () => {
-            root.classList.toggle("dark");
-
-            if (root.classList.contains("dark")) {
-                localStorage.setItem("theme", "dark");
-            } else {
-                localStorage.setItem("theme", "light");
-            }
-        });
-    </script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>
