@@ -153,7 +153,7 @@ function getProfileImage($imagePath, $name) {
                         <p class="text-slate-300 leading-relaxed mb-8 max-w-2xl text-base font-medium">
                             Technical architect specializing in high-fidelity interface deployment. Designed and engineered the 
                             <span class="text-hero-orange">Hero Technology Inc.</span> ecosystem during an intensive software engineering internship at 
-                            <span class="text-white font-bold italic underline decoration-hero-orange decoration-2 underline-offset-4">ItSoul Infotech</span>.
+                            <a href="https://itsoulinfotech.com" target="_blank" class="text-white font-bold italic underline decoration-hero-orange decoration-2 underline-offset-4">ItSoul Infotech</a>.
                         </p>
 
                         <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
@@ -161,19 +161,17 @@ function getProfileImage($imagePath, $name) {
                                 <i class="fas fa-paper-plane mr-2"></i> Hire Me
                             </a>
                             <div class="flex gap-3">
-                                <a href="https://github.com/abhishek-2006" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white hover:text-hero-blue transition-all border border-white/10">
+                                <a href="https://github.com/abhishek-2006" target="_blank" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white hover:text-hero-blue transition-all border border-white/10">
                                     <i class="fab fa-github text-xl"></i>
                                 </a>
-                                <a href="https://www.linkedin.com/in/abhishekshah-dev" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#0077b5] transition-all border border-white/10">
+                                <a href="https://www.linkedin.com/in/abhishekshah-dev" target="_blank" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#0077b5] transition-all border border-white/10">
                                     <i class="fab fa-linkedin-in text-xl"></i>
                                 </a>
-                                <a href="https://twitter.com/shahabhishek409" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-black dark:hover:bg-gray-800 transition-all border border-white/10">
+                                <a href="https://x.com/shahabhishek409" target="_blank" class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-black dark:hover:bg-gray-800 transition-all border border-white/10">
                                     <i class="fab fa-x-twitter text-xl"></i>
                                 </a>
-                                <a href="https://www.instagram.com/abhishekshah_112/" 
-                                    class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center 
-                                    hover:bg-gradient-to-br hover:from-[#f58529] hover:via-[#dd2a7b] hover:to-[#8134af] 
-                                    transition-all border border-white/10">
+                                <a href="https://instagram.com/abhishekshah_112/" target="_blank"
+                                    class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center cursor-pointer hover:bg-gradient-to-br hover:from-[#f58529] hover:via-[#dd2a7b] hover:to-[#8134af] transition-all border border-white/10">
                                         <i class="fab fa-instagram text-xl"></i>
                                 </a>
                             </div>

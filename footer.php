@@ -34,7 +34,7 @@
                     <li><a href="<?php echo BASE_URL; ?>courses.php" class="hover:text-white hover:pl-2 transition-all duration-300">All Courses</a></li>
                     <li><a href="<?php echo BASE_URL; ?>training.php" class="hover:text-white hover:pl-2 transition-all duration-300">Online Training</a></li>
                     <li><a href="<?php echo BASE_URL; ?>classroom.php" class="hover:text-white hover:pl-2 transition-all duration-300">Classroom Sessions</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>corporate.php" class="hover:text-white hover:pl-2 transition-all duration-300">Corporate Solutions</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>training.php" class="hover:text-white hover:pl-2 transition-all duration-300">Corporate Solutions</a></li>
                     <?php if (isset($_SESSION['username']) || isset($_SESSION['email']) || isset($_SESSION['user_id'])): ?>
                         <li><a href="<?php echo BASE_URL; ?>dashboard.php" class="hover:text-white hover:pl-2 transition-all duration-300">My Dashboard</a></li>
                     <?php else: ?>
@@ -82,9 +82,7 @@
                 © 2026 Hero Technology Inc. All rights reserved.
             </p>
             <div class="flex items-center gap-8 grayscale opacity-40 hover:opacity-100 transition-opacity">
-                <a href="<?php echo BASE_URL; ?>certifications.php" class="hover:text-white transition-colors">
-                    <i class="fas fa-certificate text-xl"></i>
-                </a>
+                <i class="fas fa-certificate text-xl"></i>
                 <i class="fas fa-shield-halved text-xl"></i>
                 <i class="fas fa-medal text-xl"></i>
             </div>
