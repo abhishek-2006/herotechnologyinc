@@ -12,22 +12,21 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// 2. DISCONNECT INSTRUCTOR LOGIC
+// 2. DISCONNECT TUTOR LOGIC
 if(isset($_GET['delete_id'])) {
     $del_id = mysqli_real_escape_string($conn, $_GET['delete_id']);
-    // Retrieve user_id before deletion to clean up both tables
-    $get_user = mysqli_query($conn, "SELECT user_id FROM instructors WHERE instructor_id = '$del_id'");
+    $get_user = mysqli_query($conn, "SELECT user_id FROM tutors WHERE tutor_id = '$del_id'");
     if($u_data = mysqli_fetch_assoc($get_user)) {
-        mysqli_query($conn, "DELETE FROM instructors WHERE instructor_id = '$del_id'");
+        mysqli_query($conn, "DELETE FROM tutors WHERE tutor_id = '$del_id'");
     }
-    header("Location: manage-instructors.php?msg=instructor_terminated");
+    header("Location: manage-tutors.php?msg=tutor_removed");
     exit();
 }
 
-// 4. FETCH INSTRUCTOR NODES (Intelligence Query)
-$query = "SELECT i.*, (SELECT COUNT(*) FROM courses c WHERE c.instructor_id = i.instructor_id) AS course_count 
-          FROM instructors i 
-          ORDER BY i.instructor_id DESC";
+// 4. FETCH tutor NODES (Intelligence Query)
+$query = "SELECT i.*, (SELECT COUNT(*) FROM courses c WHERE c.tutor_id = i.tutor_id) AS course_count 
+          FROM tutors i 
+          ORDER BY i.tutor_id DESC";
 $result = mysqli_query($conn, $query);
 
 ?>
@@ -37,7 +36,7 @@ $result = mysqli_query($conn, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instructor | Hero Admin Terminal</title>
+    <title>Tutors | Hero Admin Terminal</title>
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
@@ -70,13 +69,13 @@ $result = mysqli_query($conn, $query);
         <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
             <div>
                 <h1 class="text-4xl font-black tracking-tighter uppercase italic">
-                    Instructor <span class="text-hero-orange not-italic">Management</span>
+                    Tutor <span class="text-hero-orange not-italic">Management</span>
                 </h1>
                 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Manage technical faculty deployment</p>
             </div>
-            <a href="add-instructor.php" class="bg-hero-orange text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-hero-blue cursor-pointer transition-all">
+            <a href="add-tutor.php" class="bg-hero-orange text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-hero-blue cursor-pointer transition-all">
                 <i class="fas fa-plus mr-2"></i>
-                Add New Instructor
+                Add New Tutor
             </a>
         </header>
 
@@ -97,7 +96,7 @@ $result = mysqli_query($conn, $query);
                         <tr class="hover:bg-hero-orange/[0.02] transition-colors">
                             <td class="px-10 py-6">
                                 <div class="flex items-center gap-5">
-                                    <img src="<?= !empty($row['profile_image']) ? $row['profile_image'] : 'https://ui-avatars.com/api/?name='.urlencode($row['name']).'&background=1B264F&color=fff' ?>" class="w-10 h-10 rounded-xl object-cover">
+                                    <img src="<?= !empty($row['profile_image']) ? '../assets/img/tutors/' . $row['profile_image'] : 'https://ui-avatars.com/api/?name='.urlencode($row['name']).'&background=1B264F&color=fff' ?>" class="w-10 h-10 rounded-xl object-cover">
                                     <div>
                                         <p class="text-sm font-black uppercase tracking-tight"><?= htmlspecialchars($row['name']) ?></p>
                                         <p class="text-[9px] font-mono text-slate-500 lowercase italic"><?= htmlspecialchars($row['qualification']) ?></p>
@@ -124,10 +123,10 @@ $result = mysqli_query($conn, $query);
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex justify-end gap-2">
-                                    <a href="edit-instructor.php?id=<?= $row['instructor_id'] ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all">
+                                    <a href="edit-tutor.php?id=<?= $row['tutor_id'] ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="confirmDelete(<?= $row['instructor_id'] ?>)" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                                    <button onclick="confirmDelete(<?= $row['tutor_id'] ?>)" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -135,7 +134,7 @@ $result = mysqli_query($conn, $query);
                         </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" class="px-10 py-20 text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-500">No Faculty Nodes Detected</td></tr>
+                        <tr><td colspan="5" class="px-10 py-20 text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-500">No Faculty Detected</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -144,8 +143,8 @@ $result = mysqli_query($conn, $query);
 
     <script>
         function confirmDelete(id) {
-            if(confirm('Remove this instructor from the system?')) {
-                window.location.href = 'manage-instructors.php?delete_id=' + id;
+            if(confirm('Remove this tutor from the system?')) {
+                window.location.href = 'manage-tutors.php?delete_id=' + id;
             }
         }
     </script>

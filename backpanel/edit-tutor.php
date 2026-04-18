@@ -12,28 +12,25 @@ if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// 2. Fetch Instructor Intelligence Node
-$instructor_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
+// 2. Fetch Tutor Intelligence Node
+$tutor_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 0;
 
-// Join with user_master to edit both identity and metadata
-$qry = "SELECT i.* FROM instructors i 
-        WHERE i.instructor_id = '$instructor_id'";
+$qry = "SELECT i.* FROM tutors i 
+        WHERE i.tutor_id = '$tutor_id'";
 $result = mysqli_query($conn, $qry);
 
 if(mysqli_num_rows($result) == 0) {
-    header("Location: manage-instructors.php?msg=not_found");
+    header("Location: manage-tutors.php?msg=not_found");
     exit();
 }
 
-$instructor = mysqli_fetch_assoc($result);
+$tutor = mysqli_fetch_assoc($result);
 
 // 3. Configuration Update Logic
-if(isset($_POST['update_instructor'])) {
-    // Identity Inputs
+if(isset($_POST['update_tutor'])) {
+    
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    
-    // Technical Metadata Inputs
     $bio = mysqli_real_escape_string($conn, $_POST['bio']);
     $expertise = mysqli_real_escape_string($conn, $_POST['expertise']);
     $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
@@ -41,21 +38,35 @@ if(isset($_POST['update_instructor'])) {
     $linkedin = mysqli_real_escape_string($conn, $_POST['linkedin_url']);
     $status = mysqli_real_escape_string($conn, $_POST['status']);
 
+    function generateTechnicalSlug($text) {
+        // 1. Convert to lowercase and trim whitespace
+        $text = strtolower(trim($text));
+
+        // 2. Replace non-letters/numbers (Unicode) with a hyphen
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // 3. Remove duplicate hyphens (e.g. --- to -)
+        $text = preg_replace('~-+~', '-', $text);
+
+        // 4. Trim leading/trailing hyphens
+        return trim($text, '-');
+    }
+
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === 0) {
 
         $uploadDir = "../assets/img/tutors/";
+        $name_slug = generateTechnicalSlug($name);
 
-        $fileName = time() . "_" . basename($_FILES['profile_image']['name']);
+        $fileType = strtolower(pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION));
+        $fileName = "tutor_" . $name_slug . "." . $fileType;
         $targetPath = $uploadDir . $fileName;
-
-        $fileType = strtolower(pathinfo($targetPath, PATHINFO_EXTENSION));
 
         $allowedTypes = ['jpg', 'jpeg', 'png', 'webp'];
 
         if (in_array($fileType, $allowedTypes)) {
 
             if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
-                $profile_image = "../assets/img/tutors/" . $fileName;
+                $profile_image = $fileName;
             }
 
         } else {
@@ -63,7 +74,7 @@ if(isset($_POST['update_instructor'])) {
         }
     }
     
-    $update_inst = "UPDATE instructors SET 
+    $update_tutor = "UPDATE tutors SET 
                     name='$name', 
                     email='$email',
                     bio='$bio', 
@@ -73,10 +84,10 @@ if(isset($_POST['update_instructor'])) {
                     profile_image='$profile_image',
                     linkedin_url='$linkedin', 
                     status='$status'
-                    WHERE instructor_id = '$instructor_id'";
+                    WHERE tutor_id = '$tutor_id'";
     
-    if(mysqli_query($conn, $update_inst)) {
-        header("Location: manage-instructors.php?msg=update_success");
+    if(mysqli_query($conn, $update_tutor)) {
+        header("Location: manage-tutors.php?msg=update_success");
         exit();
     } else {
         $error = "SYNC_ERROR: " . mysqli_error($conn);
@@ -130,10 +141,10 @@ if(isset($_POST['update_instructor'])) {
     <main class="flex-1 h-screen overflow-y-auto p-6 lg:p-12">
         <header class="flex justify-between items-center mb-10">
             <div>
-                <a href="manage-instructors.php" class="text-hero-orange text-[10px] font-black uppercase tracking-widest flex items-center gap-2 mb-2">
-                    <i class="fas fa-arrow-left"></i> Back to Instructors
+                <a href="manage-tutors.php" class="text-hero-orange text-[10px] font-black uppercase tracking-widest flex items-center gap-2 mb-2">
+                    <i class="fas fa-arrow-left"></i> Back to Tutors
                 </a>
-                <h1 class="text-3xl font-black uppercase italic tracking-tighter">Modify <span class="text-hero-orange not-italic">Instructor</span></h1>
+                <h1 class="text-3xl font-black uppercase italic tracking-tighter">Modify <span class="text-hero-orange not-italic">Tutor</span></h1>
             </div>
             
             <button id="theme-toggle" class="w-10 h-10 rounded-xl bg-[var(--card-bg)] border border-[var(--border-dim)] flex items-center justify-center text-hero-orange shadow-sm cursor-pointer">
@@ -150,50 +161,46 @@ if(isset($_POST['update_instructor'])) {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Legal Name<span class="text-red-500"> *</span></label>
-                            <input type="text" name="name" value="<?= htmlspecialchars($instructor['name']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
+                            <input type="text" name="name" value="<?= htmlspecialchars($tutor['name']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Corporate Email<span class="text-red-500"> *</span></label>
-                            <input type="email" name="email" value="<?= htmlspecialchars($instructor['email']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
+                            <input type="email" name="email" value="<?= htmlspecialchars($tutor['email']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
                         </div>
                     </div>
                     <div class="space-y-2 mt-4">
                         <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">
-                            Faculty Identity Photo<span class="text-red-500"> *</span>
+                            Faculty Photo<span class="text-red-500"> *</span>
                         </label>
 
                         <div class="flex items-center gap-6 p-6 bg-slate-50 dark:bg-black/40 rounded-3xl border-2 border-dashed border-[var(--border-color)]">
 
                             <label for="imgInput" class="w-20 h-20 rounded-2xl bg-[var(--card-bg)] flex items-center justify-center overflow-hidden border border-[var(--border-color)] cursor-pointer">
                                 <img id="preview"
-                                    src="<?= !empty($instructor['profile_image']) 
-                                        ? 'uploads/tutors/' . htmlspecialchars($instructor['profile_image']) 
+                                    src="<?= !empty($tutor['profile_image']) 
+                                        ? '../assets/img/tutors/' . htmlspecialchars($tutor['profile_image']) 
                                         : 'https://ui-avatars.com/api/?name=H+F&background=1B264F&color=fff' ?>"
                                     class="w-full h-full object-cover">
                             </label>
 
-                            <div class="flex-1">
-                                <input
-                                    type="file"
-                                    name="profile_image"
-                                    id="imgInput"
-                                    accept="image/*"
-                                    required
-                                    class="text-xs text-slate-500 cursor-pointer
-                                    file:mr-4 file:py-2 file:px-4
-                                    file:rounded-xl file:border-0
-                                    file:text-[10px] file:font-black
-                                    file:uppercase file:bg-hero-orange/10
-                                    file:text-hero-orange
-                                    hover:file:bg-hero-orange
-                                    hover:file:text-white
-                                    file:cursor-pointer
-                                    transition-all"
-                                >
+                            <div class="flex-1 relative">
+                                <input type="file" name="profile_image" id="imgInput" accept="image/*"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                                    onChange="updateTutorPhoto(event)">
 
-                                <p class="text-[8px] text-slate-400 mt-2 uppercase tracking-widest">
-                                    Recommended: Square Aspect Ratio (512x512px)
-                                </p>
+                                <div class="flex flex-col gap-2 z-10 pointer-events-none">
+                                    <div class="flex items-center">
+                                        <span class="mr-4 py-2 px-4 rounded-xl text-[10px] cursor-pointer font-black uppercase bg-hero-orange/10 text-hero-orange border border-hero-orange/20">
+                                            Choose Photo
+                                        </span>
+                                        <span id="tutor-file-name" class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter truncate max-w-[150px] cursor-pointer">
+                                            <?= !empty($tutor['profile_image']) ? htmlspecialchars($tutor['profile_image']) : 'Initialize Identity...' ?>
+                                        </span>
+                                    </div>
+                                    <p class="text-[8px] text-slate-400 uppercase tracking-widest ml-2">
+                                        Recommended: Square Aspect Ratio (512x512px)
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -203,7 +210,7 @@ if(isset($_POST['update_instructor'])) {
                     <h3 class="text-xs font-black uppercase tracking-[0.4em] text-hero-blue dark:text-white border-l-4 border-hero-orange pl-4 mb-6">2. Professional Biography</h3>
                     <div class="space-y-2">
                         <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Professional Biography<span class="text-red-500"> *</span></label>
-                        <textarea name="bio" rows="6" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required><?= htmlspecialchars($instructor['bio']) ?></textarea>
+                        <textarea name="bio" rows="6" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required><?= htmlspecialchars($tutor['bio']) ?></textarea>
                     </div>
                 </div>
             </div>
@@ -215,29 +222,29 @@ if(isset($_POST['update_instructor'])) {
                     <div class="space-y-6">
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Core Expertise<span class="text-red-500"> *</span></label>
-                            <input type="text" name="expertise" value="<?= htmlspecialchars($instructor['expertise']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
+                            <input type="text" name="expertise" value="<?= htmlspecialchars($tutor['expertise']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Qualification<span class="text-red-500"> *</span></label>
-                            <input type="text" name="qualification" value="<?= htmlspecialchars($instructor['qualification']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
+                            <input type="text" name="qualification" value="<?= htmlspecialchars($tutor['qualification']) ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Years Active<span class="text-red-500"> *</span></label>
-                            <input type="number" name="experience_years" value="<?= $instructor['experience_years'] ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
+                            <input type="number" name="experience_years" value="<?= $tutor['experience_years'] ?>" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">LinkedIn URL</label>
-                            <input type="url" name="linkedin_url" value="<?= htmlspecialchars($instructor['linkedin_url']) ?>" placeholder="https://www.linkedin.com/in/username" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
+                            <input type="url" name="linkedin_url" value="<?= htmlspecialchars($tutor['linkedin_url']) ?>" placeholder="https://www.linkedin.com/in/username" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
                         </div>
                         <div class="space-y-2">
                             <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 ml-2">Node Status</label>
                             <select name="status" class="w-full bg-slate-100 dark:bg-black rounded-2xl px-6 py-4 text-sm border-none outline-none focus:ring-2 focus:ring-hero-orange/20">
-                                <option value="active" <?= ($instructor['status'] == 'active') ? 'selected' : '' ?>>Active (Authorize)</option>
-                                <option value="suspended" <?= ($instructor['status'] == 'suspended') ? 'selected' : '' ?>>Suspended</option>
-                                <option value="inactive" <?= ($instructor['status'] == 'inactive') ? 'selected' : '' ?>>Inactive</option>
+                                <option value="active" <?= ($tutor['status'] == 'active') ? 'selected' : '' ?>>Active (Authorize)</option>
+                                <option value="suspended" <?= ($tutor['status'] == 'suspended') ? 'selected' : '' ?>>Suspended</option>
+                                <option value="inactive" <?= ($tutor['status'] == 'inactive') ? 'selected' : '' ?>>Inactive</option>
                             </select>
                         </div>
-                        <button type="submit" name="update_instructor" class="w-full py-4 bg-hero-blue text-white font-black rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all uppercase tracking-widest text-[10px]">
+                        <button type="submit" name="update_tutor" class="cursor-pointer w-full py-4 bg-hero-blue text-white font-black rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-hero-orange transition-all uppercase tracking-widest text-[10px]">
                                 <i class="fas fa-save mr-2"></i> Update Faculty
                         </button>
                     </div>
@@ -254,6 +261,19 @@ if(isset($_POST['update_instructor'])) {
             const [file] = imgInput.files;
             if (file) {
                 preview.src = URL.createObjectURL(file);
+            }
+        }
+
+        function updateTutorPhoto(input) {
+            const preview = document.getElementById('preview');
+            const nameDisplay = document.getElementById('tutor-file-name');
+            
+            if (input.files && input.files[0]) {
+                preview.src = URL.createObjectURL(input.files[0]);
+                
+                nameDisplay.textContent = input.files[0].name;
+                nameDisplay.classList.remove('text-slate-500');
+                nameDisplay.classList.add('text-hero-orange');
             }
         }
     </script>

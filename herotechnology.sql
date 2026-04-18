@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 17, 2026 at 09:41 AM
+-- Generation Time: Apr 18, 2026 at 02:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `herotechnology`
 --
-
-CREATE DATABASE `herotechnology` IF NOT EXISTS;
 
 -- --------------------------------------------------------
 
@@ -105,7 +103,7 @@ INSERT INTO `corporate_clients` (`client_id`, `client_name`, `industry_sector`, 
 CREATE TABLE `courses` (
   `course_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `instructor_id` int(11) DEFAULT NULL,
+  `tutor_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `slug` varchar(255) DEFAULT NULL,
   `summary` varchar(500) DEFAULT NULL,
@@ -116,6 +114,7 @@ CREATE TABLE `courses` (
   `demo_video_url` text DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
+  `rating` decimal(3,2) DEFAULT 0.00,
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
   `status` enum('publish','draft') NOT NULL DEFAULT 'publish',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -125,11 +124,10 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`course_id`, `category_id`, `instructor_id`, `title`, `slug`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `is_featured`, `status`, `created_at`) VALUES
-(1, 2, 1, 'Full Stack Web Dev', 'full-stack-web-dev', 'PHP ', 'HTML CSS JS PHP MySQL complete journey', 300, '', '', NULL, 4999.00, 'web.jpg', 1, 'publish', '2026-01-01 00:36:05'),
-(2, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'full-stack-web-development-with-php-and-mysql', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0, 'publish', '2026-01-01 08:28:14'),
-(3, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'ai-and-machine-learning-mastery-from-zero-to-real-world-models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 1, 'publish', '2026-01-18 00:56:32'),
-(4, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'advanced-cyber-defense-and-infrastructure-hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 1470, '', '', '', 5999.00, '1773472954_cybersecurity.png', 1, 'publish', '2026-03-14 01:52:34');
+INSERT INTO `courses` (`course_id`, `category_id`, `tutor_id`, `title`, `slug`, `summary`, `description`, `duration`, `video_url`, `video_file`, `demo_video_url`, `price`, `thumbnail`, `rating`, `is_featured`, `status`, `created_at`) VALUES
+(3, 2, 1, 'Full-Stack Web Development with PHP & MySQL', 'full-stack-web-development-with-php-and-mysql', 'PHP Language', 'Learn to build dynamic websites with PHP and MySQL from scratch', 360, 'https://www.youtube.com/watch?v=1SnPKhCdlsU&t=571s', '', NULL, 3999.00, 'php_fullstack.png', 0.00, 0, 'publish', '2026-01-01 08:28:14'),
+(4, 5, 1, 'AI & Machine Learning Mastery: From Zero to Real-World Models', 'ai-and-machine-learning-mastery-from-zero-to-real-world-models', 'AI/ML Course', 'Learn how modern AI systems actually work — not just theory. This course takes you from core Machine Learning concepts to hands-on model building using real datasets. You’ll understand algorithms, train models, evaluate performance, and deploy basic AI solutions used in industry today.', 480, 'https://www.youtube.com/watch?v=wnqkfpCpK1g', '', NULL, 5999.00, '1768717592_ai_ml.png', 0.00, 1, 'publish', '2026-01-18 00:56:32'),
+(6, 4, 1, 'Advanced Cyber Defense & Infrastructure Hardening', 'advanced-cyber-defense-infrastructure-hardening', 'Master the art of ethical hacking and infrastructure security by deploying advanced defense mechanisms against modern threat vectors in local and cloud environments.', '<p><strong style=\"font-size: inherit;\">Hero Tech Security Node: Defensive Operations</strong></p><p>This track is designed to transition technical personnel into <strong>Security Operations Center (SOC)</strong> roles. You will work with industrial-grade tools to perform <strong>vulnerability assessments</strong> and implement <strong><em>Zero Trust Architecture</em></strong>.</p><hr><h2><strong>Core Intelligence Modules</strong></h2><ul><li><p><strong>Module 01:</strong> Network Reconnaissance and Penetration Testing using <em>Kali Linux</em> environments.</p></li><li><p><strong>Module 02:</strong> Hardening <strong>Linux/Windows Servers</strong> and securing <strong>Dockerized microservices</strong>.</p></li><li><p><strong>Module 03:</strong> <strong>Incident Response protocols</strong> — Detecting and neutralizing <em>SQL Injection</em> and <em>Cross-Site Scripting (XSS)</em>.</p></li><li><p><strong>Module 04:</strong> <strong>Cloud Security</strong> — IAM configuration and encrypted data dispatches on <strong>Hero Tech Cloud</strong>.</p></li></ul><hr><h2><strong>Strategic Prerequisites</strong></h2><blockquote><p><em>“Defensive architecture requires a baseline mastery of <strong>TCP/IP protocols</strong> and foundational <strong>command-line operations</strong>.”</em></p></blockquote><hr><h2><strong>Security Operations Framework</strong></h2><table><thead><tr><th><strong>Security Layer</strong></th><th><strong>Toolchain</strong></th><th><strong>Operational Goal</strong></th></tr></thead><tbody><tr><td><strong>Network</strong></td><td>Wireshark &amp; Nmap</td><td>Traffic Synchronization</td></tr><tr><td><strong>Application</strong></td><td>Burp Suite</td><td>Vulnerability Neutralization</td></tr></tbody></table><hr><p><em><strong>System Protocol:</strong> This course includes <strong>12 hands-on lab modules</strong> and a <strong>final capstone</strong> on enterprise-level hardening.</em></p>', 120, '', 'advanced-cyber-defense-infrastructure-hardening.mp4', NULL, 5999.00, '1773472954_cybersecurity.png', 5.00, 1, 'publish', '2026-03-14 01:52:34');
 
 -- --------------------------------------------------------
 
@@ -175,7 +173,7 @@ CREATE TABLE `course_reviews` (
 --
 
 INSERT INTO `course_reviews` (`review_id`, `user_id`, `course_id`, `rating`, `review`, `created_at`) VALUES
-(1, 3, 2, 4, 'Very helpful for beginners.', '2026-01-01 00:40:14');
+(1, 4, 6, 5, 'It was a amazing Course!!', '2026-04-18 06:26:01');
 
 -- --------------------------------------------------------
 
@@ -214,36 +212,9 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`enrollment_id`, `user_id`, `course_id`, `enrolled_at`, `status`, `txnid`, `activated_at`) VALUES
-(1, 4, 6, '2026-04-04 07:39:37', 'active', 'HT_1775288377_4', '2026-04-04 07:39:37'),
-(2, 4, 4, '2026-04-04 07:42:05', 'active', 'HT_1775288525_4', '2026-04-04 07:42:05');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `instructors`
---
-
-CREATE TABLE `instructors` (
-  `instructor_id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `bio` text DEFAULT NULL,
-  `expertise` varchar(255) DEFAULT NULL,
-  `qualification` varchar(255) DEFAULT NULL,
-  `experience_years` int(11) DEFAULT 0,
-  `profile_image` varchar(255) NOT NULL,
-  `linkedin_url` varchar(255) DEFAULT NULL,
-  `status` enum('active','inactive','suspended') DEFAULT 'active',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `instructors`
---
-
-INSERT INTO `instructors` (`instructor_id`, `name`, `email`, `bio`, `expertise`, `qualification`, `experience_years`, `profile_image`, `linkedin_url`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, '../assets/img/tutors/1773586913_abhishek.jpg', 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 00:27:39', '2026-03-15 09:31:53');
+(16, 4, 4, '2026-04-04 07:02:16', 'cancelled', 'HT_1775286136_4', '2026-04-04 07:02:16'),
+(17, 4, 6, '2026-04-04 07:39:37', 'completed', 'HT_1775288377_4', '2026-04-04 07:39:37'),
+(18, 4, 4, '2026-04-04 07:42:05', 'active', 'HT_1775288525_4', '2026-04-04 07:42:05');
 
 -- --------------------------------------------------------
 
@@ -259,6 +230,16 @@ CREATE TABLE `login_tracking` (
   `is_online` enum('online','offline') DEFAULT NULL,
   `tracking_datetime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login_tracking`
+--
+
+INSERT INTO `login_tracking` (`login_tracking_id`, `user_id`, `ip_address`, `content`, `is_online`, `tracking_datetime`) VALUES
+(46, 1, '::1', 'Admin Logged In', 'online', '2026-04-18 05:38:35'),
+(47, 4, '::1', 'Student Logged In', 'online', '2026-04-18 05:55:58'),
+(48, 1, '::1', 'Admin Logged In', 'online', '2026-04-18 07:00:17'),
+(49, 1, '::1', 'Admin Logged In', 'online', '2026-04-18 11:30:14');
 
 -- --------------------------------------------------------
 
@@ -285,8 +266,8 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `enrollment_id`, `user_id`, `course_id`, `amount`, `payment_status`, `payment_date`, `payment_method`, `transaction_id`, `error_log`, `gateway_id`) VALUES
-(1, 17, 4, 6, 5999.00, 'success', '2026-04-04 07:40:18', 'Card', 'HT_1775288377_4', NULL, '403993715537136957'),
-(2, 18, 4, 4, 5999.00, 'success', '2026-04-04 07:42:24', 'UPI', 'HT_1775288525_4', NULL, '403993715537136970');
+(5, 17, 4, 6, 5999.00, 'success', '2026-04-04 07:40:18', 'Card', 'HT_1775288377_4', NULL, '403993715537136957'),
+(9, 18, 4, 4, 5999.00, 'success', '2026-04-04 07:42:24', 'UPI', 'HT_1775288525_4', NULL, '403993715537136970');
 
 -- --------------------------------------------------------
 
@@ -323,6 +304,34 @@ INSERT INTO `security_questions` (`id`, `question_text`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tutors`
+--
+
+CREATE TABLE `tutors` (
+  `tutor_id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `bio` text DEFAULT NULL,
+  `expertise` varchar(255) DEFAULT NULL,
+  `qualification` varchar(255) DEFAULT NULL,
+  `experience_years` int(11) DEFAULT 0,
+  `profile_image` varchar(255) NOT NULL,
+  `linkedin_url` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive','suspended') DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tutors`
+--
+
+INSERT INTO `tutors` (`tutor_id`, `name`, `email`, `bio`, `expertise`, `qualification`, `experience_years`, `profile_image`, `linkedin_url`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Abhishek Shah', 'shahabhishek051@gmail.com', 'Gained hands on experience from MNC and build own websites too.', 'Web Development', 'Diploma', 0, 'tutor_abhishek-shah.jpg', 'https://linkedin.com/in/abhishekshah-dev/', 'active', '2026-03-08 00:27:39', '2026-04-18 12:00:59');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_master`
 --
 
@@ -348,7 +357,7 @@ INSERT INTO `user_master` (`user_id`, `name`, `username`, `phone`, `email`, `gen
 (2, 'Test', 'test1', '3012456987', 'test@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-14 06:31:16', 'publish'),
 (3, 'Mina', 'mbshah12', '1230457896', 'mina@gmail.com', 'female', '81dc9bdb52d04dc20036dbd8313ed055', 'student', '2026-02-14 01:36:28', 'publish'),
 (4, 'Demo', 'demo1', '1234567890', 'demo@gmail.com', 'male', '202cb962ac59075b964b07152d234b70', 'student', '2026-02-21 07:15:45', 'publish'),
-(5, 'Sandip Mistry', 'sandi009', '8488982013', 'itsoulinfotech@gmail.com', 'male', '6d071901727aec1ba6d8e2497ef5b709', 'student', '2026-03-07 00:15:12', 'publish');
+(12, 'Sandip Mistry', 'sandi009', '8488982013', 'itsoulinfotech@gmail.com', 'male', '6d071901727aec1ba6d8e2497ef5b709', 'student', '2026-03-07 00:15:12', 'publish');
 
 -- --------------------------------------------------------
 
@@ -400,7 +409,7 @@ ALTER TABLE `courses`
   ADD UNIQUE KEY `slug` (`slug`),
   ADD UNIQUE KEY `slug_2` (`slug`),
   ADD KEY `category_id` (`category_id`),
-  ADD KEY `instructor_id` (`instructor_id`);
+  ADD KEY `tutor_id` (`tutor_id`) USING BTREE;
 
 --
 -- Indexes for table `course_category`
@@ -413,6 +422,7 @@ ALTER TABLE `course_category`
 --
 ALTER TABLE `course_reviews`
   ADD PRIMARY KEY (`review_id`),
+  ADD UNIQUE KEY `unique_user_course_review` (`user_id`,`course_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `course_id` (`course_id`);
 
@@ -432,12 +442,6 @@ ALTER TABLE `enrollments`
   ADD KEY `course_id` (`course_id`),
   ADD KEY `idx_txnid` (`txnid`),
   ADD KEY `idx_status` (`status`);
-
---
--- Indexes for table `instructors`
---
-ALTER TABLE `instructors`
-  ADD PRIMARY KEY (`instructor_id`);
 
 --
 -- Indexes for table `login_tracking`
@@ -461,6 +465,12 @@ ALTER TABLE `payments`
 --
 ALTER TABLE `security_questions`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tutors`
+--
+ALTER TABLE `tutors`
+  ADD PRIMARY KEY (`tutor_id`);
 
 --
 -- Indexes for table `user_master`
@@ -487,7 +497,7 @@ ALTER TABLE `user_security_answers`
 -- AUTO_INCREMENT for table `contact_inquiries`
 --
 ALTER TABLE `contact_inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `corporate_clients`
@@ -499,7 +509,7 @@ ALTER TABLE `corporate_clients`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `course_category`
@@ -511,7 +521,7 @@ ALTER TABLE `course_category`
 -- AUTO_INCREMENT for table `course_reviews`
 --
 ALTER TABLE `course_reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `demo_usage_logs`
@@ -523,25 +533,19 @@ ALTER TABLE `demo_usage_logs`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `instructors`
---
-ALTER TABLE `instructors`
-  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `login_tracking`
 --
 ALTER TABLE `login_tracking`
-  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `login_tracking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `security_questions`
@@ -550,10 +554,16 @@ ALTER TABLE `security_questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `tutors`
+--
+ALTER TABLE `tutors`
+  MODIFY `tutor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `user_master`
 --
 ALTER TABLE `user_master`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_security_answers`
@@ -570,9 +580,9 @@ ALTER TABLE `user_security_answers`
 --
 ALTER TABLE `courses`
   ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `course_category` (`category_id`),
-  ADD CONSTRAINT `courses_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`),
-  ADD CONSTRAINT `courses_ibfk_3` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`),
-  ADD CONSTRAINT `fk_course_instructor` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `courses_ibfk_2` FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`tutor_id`),
+  ADD CONSTRAINT `courses_ibfk_3` FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`tutor_id`),
+  ADD CONSTRAINT `fk_course_instructor` FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`tutor_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `course_reviews`
