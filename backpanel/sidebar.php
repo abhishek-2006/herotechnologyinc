@@ -27,9 +27,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <i class="fas fa-tags"></i> Manage Categories
         </a>
 
-        <a href="manage-instructors.php"
-            class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-xs uppercase tracking-widest <?= ($current_page == 'manage-instructors.php' || $current_page == 'edit-instructor.php' || $current_page == 'add-instructor.php') ? 'bg-hero-blue text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:bg-hero-blue/5 hover:text-hero-orange' ?>">
-            <i class="fas fa-chalkboard-teacher"></i> Manage Instructors
+        <a href="manage-tutors.php"
+            class="flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-xs uppercase tracking-widest <?= ($current_page == 'manage-tutors.php' || $current_page == 'edit-tutor.php' || $current_page == 'add-tutor.php') ? 'bg-hero-blue text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:bg-hero-blue/5 hover:text-hero-orange' ?>">
+            <i class="fas fa-chalkboard-teacher"></i> Manage Tutors
         </a>
 
         <a href="manage-students.php" 

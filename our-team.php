@@ -2,14 +2,6 @@
 require 'config.php';
 $pageTitle = "Our Team - Hero Technology Inc.";
 include 'header.php';
-
-// Intelligence Node: Fallback Image Protocol
-function getProfileImage($imagePath, $name) {
-    if (!empty($imagePath) && file_exists($imagePath)) {
-        return $imagePath;
-    }
-    return "https://ui-avatars.com/api/?name=" . urlencode($name) . "&background=1B264F&color=fff&size=256";
-}
 ?>
 
 <section class="relative py-24 bg-slate-50 dark:bg-[#020617] transition-colors duration-500 overflow-hidden">
@@ -76,13 +68,13 @@ function getProfileImage($imagePath, $name) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
                 <?php
-                $inst_query = "SELECT * FROM instructors WHERE status = 'active' ORDER BY instructor_id ASC";
-                $inst_result = mysqli_query($conn, $inst_query);
-                
-                if(mysqli_num_rows($inst_result) > 0):
+                $tutor_query = "SELECT * FROM tutors WHERE status = 'active' ORDER BY tutor_id ASC";
+                $tutor_result = mysqli_query($conn, $tutor_query);
+
+                if(mysqli_num_rows($tutor_result) > 0):
                     $delay = 0;
-                    while ($inst = mysqli_fetch_assoc($inst_result)):
-                        $inst_photo = getProfileImage("assets/img/instructors/" . $inst['profile_image'], $inst['name']);
+                    while ($tutor = mysqli_fetch_assoc($tutor_result)):
+                        $tutor_photo = "assets/img/tutors/" . $tutor['profile_image'];
                 ?>
                 <div data-aos="fade-up" data-aos-delay="<?= $delay ?>" 
                      class="group relative bg-white dark:bg-slate-900 rounded-[4rem] overflow-hidden border border-slate-100 dark:border-slate-800 transition-all duration-700 hover:shadow-[0_40px_80px_-20px_rgba(27,38,79,0.3)] hover:-translate-y-5">
@@ -93,30 +85,30 @@ function getProfileImage($imagePath, $name) {
                         <div class="relative w-56 h-56 mx-auto mb-10">
                             <div class="absolute inset-0 rounded-[3.5rem] animate-spin-slow transition-transform duration-700"></div>
                             
-                            <img src="<?= $inst_photo ?>" alt="<?= htmlspecialchars($inst['name']) ?>" 
+                            <img src="<?= $tutor_photo ?>" alt="<?= htmlspecialchars($tutor['name']) ?>" 
                                 class="relative z-10 w-full h-full rounded-[3.8rem] object-cover shadow-2xl grayscale group-hover:grayscale-0 group-hover:rotate-2 transition-all duration-700"/>
                         </div>
                         
                         <div class="text-center">
                             <h4 class="text-2xl md:text-3xl font-black uppercase tracking-tight text-hero-blue dark:text-white group-hover:text-hero-orange transition-colors duration-300">
-                                <?= htmlspecialchars($inst['name']) ?>
+                                <?= htmlspecialchars($tutor['name']) ?>
                             </h4>
                             <p class="text-xs font-black text-slate-400 uppercase tracking-widest mt-2 mb-6">
-                                <?= htmlspecialchars($inst['qualification']) ?>
+                                <?= htmlspecialchars($tutor['qualification']) ?>
                             </p>
                             
                             <div class="mb-8">
                                 <span class="px-6 py-2.5 bg-hero-blue/5 dark:bg-white/5 text-hero-blue dark:text-slate-200 text-xs font-black uppercase tracking-widest rounded-2xl border border-hero-blue/10 dark:border-white/10 group-hover:bg-hero-orange group-hover:text-white group-hover:border-hero-orange transition-all duration-500">
-                                    <?= htmlspecialchars($inst['expertise']) ?>
+                                    <?= htmlspecialchars($tutor['expertise']) ?>
                                 </span>
                             </div>
 
                             <div class="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-6 flex items-center justify-between border border-slate-100 dark:border-slate-800 group-hover:border-hero-orange/20 transition-all duration-500">
                                 <div class="text-left">
                                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Industry Exp.</p>
-                                    <p class="text-lg font-black text-hero-blue dark:text-white"><?= htmlspecialchars($inst['experience_years']) ?>+ Years</p>
+                                    <p class="text-lg font-black text-hero-blue dark:text-white"><?= htmlspecialchars($tutor['experience_years']) ?>+ Years</p>
                                 </div>
-                                <a href="mailto:<?= htmlspecialchars($inst['email']) ?>" class="w-12 h-12 rounded-2xl bg-hero-orange text-white flex items-center justify-center hover:scale-110 active:scale-95 shadow-lg shadow-hero-orange/20 transition-all">
+                                <a href="mailto:<?= htmlspecialchars($tutor['email']) ?>" class="w-12 h-12 rounded-2xl bg-hero-orange text-white flex items-center justify-center hover:scale-110 active:scale-95 shadow-lg shadow-hero-orange/20 transition-all">
                                     <i class="fas fa-paper-plane"></i>
                                 </a>
                             </div>
