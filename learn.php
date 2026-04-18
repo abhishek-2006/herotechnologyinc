@@ -14,13 +14,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'student') {
 $course_id = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : 1;
 $user_email = $_SESSION['email'];
 
-// Fetch User Identity
 $user_res = mysqli_query($conn, "SELECT user_id, name FROM user_master WHERE email = '$user_email' LIMIT 1");
 $user_data = mysqli_fetch_assoc($user_res);
 $user_id = $user_data['user_id'];
 
 // 2. Verify Enrollment
-$enroll_check = mysqli_query($conn, "SELECT status FROM enrollments WHERE user_id = '$user_id' AND course_id = '$course_id' AND status = 'active'");
+$enroll_check = mysqli_query($conn, "SELECT status FROM enrollments WHERE user_id = '$user_id' AND course_id = '$course_id' AND (status = 'active' OR status = 'completed')");
 if (mysqli_num_rows($enroll_check) == 0) {
     header("Location: courses.php?error=access_denied");
     exit();
@@ -29,6 +28,9 @@ if (mysqli_num_rows($enroll_check) == 0) {
 // 3. Fetch Course Media Node
 $course_res = mysqli_query($conn, "SELECT * FROM courses WHERE course_id = '$course_id'");
 $course = mysqli_fetch_assoc($course_res);
+
+$review_status_query = mysqli_query($conn, "SELECT review_id FROM course_reviews WHERE user_id = '$user_id' AND course_id = '$course_id' LIMIT 1");
+$already_reviewed = (mysqli_num_rows($review_status_query) > 0) ? 'true' : 'false';
 
 if (!$course) {
     header("Location: courses.php?error=not_found");
@@ -44,7 +46,7 @@ if (!$course) {
             
             <div id="feedbackPopup" class="hidden absolute inset-0 bg-hero-blue/90 backdrop-blur-2xl flex flex-col items-center justify-center text-center p-12 z-50">
                 <img src="backpanel/assets/img/logo.png" class="h-10 mb-6 brightness-0 invert opacity-20" alt="Hero Tech">
-                <h2 class="text-3xl font-black uppercase italic text-white mb-2 tracking-tighter">Node Completed!</h2>
+                <h2 class="text-3xl font-black uppercase italic text-white mb-2 tracking-tighter">Course Completed!</h2>
                 <p class="text-blue-200 text-xs font-bold uppercase tracking-widest mb-8">Your feedback helps maintain our curriculum intelligence.</p>
                 
                 <form action="process/save_review.php" method="POST" class="w-full max-w-sm">
@@ -69,7 +71,7 @@ if (!$course) {
                             placeholder="How was your learning experience? Share your technical insights..." 
                             class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-hero-orange mb-6 h-32 transition-all"></textarea>
                     
-                    <button type="submit" class="w-full py-4 bg-hero-orange text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    <button type="submit" class="cursor-pointer w-full py-4 bg-hero-orange text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all">
                         Submit Review
                     </button>
                 </form>
@@ -125,6 +127,22 @@ if (!$course) {
     }
 
     function openManualReview() {
+        popup.classList.remove('hidden');
+    }
+
+    const alreadyReviewed = <?= $already_reviewed ?>;
+
+    if (localVideo) {
+        localVideo.onended = function() {
+            // Only show popup if the user hasn't reviewed yet
+            if (!alreadyReviewed) {
+                popup.classList.remove('hidden');
+            }
+        };
+    }
+
+    // Similarly update the YouTube state change logic
+    if (event.data == YT.PlayerState.ENDED && !alreadyReviewed) {
         popup.classList.remove('hidden');
     }
 </script>

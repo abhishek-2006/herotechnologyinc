@@ -135,10 +135,10 @@ $result = mysqli_query($conn, $query);
                                 </td>
                                 <td class="px-10 py-6 text-right">
                                     <div class="flex justify-end gap-2">
-                                        <a href="edit-course.php?id=<?php echo $row['title']; ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all shadow-sm">
+                                        <a href="edit-course.php?id=<?php echo $row['course_id']; ?>" class="p-3 bg-hero-blue/5 rounded-xl text-hero-blue hover:bg-hero-blue hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="?delete=<?php echo $row['title']; ?>" onclick="return confirm('Are you sure you want to delete this course?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                        <a href="?delete=<?php echo $row['course_id']; ?>" onclick="return confirm('Are you sure you want to delete this course?')" class="p-3 bg-red-500/5 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>

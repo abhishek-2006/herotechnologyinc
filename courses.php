@@ -27,9 +27,9 @@ $categories = mysqli_fetch_all($resCats, MYSQLI_ASSOC);
 $category_filter = ($active_cat !== 'all') ? "AND c.category_id = '$active_cat'" : "";
 
 $sqlCourses = "
-    SELECT c.*, i.name as instructor_name, cat.category_name 
+    SELECT c.*, i.name as tutor_name, cat.category_name 
     FROM courses c
-    JOIN instructors i ON c.instructor_id = i.instructor_id
+    JOIN tutors i ON c.tutor_id = i.tutor_id
     JOIN course_category cat ON c.category_id = cat.category_id
     WHERE c.status = 'publish' $category_filter
     ORDER BY c.created_at DESC";
@@ -95,7 +95,7 @@ $allCourses = mysqli_fetch_all($resCourses, MYSQLI_ASSOC);
             <div class="p-8">
                 <div class="flex items-center gap-2 mb-4">
                     <div class="w-2 h-2 rounded-full bg-hero-orange animate-pulse"></div>
-                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Instructor: <?php echo htmlspecialchars($course['instructor_name']); ?></span>
+                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Tutor: <?php echo htmlspecialchars($course['tutor_name']); ?></span>
                 </div>
                 
                 <h3 class="course-title text-xl font-bold mb-4 h-18 overflow-hidden leading-tight text-hero-blue italic uppercase">

@@ -38,7 +38,7 @@ $sqlActive = "
     FROM enrollments e
     JOIN courses c ON e.course_id = c.course_id
     JOIN course_category cat ON c.category_id = cat.category_id
-    WHERE e.user_id = '$user_id' AND e.status = 'active'
+    WHERE e.user_id = '$user_id' AND e.status = 'active' or e.status = 'completed'
     ORDER BY e.enrolled_at DESC
 ";
 $resActive = mysqli_query($conn, $sqlActive);

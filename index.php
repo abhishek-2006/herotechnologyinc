@@ -176,7 +176,7 @@
                     <i class="fas fa-chalkboard-user text-xl"></i>
                 </div>
                 <h3 class="text-xl font-bold mb-4 uppercase">Classroom Sessions</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Hands-on, instructor-led training at our state-of-the-art tech labs with high-performance hardware.</p>
+                <p class="text-gray-400 text-sm leading-relaxed">Hands-on, tutor-led training at our state-of-the-art tech labs with high-performance hardware.</p>
             </div>
             <div class="animate__animated animate__fadeInRight animate__delay-3s p-6 md:p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-hero-orange transition-all">
                 <div class="w-12 h-12 bg-hero-orange rounded-xl mb-6 flex items-center justify-center">

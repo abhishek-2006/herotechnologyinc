@@ -5,7 +5,7 @@ include 'header.php';
 $sqlBlogs = "SELECT c.title, c.summary, c.thumbnail, c.slug, cat.category_name, i.name as author, c.created_at 
              FROM courses c 
              JOIN course_category cat ON c.category_id = cat.category_id 
-             JOIN instructors i ON c.instructor_id = i.instructor_id 
+             JOIN tutors i ON c.tutor_id = i.tutor_id 
              WHERE c.status = 'publish' 
              ORDER BY c.created_at DESC LIMIT 6";
 $resBlogs = mysqli_query($conn, $sqlBlogs);
@@ -30,7 +30,7 @@ if(mysqli_num_rows($resBlogs) > 0) {
             Technical <span class="text-hero-orange not-italic">Insights.</span>
         </h1>
         <p class="animate__animated animate__fadeInUp animate__delay-1s text-sm md:text-base text-gray-500 max-w-2xl mx-auto leading-relaxed px-2 font-medium">
-            Deep dives into modern engineering stacks, architectural patterns, and industry trends curated by our lead instructors.
+            Deep dives into modern engineering stacks, architectural patterns, and industry trends curated by our lead tutors.
         </p>
     </div>
 </section>

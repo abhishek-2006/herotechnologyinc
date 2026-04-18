@@ -20,7 +20,7 @@ $resClass = mysqli_query($conn, $sqlClass);
             On-Site <span class="text-hero-orange not-italic">Tech Labs.</span>
         </h1>
         <p class="animate__animated animate__fadeInUp animate__delay-1s text-base text-gray-500 max-w-2xl mx-auto leading-relaxed px-4 font-medium">
-            Experience immersive, instructor-led training at our state-of-the-art engineering hubs. High-performance hardware meets expert mentorship.
+            Experience immersive, tutor-led training at our state-of-the-art engineering hubs. High-performance hardware meets expert mentorship.
         </p>
     </div>
 </section>

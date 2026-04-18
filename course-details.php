@@ -15,10 +15,10 @@ if (!$resolved) {
 
 $course_id = $resolved['course_id'];
 
-$query = "SELECT c.*, cat.category_name, i.name as instructor_name, i.email as instructor_email, i.profile_image as instructor_img
+$query = "SELECT c.*, cat.category_name, i.name as tutor_name, i.email as tutor_email, i.profile_image as tutor_img
           FROM courses c 
           JOIN course_category cat ON c.category_id = cat.category_id 
-          JOIN instructors i ON c.instructor_id = i.instructor_id 
+          JOIN tutors i ON c.tutor_id = i.tutor_id 
           WHERE c.course_id = '$course_id' AND c.status = 'publish' 
           LIMIT 1";
 $result = mysqli_query($conn, $query);
@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="flex flex-wrap items-center gap-6 opacity-80">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-user-circle text-hero-orange"></i>
-                        <span class="text-xs font-bold uppercase tracking-widest"><?php echo htmlspecialchars($course['instructor_name']); ?></span>
+                        <span class="text-xs font-bold uppercase tracking-widest"><?php echo htmlspecialchars($course['tutor_name']); ?></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fas fa-clock text-hero-orange"></i>
@@ -174,11 +174,11 @@ if (isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="bg-hero-blue dark:bg-slate-800 p-8 rounded-[3rem] text-white">
-                    <h3 class="text-xs font-black uppercase tracking-widest mb-4">Instructor Node</h3>
+                    <h3 class="text-xs font-black uppercase tracking-widest mb-4">Tutor</h3>
                     <div class="flex items-center gap-4">
-                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($course['instructor_name']); ?>&background=EE6C4D&color=fff" class="w-12 h-12 rounded-2xl shadow-lg">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($course['tutor_name']); ?>&background=EE6C4D&color=fff" class="w-12 h-12 rounded-2xl shadow-lg">
                         <div>
-                            <p class="text-xs font-black uppercase"><?php echo $course['instructor_name']; ?></p>
+                            <p class="text-xs font-black uppercase"><?php echo $course['tutor_name']; ?></p>
                             <p class="text-[9px] font-bold opacity-60 uppercase">Subject Matter Expert</p>
                         </div>
                     </div>

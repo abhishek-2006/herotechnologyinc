@@ -41,7 +41,7 @@ $resOnline = mysqli_query($conn, $sqlOnline);
                     <i class="fas fa-chalkboard-user text-2xl"></i>
                 </div>
                 <h3 class="text-sm font-black uppercase tracking-widest text-hero-blue mb-3">Classroom Sessions</h3>
-                <p class="text-xs text-gray-500 leading-relaxed mb-6">Hands-on, instructor-led training at our state-of-the-art tech labs with high-performance hardware.</p>
+                <p class="text-xs text-gray-500 leading-relaxed mb-6">Hands-on, tutor-led training at our state-of-the-art tech labs with high-performance hardware.</p>
                 <a href="classroom.php" class="mt-auto text-[10px] font-black uppercase tracking-widest text-hero-orange border-b-2 border-hero-orange pb-1">Locate Lab</a>
             </div>
 
